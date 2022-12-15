@@ -1,11 +1,13 @@
 package com.api.equipamento.model;
 
-@Enum
+import org.springframework.stereotype.Component;
+
+@Component
 public enum StatusBike{
     LIVRE("livre"),
     OCUPADO("ocupado"),
     NOVA("nova"), 
-    APOSENTADA("aposentada")', 
+    APOSENTADA("aposentada"),
     EM_REPARO("em reparo");
 
     private String descricao;
