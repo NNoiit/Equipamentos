@@ -33,14 +33,14 @@ public class BicicletaServiceTest {
     }
 
     private void inciarBike() {
-        Bicicleta.Status bikeStatus = Bicicleta.Status.LIVRE;
-
         bicicleta = new Bicicleta();
 
         bicicleta.setMarca("ola");
         bicicleta.setNumero(9);
         bicicleta.setAno("ola");
         bicicleta.setModelo("ola");
+
+        bicicleta.getStatusBike(StatusBike.LIVRE);
 
     }
 }

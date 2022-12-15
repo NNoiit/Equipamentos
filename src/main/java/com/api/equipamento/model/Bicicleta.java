@@ -13,8 +13,15 @@ public class Bicicleta {
     private String ano;
     private int numero;
 
-    public enum Status {OCUPADO, LIVRE};
+    public StatusBike status;
 
+    public StatusBike getStatus(){
+        return status;
+    }
+
+    public void setStatusBike(){
+        this.status = status;
+    }
 
     public String getMarca() {
         return marca;
