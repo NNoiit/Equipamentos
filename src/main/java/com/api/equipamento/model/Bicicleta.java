@@ -20,7 +20,7 @@ public class Bicicleta {
         return status;
     }
 
-    public void setStatusBike(){
+    public void setStatusBike(StatusBike status){
         this.status = status;
     }
 
