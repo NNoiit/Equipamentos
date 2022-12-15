@@ -28,11 +28,9 @@ public class EquepamentoServiceTest {
 
     @Test
     public void cadastroBike() {
-        service = new EquipamentoService();
 
-        service.cadastrar(bicicleta);
-
-        assertEquals(HttpStatus.OK, service);
+        ResponseEntity<?> bike = service.cadastrar(bicicleta);
+        assertEquals(HttpStatus.OK, bike);
     }
 
     private void inciarBike() {
@@ -44,8 +42,6 @@ public class EquepamentoServiceTest {
         bicicleta.setNumero(9);
         bicicleta.setAno("ola");
         bicicleta.setModelo("ola");
-
-
 
     }
 }
