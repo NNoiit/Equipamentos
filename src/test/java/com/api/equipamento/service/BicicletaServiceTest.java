@@ -29,7 +29,8 @@ public class BicicletaServiceTest {
     public void cadastroBike() {
 
         ResponseEntity<?> bike = service.cadastrar(bicicleta);
-        assertEquals(HttpStatus.OK, bike);
+        ResponseEntity<?> resulEx = new ResponseEntity<>(HttpStatus.OK);
+        assertEquals(resulEx, bike);
     }
     private void inciarBike() {
         bicicleta = new Bicicleta();
