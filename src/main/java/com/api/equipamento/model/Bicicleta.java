@@ -7,14 +7,22 @@ import jakarta.persistence.*;
 @Entity
 public class Bicicleta {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String marca;
     private String modelo;
     private String ano;
     private int numero;
 
-    public enum Status {OCUPADO, LIVRE};
+    public StatusBike status;
 
+    public StatusBike getStatus(){
+        return status;
+    }
+
+    public void setStatusBike(StatusBike status){
+        this.status = status;
+    }
 
     public String getMarca() {
         return marca;
