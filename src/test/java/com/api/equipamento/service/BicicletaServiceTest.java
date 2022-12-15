@@ -2,8 +2,7 @@ package com.api.equipamento.service;
 
 
 import com.api.equipamento.model.Bicicleta;
-import com.api.equipamento.repositori.Repository;
-import jakarta.persistence.Id;
+import com.api.equipamento.repositori.RepBicicleta;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,7 +23,7 @@ public class BicicletaServiceTest {
     private Bicicleta bicicleta;
 
     @Mock
-    private RepBicicleta bicicletaBD;
+    private RepBicicleta bicicletaRep;
 
     @Test
     public void cadastroBike() {
