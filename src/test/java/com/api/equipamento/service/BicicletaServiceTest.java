@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -29,7 +30,8 @@ public class BicicletaServiceTest {
     public void cadastroBike() {
 
         ResponseEntity<?> bike = service.cadastrar(bicicleta);
-        assertEquals(HttpStatus.OK, bike);
+        ResponseEntity<?> resul  = new ResponseEntity<>(HttpStatus.OK);
+        assertEquals(resul, bike);
     }
     private void inciarBike() {
         bicicleta = new Bicicleta();
