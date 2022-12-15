@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.UUID;
 
-public interface Repository extends CrudRepository<Bicicleta, UUID> {
+public interface RepBicicleta extends CrudRepository<Bicicleta, UUID> {
     List<Bicicleta> findAll();
 
     Bicicleta findById(int id);

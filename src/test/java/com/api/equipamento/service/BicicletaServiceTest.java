@@ -15,16 +15,16 @@ import static com.api.equipamento.model.Bicicleta.Status.LIVRE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class EquepamentoServiceTest {
+public class BicicletaServiceTest {
 
     @InjectMocks
-    private EquipamentoService service;
+    private BicicletaService service;
 
     @Mock
     private Bicicleta bicicleta;
 
     @Mock
-    private Repository bicicletaBD;
+    private RepBicicleta bicicletaBD;
 
     @Test
     public void cadastroBike() {
