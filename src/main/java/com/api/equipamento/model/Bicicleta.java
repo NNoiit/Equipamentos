@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 @Entity
 public class Bicicleta {
     @Id
+    @GeneratedValue(strategy = GeneratedType.AUTO)
     private int id;
     private String marca;
     private String modelo;
