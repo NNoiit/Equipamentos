@@ -6,6 +6,7 @@ import com.api.equipamento.service.BicicletaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.api.equipamento.model.Mensage;
 
 @RestController
 public class BicicletaController {
