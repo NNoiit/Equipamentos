@@ -16,6 +16,9 @@ public class BicicletaController {
     @Autowired
     private BicicletaService service;
 
+    @Autowired
+    private Mensage mensage;
+
     @GetMapping("/testGet/{id}")
     public int getBicicletas(@PathVariable int id){
         return bicicleta.countById(id);
@@ -43,11 +46,14 @@ public class BicicletaController {
     }
 
     @DeleteMapping("/bicicleta/{id}")
-    public void deleteBicicletaId(@PathVariable int id){
+    public ResponseEntity<?> deleteBicicletaId(@PathVariable int id){
 
-        service.excluirBicicleta(id);
+        mensage  = service.excluirBicicleta(id);
+
+        return mensage;
     }
 
+    //corrigir dps, o objetivo é alterar a ação
     @PutMapping("/bicicleta/{id}/status/{acao}")
     public Bicicleta putStatusBicicleta(@RequestBody String novoStatus, @PathVariable int id, @PathVariable String acao){
 

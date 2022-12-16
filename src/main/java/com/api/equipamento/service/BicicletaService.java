@@ -72,15 +72,20 @@ public class BicicletaService{
         return new ResponseEntity<>(bicicletaRep.save(bc), HttpStatus.CREATED);
     }
 
-    public void excluirBicicleta(int id){
-
+    public Mensage excluirBicicleta(int id){
+        
         if(bicicletaRep.countById(id)==0){
-           bicicletaRepFindId(id);
+            mensage.setMensage("Não encontrado");
+
+            return mensage;
         }
 
         Bicicleta bc = bicicletaRep.findById(id);
 
         bicicletaRep.delete(bc);
+        mensage.setMensage("Excluido");
+
+        return mensage;
 
     }
 }
