@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.api.equipamento.model.Mensage;
 
+import java.util.List;
+
 @RestController
 public class BicicletaController {
 
@@ -21,11 +23,6 @@ public class BicicletaController {
     @Autowired
     private Mensage mensage;
 
-    @GetMapping("/testGet/{id}")
-    public int getBicicletas(@PathVariable int id){
-        return bicicleta.countById(id);
-    }
-
     @PostMapping("/bicicleta")
     public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike){
         mensage = service.cadastrar(bike);
@@ -34,7 +31,8 @@ public class BicicletaController {
 
     @GetMapping("/bicicleta")
     public ResponseEntity<?> getBicicleta(){
-        return service.listarBicicletas();
+        List<Bicicleta> listarBicicletas = service.listarBicicletas();
+        return new ResponseEntity<>(listarBicicletas, HttpStatus.OK);
     }
 
     @GetMapping("/bicicleta/{id}")

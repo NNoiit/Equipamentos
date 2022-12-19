@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.repositori.RepBicicleta;
 
+import java.util.List;
+
 @Service
 public class BicicletaService{
     @Autowired
@@ -23,13 +25,13 @@ public class BicicletaService{
             return mensage;
         }
 
-
         mensage.setMensage("Dados cadastrados");
         return mensage;
     }
 
-    public ResponseEntity<?> listarBicicletas(){
-        return new ResponseEntity<>(bicicletaRep.findAll(), HttpStatus.OK);
+    public List<Bicicleta> listarBicicletas(){
+        List<Bicicleta> listaBicicletas  =  bicicletaRep.findAll();
+        return listaBicicletas;
     }
 
     public ResponseEntity<?> bicicletaFindId( int id){
