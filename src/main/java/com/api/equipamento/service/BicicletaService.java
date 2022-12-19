@@ -34,22 +34,16 @@ public class BicicletaService{
         return listaBicicletas;
     }
 
-    public ResponseEntity<?> bicicletaFindId( int id){
-        if(bicicletaRep.countById(id) == 0){
-            mensage.setMensage("Bicicleta não encontrada");
-            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
-        }
-
-        mensage.setMensage("Bicicleta encontrada");
-        return new ResponseEntity<>(bicicletaRep.findById(id), HttpStatus.BAD_REQUEST);
+    public Bicicleta bicicletaFindId( int id){
+        return bicicletaRep.findById(id);
     }
 
 
     public ResponseEntity<?> alterarBicicleta(Bicicleta bike, int id){
-
+        /*
         if(bicicletaRep.countById(id) == 0){
             return bicicletaFindId(id);
-        }
+        }*/
 
         if(bike.getNumero() > 0 ||
                 bike.getMarca() == ""

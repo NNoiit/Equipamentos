@@ -29,6 +29,7 @@ public class BicicletaController {
         return new ResponseEntity<>(mensage, HttpStatus.OK);
     }
 
+    //alterAar mais tarde para retornar uma mensagem
     @GetMapping("/bicicleta")
     public ResponseEntity<?> getBicicleta(){
         List<Bicicleta> listarBicicletas = service.listarBicicletas();
@@ -37,8 +38,8 @@ public class BicicletaController {
 
     @GetMapping("/bicicleta/{id}")
     public ResponseEntity<?> getBicicleta(@PathVariable int id){
-
-        return service.bicicletaFindId(id);
+        Bicicleta bicicletaFindId = service.bicicletaFindId(id);
+        return new ResponseEntity<>(bicicletaFindId, HttpStatus.OK);
     }
 
     @PutMapping("/bicicleta/{id}")
