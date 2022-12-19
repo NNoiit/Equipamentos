@@ -2,8 +2,6 @@ package com.api.equipamento.model;
 
 import jakarta.persistence.*;
 
-
-
 @Entity
 public class Bicicleta {
     @Id

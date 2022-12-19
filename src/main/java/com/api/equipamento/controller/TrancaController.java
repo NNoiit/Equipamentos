@@ -1,9 +1,7 @@
 package com.api.equipamento.controller;
 
-import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.Tranca;
 import com.api.equipamento.repositori.RepTranca;
-import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.TrancaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
