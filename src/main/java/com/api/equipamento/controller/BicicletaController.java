@@ -51,7 +51,7 @@ public class BicicletaController {
 
         mensage = service.excluirBicicleta(id);
 
-        return new ResponseEntity<String>(mensage.getMensage(), HttpStatus.OK);
+        return new ResponseEntity<>(mensage.getMensage(), HttpStatus.OK);
     }
 
     //corrigir dps, o objetivo é alterar a ação
