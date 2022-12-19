@@ -28,7 +28,8 @@ public class BicicletaController {
 
     @PostMapping("/bicicleta")
     public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike){
-        return service.cadastrar(bike);
+        mensage = service.cadastrar(bike);
+        return new ResponseEntity<>(mensage, HttpStatus.OK);
     }
 
     @GetMapping("/bicicleta")

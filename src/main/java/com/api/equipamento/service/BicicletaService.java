@@ -16,16 +16,16 @@ public class BicicletaService{
     @Autowired
     private RepBicicleta bicicletaRep;
 
-    public ResponseEntity<?> cadastrar(Bicicleta bc){
+    public Mensage cadastrar(Bicicleta bc){
 
         if(bc.getModelo().equals("")){
             mensage.setMensage("Dados Inválidos");
-            return new ResponseEntity<>(mensage, HttpStatus.BAD_REQUEST);
+            return mensage;
         }
 
 
         mensage.setMensage("Dados cadastrados");
-        return new ResponseEntity<>(bicicletaRep.save(bc), HttpStatus.CREATED);
+        return mensage;
     }
 
     public ResponseEntity<?> listarBicicletas(){

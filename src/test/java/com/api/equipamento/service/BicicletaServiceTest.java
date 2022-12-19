@@ -2,6 +2,7 @@ package com.api.equipamento.service;
 
 
 import com.api.equipamento.model.Bicicleta;
+import com.api.equipamento.model.Mensage;
 import com.api.equipamento.model.StatusBike;
 import com.api.equipamento.repositori.RepBicicleta;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,12 @@ public class BicicletaServiceTest {
 
     @Test
     public void cadastroBike() {
+        inciarBike();
+        Mensage resul = service.cadastrar(bicicleta);
+
+        assertEquals(resul.getMensage(), "Dados cadastrados");
     }
-    /*private void inciarBike() {
+    private void inciarBike() {
         bicicleta = new Bicicleta();
 
         bicicleta.setMarca("ola");
@@ -39,5 +44,5 @@ public class BicicletaServiceTest {
 
         bicicleta.setStatusBike(StatusBike.LIVRE);
 
-    }*/
+    }
 }
