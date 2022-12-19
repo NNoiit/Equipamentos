@@ -81,8 +81,8 @@ public class BicicletaService{
         }
 
         Bicicleta bc = bicicletaRep.findById(id);
-
         bicicletaRep.delete(bc);
+        
         mensage.setMensage("Excluido");
 
         return mensage;
