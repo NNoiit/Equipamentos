@@ -49,9 +49,9 @@ public class BicicletaController {
     @DeleteMapping("/bicicleta/{id}")
     public ResponseEntity<?> deleteBicicletaId(@PathVariable int id){
 
-        mensage  = service.excluirBicicleta(id);
+        mensage = service.excluirBicicleta(id);
 
-        return new ResponseEntity<>(mensage);
+        return new ResponseEntity<>(mensage.getMensage());
     }
 
     //corrigir dps, o objetivo é alterar a ação
