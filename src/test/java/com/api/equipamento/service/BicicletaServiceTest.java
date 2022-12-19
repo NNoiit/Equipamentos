@@ -28,9 +28,6 @@ public class BicicletaServiceTest {
 
     @Test
     public void cadastroBike() {
-
-        String resulEx = "testenado test";
-        assertEquals(resulEx, "testenado test");
     }
     /*private void inciarBike() {
         bicicleta = new Bicicleta();
