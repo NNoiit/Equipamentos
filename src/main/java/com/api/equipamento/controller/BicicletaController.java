@@ -4,6 +4,7 @@ import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.BicicletaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.api.equipamento.model.Mensage;
@@ -51,7 +52,7 @@ public class BicicletaController {
 
         mensage = service.excluirBicicleta(id);
 
-        return new ResponseEntity<>(mensage.getMensage(), HttpStatus.OK);
+        return new ResponseEntity<Mensage>(mensage, HttpStatus.OK);
     }
 
     //corrigir dps, o objetivo é alterar a ação
