@@ -1,8 +1,9 @@
 package com.api.equipamento.model;
 
+import jakarta.persistence.Enumerated;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-@Component
 public enum StatusBike{
     LIVRE("livre"),
     OCUPADO("ocupado"),
@@ -10,7 +11,7 @@ public enum StatusBike{
     APOSENTADA("aposentada"),
     EM_REPARO("em reparo");
 
-    private String descricao;
+    private final String descricao;
 
     StatusBike(String descricao){
         this.descricao = descricao;
