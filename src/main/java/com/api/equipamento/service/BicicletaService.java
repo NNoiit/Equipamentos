@@ -18,16 +18,13 @@ public class BicicletaService{
     @Autowired
     private RepBicicleta bicicletaRep;
 
-    public Mensage cadastrar(Bicicleta bc){
+    public Bicicleta cadastrar(Bicicleta bc){
 
         if(bc.getModelo().equals("")){
-            mensage.setMensage("Dados Inválidos");
-            return mensage;
+            return bc;
         }
 
-        bicicletaRep.save(bc);
-        mensage.setMensage("Dados cadastrados");
-        return mensage;
+        return bicicletaRep.save(bc);
     }
 
     public List<Bicicleta> listarBicicletas(){

@@ -23,14 +23,14 @@ public class BicicletaController {
     @Autowired
     private Mensage mensage;
 
-    @PostMapping("/")
+    @GetMapping("/")
     public String teste(){
         return "olá paula";
     }
     @PostMapping("/bicicleta")
-    public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike){
-        mensage = service.cadastrar(bike);
-        return new ResponseEntity<>(mensage, HttpStatus.OK);
+    public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike1){
+
+        return new ResponseEntity<>(service.cadastrar(bike1), HttpStatus.OK);
     }
 
     //alterAar mais tarde para retornar uma mensagem
