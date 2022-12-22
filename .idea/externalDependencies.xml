@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalDependencies">
+    <plugin id="Git4Idea" />
+    <plugin id="JUnit" />
+    <plugin id="Lombook Plugin" />
+    <plugin id="com.intellij.java" />
+    <plugin id="org.jetbrains.android" />
+    <plugin id="org.jetbrains.idea.maven" />
+    <plugin id="org.jetbrains.idea.maven.server.api" />
+    <plugin id="org.jetbrains.plugins.github" />
+    <plugin id="org.jetbrains.plugins.yaml" />
+  </component>
+</project>

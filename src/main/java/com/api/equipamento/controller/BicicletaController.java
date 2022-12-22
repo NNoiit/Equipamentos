@@ -23,6 +23,10 @@ public class BicicletaController {
     @Autowired
     private Mensage mensage;
 
+    @PostMapping("/")
+    public String teste(){
+        return "olá paula";
+    }
     @PostMapping("/bicicleta")
     public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike){
         mensage = service.cadastrar(bike);

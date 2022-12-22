@@ -25,13 +25,15 @@ public class BicicletaService{
             return mensage;
         }
 
+        bicicletaRep.save(bc);
         mensage.setMensage("Dados cadastrados");
         return mensage;
     }
 
     public List<Bicicleta> listarBicicletas(){
-        List<Bicicleta> listaBicicletas  =  bicicletaRep.findAll();
-        return listaBicicletas;
+        //List<Bicicleta> listaBicicletas  =  ;
+        return bicicletaRep.findAll();
+                //listaBicicletas;
     }
 
     public Bicicleta bicicletaFindId( int id){
