@@ -1,0 +1,11 @@
+com\api\equipamento\controller\BicicletaController.class
+com\api\equipamento\repositori\RepTranca.class
+com\api\equipamento\model\Bicicleta.class
+com\api\equipamento\service\TrancaService.class
+com\api\equipamento\controller\TrancaController.class
+com\api\equipamento\model\Mensage.class
+com\api\equipamento\service\BicicletaService.class
+com\api\equipamento\model\Tranca.class
+com\api\equipamento\EquipamentoApplication.class
+com\api\equipamento\model\StatusBike.class
+com\api\equipamento\repositori\RepBicicleta.class

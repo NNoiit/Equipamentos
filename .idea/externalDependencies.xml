@@ -4,7 +4,9 @@
     <plugin id="Git4Idea" />
     <plugin id="JUnit" />
     <plugin id="Lombook Plugin" />
+    <plugin id="com.intellij.database" />
     <plugin id="com.intellij.java" />
+    <plugin id="com.intellij.spring.mvc" />
     <plugin id="org.jetbrains.android" />
     <plugin id="org.jetbrains.idea.maven" />
     <plugin id="org.jetbrains.idea.maven.server.api" />

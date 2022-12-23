@@ -25,7 +25,7 @@ public class BicicletaController {
 
     @GetMapping("/")
     public String teste(){
-        return "olá paula";
+        return "olá, Paula <3";
     }
     @PostMapping("/bicicleta")
     public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike1){
