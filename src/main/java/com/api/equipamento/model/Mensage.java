@@ -9,7 +9,6 @@ public class Mensage {
     public String getMensage(){
         return mensage;
     }
-
     public void setMensage(String mensage){
         this.mensage = mensage;
     }

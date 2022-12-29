@@ -28,35 +28,34 @@ public class BicicletaController {
         return "olá, Paula <3";
     }
     @PostMapping("/bicicleta")
-    public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike1){
-
+    public ResponseEntity<Bicicleta> postBicicleta(@RequestBody Bicicleta bike1){
         return new ResponseEntity<>(service.cadastrar(bike1), HttpStatus.OK);
     }
 
     //alterAar mais tarde para retornar uma mensagem
     @GetMapping("/bicicleta")
-    public ResponseEntity<?> getBicicleta(){
+    public ResponseEntity<List<Bicicleta>> getBicicleta(){
         List<Bicicleta> listarBicicletas = service.listarBicicletas();
         return new ResponseEntity<>(listarBicicletas, HttpStatus.OK);
     }
 
     @GetMapping("/bicicleta/{id}")
-    public ResponseEntity<?> getBicicleta(@PathVariable int id){
+    public ResponseEntity<Bicicleta> getBicicleta(@PathVariable int id){
         Bicicleta bicicletaFindId = service.bicicletaFindId(id);
         return new ResponseEntity<>(bicicletaFindId, HttpStatus.OK);
     }
 
     @PutMapping("/bicicleta/{id}")
-    public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable int id){
+    public ResponseEntity<Bicicleta> putBicicleta(@RequestBody Bicicleta bike, @PathVariable int id){
         return new ResponseEntity<>(service.alterarBicicleta(bike, id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/bicicleta/{id}")
-    public ResponseEntity<?> deleteBicicletaId(@PathVariable int id){
+    public ResponseEntity<Mensage> deleteBicicletaId(@PathVariable int id){
 
         mensage = service.excluirBicicleta(id);
 
-        return new ResponseEntity<Mensage>(mensage, HttpStatus.OK);
+        return new ResponseEntity<>(mensage, HttpStatus.OK);
     }
 
     //corrigir dps, o objetivo é alterar a ação

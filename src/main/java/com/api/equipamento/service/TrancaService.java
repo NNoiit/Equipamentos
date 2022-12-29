@@ -1,22 +1,16 @@
 package com.api.equipamento.service;
 
 import com.api.equipamento.model.Mensage;
-import com.api.equipamento.model.Status;
 import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.model.Tranca;
-
 import java.util.List;
 
 @Service
 public class TrancaService{
     @Autowired
     private Mensage mensage;
-
-
     @Autowired
     private RepTranca tranca;
 

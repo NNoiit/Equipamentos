@@ -2,7 +2,6 @@ package com.api.equipamento.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.stereotype.Component;
 
 @Entity
 public class Bicicleta {
@@ -15,10 +14,8 @@ public class Bicicleta {
     private String modelo;
     @NotBlank
     private String ano;
-    @NotBlank
     private int numero;
-    @NotBlank
-    public Status status;
+    private Status status;
 
     public Status getStatus(){
         return status;
