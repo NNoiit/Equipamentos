@@ -18,13 +18,13 @@ public class BicicletaService{
     @Autowired
     private RepBicicleta bicicletaRep;
 
-    public Bicicleta cadastrar(Bicicleta bc){
+    public Bicicleta cadastrar(Bicicleta bicicleta){
 
-        if(bc.getModelo().equals("")){
-            return bc;
+        if(bicicleta.getModelo().equals("") || bicicleta.getAno().equals("") || bicicleta.getMarca().equals("")){
+            return bicicleta;
         }
 
-        return bicicletaRep.save(bc);
+        return bicicletaRep.save(bicicleta);
     }
 
     public List<Bicicleta> listarBicicletas(){
@@ -38,20 +38,14 @@ public class BicicletaService{
     }
 
 
-    public ResponseEntity<?> alterarBicicleta(Bicicleta bike, int id){
-        /*
-        if(bicicletaRep.countById(id) == 0){
-            return bicicletaFindId(id);
-        }*/
+    public Bicicleta alterarBicicleta(Bicicleta bike, int id){
 
         if(bike.getNumero() > 0 ||
                 bike.getMarca() == ""
                 ||bike.getModelo() == ""
                 ||bike.getAno() == ""
                 ){
-
-            mensage.setMensage("Dados Inválidos");
-            return new ResponseEntity<>(bicicletaRep.findById(id), HttpStatus.BAD_REQUEST);
+            return bicicletaRep.findById(id);
         }
 
         Bicicleta bc = bicicletaRep.findById(id);
@@ -61,8 +55,7 @@ public class BicicletaService{
         bc.setAno(bike.getAno());
         bc.setNumero(bike.getNumero());
 
-        mensage.setMensage("Dados atualizados");
-        return new ResponseEntity<>(bicicletaRep.save(bc), HttpStatus.CREATED);
+        return bicicletaRep.save(bc);
     }
 
     public Mensage excluirBicicleta(int id){

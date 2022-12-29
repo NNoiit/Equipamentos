@@ -1,12 +1,15 @@
 package com.api.equipamento.service;
 
 import com.api.equipamento.model.Mensage;
+import com.api.equipamento.model.Status;
 import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.model.Tranca;
+
+import java.util.List;
 
 @Service
 public class TrancaService{
@@ -17,63 +20,54 @@ public class TrancaService{
     @Autowired
     private RepTranca tranca;
 
-    public ResponseEntity<?> cadastrarTranca(Tranca trc){
+    public Tranca cadastrarTranca(Tranca trc){
 
-        if(trc.getNumero() > 0
-                || trc.getLocalizacao() == ""
-                || trc.getAnoDeFabricacao() == ""
-                || trc.getModelo() == ""
-                || trc.getStatus() == ""){
+        try {
+            if(trc.getLocalizacao().equals("")
+                    || trc.getAnoDeFabricacao().equals("")
+                    || trc.getModelo().equals("")
+                    ){
+                return trc;
+            }
 
-            mensage.setMensage("Dados Inválidos");
-            return new ResponseEntity<>(mensage, HttpStatus.BAD_REQUEST);
+            return tranca.save(trc);
+        }catch (Exception e ){
+            return trc;
         }
-
-        mensage.setMensage("Dados cadastrados");
-        return new ResponseEntity<>(tranca.save(trc), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> listarTrancas(){
-        return new ResponseEntity<>(tranca.findAll(), HttpStatus.OK);
+    public List<Tranca> listarTrancas(){
+        return tranca.findAll();
     }
 
-    public ResponseEntity<?> trancaFindId( int id){
-        if(tranca.countById(id) == 0){
-            mensage.setMensage("Tranca não encontrada");
-            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+    public Tranca trancaFindId( int id){
+        if (tranca.countById(id)==1){
+            return tranca.findById(id);
         }
-
-        mensage.setMensage("Tranca encontrada");
-        return new ResponseEntity<>(tranca.findById(id), HttpStatus.BAD_REQUEST);
+        return null;
     }
 
 
-    public ResponseEntity<?> alterarTranca(Tranca trc, int id){
+    public Tranca alterarTranca(Tranca trc, int id){
 
-        if(tranca.countById(id) == 0){
-            return trancaFindId(id);
+        if(trc.getLocalizacao().equals("")
+                || trc.getAnoDeFabricacao().equals("")
+                || trc.getModelo().equals("")
+                || trc.status.getDescricao().equals(""))
+        {
+            return null;
+        }else if(tranca.countById(id) == 1){
+            Tranca trcA = tranca.findById(id);
+
+            trcA.setNumero(trc.getNumero());
+            trcA.setLocalizacao(trc.getLocalizacao());
+            trcA.setAnoDeFabricacao(trc.getAnoDeFabricacao());
+            trcA.setModelo(trc.getModelo());
+            trcA.setStatus(trc.getStatus());
+            return tranca.save(trcA);
+        } else {
+            return null;
         }
-
-        if(trc.getNumero() > 0
-                || trc.getLocalizacao() == ""
-                || trc.getAnoDeFabricacao() == ""
-                || trc.getModelo() == ""
-                || trc.getStatus() == ""){
-
-            mensage.setMensage("Dados Inválidos");
-            return new ResponseEntity<>(tranca.findById(id), HttpStatus.BAD_REQUEST);
-        }
-
-        Tranca trcA = tranca.findById(id);
-
-        trcA.setNumero(trc.getNumero());
-        trcA.setLocalizacao(trc.getLocalizacao());
-        trcA.setAnoDeFabricacao(trc.getAnoDeFabricacao());
-        trcA.setModelo(trc.getModelo());
-        trcA.setStatus(trc.getStatus());
-
-        mensage.setMensage("Dados atualizados");
-        return new ResponseEntity<>(tranca.save(trc), HttpStatus.CREATED);
     }
 
     public void excluirTranca(int id){

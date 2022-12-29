@@ -3,7 +3,7 @@ package com.api.equipamento.service;
 
 import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.Mensage;
-import com.api.equipamento.model.StatusBike;
+import com.api.equipamento.model.Status;
 import com.api.equipamento.repositori.RepBicicleta;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -66,7 +66,7 @@ public class BicicletaServiceTest {
         bicicleta.setAno("ola");
         bicicleta.setModelo("ola");
 
-        bicicleta.setStatusBike(StatusBike.LIVRE);
+        bicicleta.setStatusBike(Status.LIVRE);
 
     }
 }

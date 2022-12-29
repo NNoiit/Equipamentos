@@ -1,6 +1,7 @@
 package com.api.equipamento.model;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 @Entity
 public class Bicicleta {
@@ -12,16 +13,18 @@ public class Bicicleta {
     private String ano;
     private int numero;
 
-    public StatusBike status;
+    public Status status;
 
-    public StatusBike getStatus(){
+    public Status getStatus(){
         return status;
     }
 
-    public void setStatusBike(StatusBike status){
+    public void setStatusBike(Status status){
         this.status = status;
     }
-
+    public int getId(){
+        return id;
+    }
     public String getMarca() {
         return marca;
     }

@@ -48,7 +48,7 @@ public class BicicletaController {
 
     @PutMapping("/bicicleta/{id}")
     public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable int id){
-        return service.alterarBicicleta(bike, id);
+        return new ResponseEntity<>(service.alterarBicicleta(bike, id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/bicicleta/{id}")

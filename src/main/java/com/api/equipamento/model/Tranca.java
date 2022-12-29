@@ -1,9 +1,13 @@
 package com.api.equipamento.model;
 
+import com.api.equipamento.repositori.RepBicicleta;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.validator.constraints.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Entity
 public class Tranca {
@@ -14,9 +18,21 @@ public class Tranca {
     private String localizacao;
     private String anoDeFabricacao;
     private String modelo;
-    private String status;
+   @GeneratedValue(strategy = GenerationType.UUID)
+    private int bicicletaId;
+    public Status status;
+    public Status getStatus(){
+        return status;
+    }
+
+    public void setStatus(Status status){
+        this.status = status;
+    }
 
 
+    public int getId(){
+        return id;
+    }
     public int getNumero() {
         return numero;
     }
@@ -49,11 +65,11 @@ public class Tranca {
         this.modelo = modelo;
     }
 
-    public String getStatus() {
-        return status;
+    public int getBicicleta() {
+        return bicicletaId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setBicicleta(int bicicleta) {
+        this.bicicletaId = bicicleta;
     }
 }
