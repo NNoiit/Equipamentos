@@ -11,6 +11,7 @@ public class Tranca {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @NotBlank
     private int numero;
     @NotBlank
     private String localizacao;
@@ -20,7 +21,7 @@ public class Tranca {
     private String modelo;
    @GeneratedValue(strategy = GenerationType.UUID)
     private int bicicletaId;
-    private Status status;
+    public Status status;
     public Status getStatus(){
         return status;
     }
