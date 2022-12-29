@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,12 +15,17 @@ public class Tranca {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @NotBlank
     private int numero;
+    @NotBlank
     private String localizacao;
+    @NotBlank
     private String anoDeFabricacao;
+    @NotBlank
     private String modelo;
    @GeneratedValue(strategy = GenerationType.UUID)
     private int bicicletaId;
+    @NotBlank
     public Status status;
     public Status getStatus(){
         return status;

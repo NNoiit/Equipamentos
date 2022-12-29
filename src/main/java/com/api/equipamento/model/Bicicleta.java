@@ -1,6 +1,7 @@
 package com.api.equipamento.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -8,11 +9,15 @@ public class Bicicleta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @NotBlank
     private String marca;
+    @NotBlank
     private String modelo;
+    @NotBlank
     private String ano;
+    @NotBlank
     private int numero;
-
+    @NotBlank
     public Status status;
 
     public Status getStatus(){
