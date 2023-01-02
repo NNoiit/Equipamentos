@@ -19,6 +19,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,11 +46,11 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
     void testCadastro(){
         bicicleta = criarBicicleta();
         Mockito.when(bicicletaRep.save(bicicleta)).thenReturn(bicicleta);
-        Assertions.assertEquals(bicicletaService.cadastrar(bicicleta), bicicleta);
-
+        bicicletaService.cadastrar(bicicleta);
+        Mockito.verify(bicicletaRep, Mockito.times(1)).save(ArgumentMatchers.any(Bicicleta.class));
     }
     @Test
-    @DisplayName("Deve exxcluir uma bicicleta")
+    @DisplayName("Deve excluir uma bicicleta")
     void excluirBicicletaTest(){
         int bicicletaId = 9;
 
@@ -55,16 +58,36 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
         Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
         Mockito.when(bicicletaRep.countById(bicicletaId)).thenReturn(1);
         mensage = bicicletaService.excluirBicicleta(bicicletaId);
-        Assertions.assertEquals("Excluido", mensage.getMensage());
+        Mockito.verify(bicicletaRep, Mockito.times(1)).delete(ArgumentMatchers.any(Bicicleta.class));
 
+    }
+    @Test
+    @DisplayName("Não deve excluir a bicicleta")
+    void erroExcluirBicicletaTest(){
+        int bicicletaId = 9;
+
+        bicicleta = criarBicicleta();
+        Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
+        mensage = bicicletaService.excluirBicicleta(bicicletaId);
+        Assertions.assertEquals("Não encontrado", mensage.getMensage());
+
+    }
+
+    @Test
+    void listarBicicletas(){
+
+        Mockito.when(bicicletaRep.findAll()).thenReturn(Collections.emptyList());
+        bicicletaService.listarBicicletas();
+
+        Mockito.verify(bicicletaRep, Mockito.times(1)).findAll();
     }
 
     private Bicicleta criarBicicleta() {
         bicicleta = Mockito.mock(Bicicleta.class);
-        Mockito.when(bicicleta.getId()).thenReturn(9);
-        Mockito.when(bicicleta.getModelo()).thenReturn("zoe");
-        Mockito.when(bicicleta.getAno()).thenReturn("2023");
-        Mockito.when(bicicleta.getMarca()).thenReturn("renault");
+        Mockito.when(bicicleta.getId()).thenReturn(BigDecimal.ROUND_DOWN);
+        Mockito.when(bicicleta.getModelo()).thenReturn(String.valueOf("zoe"));
+        Mockito.when(bicicleta.getAno()).thenReturn(String.valueOf("2023"));
+        Mockito.when(bicicleta.getMarca()).thenReturn(String.valueOf("renault"));
         Mockito.when(bicicleta.getStatus()).thenReturn(Status.LIVRE);
         return bicicleta;
     }
