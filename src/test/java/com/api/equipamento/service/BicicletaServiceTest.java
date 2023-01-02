@@ -50,6 +50,14 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
         Mockito.verify(bicicletaRep, Mockito.times(1)).save(ArgumentMatchers.any(Bicicleta.class));
     }
     @Test
+    @DisplayName("Devolve um null para tentativa de cadastro")
+    void testErroCadastro(){
+        bicicleta = criarBicicleta();
+
+        Mockito.when(bicicleta.getModelo()).thenReturn("");
+        Assertions.assertEquals(null, bicicletaService.cadastrar(bicicleta));
+    }
+    @Test
     @DisplayName("Deve excluir uma bicicleta")
     void excluirBicicletaTest(){
         int bicicletaId = 9;
