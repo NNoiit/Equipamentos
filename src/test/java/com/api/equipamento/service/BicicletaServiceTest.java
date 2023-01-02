@@ -7,6 +7,7 @@ import com.api.equipamento.model.Mensage;
 import com.api.equipamento.model.Status;
 import com.api.equipamento.repositori.RepBicicleta;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -24,7 +25,7 @@ import java.util.Optional;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("BicicletaServiceTessst")
-public class BicicletaServiceTest extends EquipamentoApplicationTests {
+class BicicletaServiceTest extends EquipamentoApplicationTests {
 
     @Autowired
     private BicicletaService bicicletaService;
@@ -38,26 +39,24 @@ public class BicicletaServiceTest extends EquipamentoApplicationTests {
     private Bicicleta bicicleta;
 
     @Test
-    public void testDoTest(){
-        System.out.println("ok");
-    }
-
-    @Test
     @DisplayName("Realiza o cadastro de uma nova bicicleta")
-    public void testCadastro(){
+    void testCadastro(){
+        bicicleta = criarBicicleta();
+        Mockito.when(bicicletaRep.save(bicicleta)).thenReturn(bicicleta);
+        Assertions.assertEquals(bicicletaService.cadastrar(bicicleta), bicicleta);
 
-        bicicletaService.cadastrar(bicicleta);
     }
     @Test
     @DisplayName("Deve exxcluir uma bicicleta")
-    public void excluirBicicletaTest(){
+    void excluirBicicletaTest(){
         int bicicletaId = 9;
 
         bicicleta = criarBicicleta();
         Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
         Mockito.when(bicicletaRep.countById(bicicletaId)).thenReturn(1);
         mensage = bicicletaService.excluirBicicleta(bicicletaId);
-        Assert.assertEquals(mensage.getMensage(), "Excluido");
+        Assertions.assertEquals("Excluido", mensage.getMensage());
+
     }
 
     private Bicicleta criarBicicleta() {
