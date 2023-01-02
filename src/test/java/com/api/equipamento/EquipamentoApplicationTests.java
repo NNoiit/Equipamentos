@@ -6,6 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
 @ContextConfiguration(classes = EquipamentoApplication.class)
+public
 class EquipamentoApplicationTests {
 
 	@Test

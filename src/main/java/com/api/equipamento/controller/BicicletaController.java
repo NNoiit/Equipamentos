@@ -61,12 +61,7 @@ public class BicicletaController {
     //corrigir dps, o objetivo é alterar a ação
     @PutMapping("/bicicleta/{id}/status/{acao}")
     public Bicicleta putStatusBicicleta(@RequestBody String novoStatus, @PathVariable int id, @PathVariable String acao){
-
         Bicicleta bc = bicicleta.findById(id);
-
-        //bc.status status = bc.status.OCUPADO;
-        //bc.setStatus(novoStatus);
-
         return bicicleta.save(bc);
     }
 
