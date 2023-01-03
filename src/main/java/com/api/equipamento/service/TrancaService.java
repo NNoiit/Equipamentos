@@ -1,6 +1,5 @@
 package com.api.equipamento.service;
 
-import com.api.equipamento.model.Mensage;
 import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,23 +9,14 @@ import java.util.List;
 @Service
 public class TrancaService{
     @Autowired
-    private Mensage mensage;
-    @Autowired
     private RepTranca tranca;
 
     public Tranca cadastrarTranca(Tranca trc){
 
-        try {
-            if(trc.getLocalizacao().equals("")
-                    || trc.getAnoDeFabricacao().equals("")
-                    || trc.getModelo().equals("")
-                    ){
-                return trc;
-            }
-
+        if(trc.getLocalizacao().equals("") || trc.getAnoDeFabricacao().equals("") || trc.getModelo().equals("")){
+            return null;
+        } else {
             return tranca.save(trc);
-        }catch (Exception e ){
-            return trc;
         }
     }
 
