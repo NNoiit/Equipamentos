@@ -36,11 +36,10 @@ public class TrancaService{
 
         if(trc.getLocalizacao().equals("")
                 || trc.getAnoDeFabricacao().equals("")
-                || trc.getModelo().equals("")
-                || trc.status.getDescricao().equals(""))
+                || trc.getModelo().equals("") || tranca.countById(id) == 0)
         {
             return null;
-        }else if(tranca.countById(id) == 1){
+        }else{
             Tranca trcA = tranca.findById(id);
 
             trcA.setNumero(trc.getNumero());
@@ -49,8 +48,6 @@ public class TrancaService{
             trcA.setModelo(trc.getModelo());
             trcA.setStatus(trc.getStatus());
             return tranca.save(trcA);
-        } else {
-            return null;
         }
     }
 
