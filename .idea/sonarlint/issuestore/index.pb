@@ -7,3 +7,17 @@ d
 4src/main/java/com/api/equipamento/model/Mensage.java,f\5\f5e9bbaccb9763b9f9ce6ac59f95ae17f4ec4cfa
 c
 3src/main/java/com/api/equipamento/model/Status.java,9\a\9a91a7eb9f13901fbd3842b22523005333a0c6f5
+r
+Bsrc/test/java/com/api/equipamento/EquipamentoApplicationTests.java,4\1\417b7a60e0ef9371b625c42b92d9da2f36eb696d
+s
+Csrc/test/java/com/api/equipamento/service/BicicletaServiceTest.java,0\4\04d557898d6a4c22d01d54cb3fcf14027f99b1a4
+l
+<src/main/java/com/api/equipamento/service/TrancaService.java,e\f\efa3f5f35c9b4ada56b6506a6c2d6b95d0c2beed
+p
+@src/test/java/com/api/equipamento/service/TrancaServiceTest.java,b\d\bddf062a20a996651cd8f537bab29b485e439fc8
+o
+?src/main/java/com/api/equipamento/service/BicicletaService.java,5\7\57d438210f072cdeef7ce43e1c4b8d02cd65c38d
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+m
+=src/main/java/com/api/equipamento/EquipamentoApplication.java,0\a\0af072be0f410696a9c2ff39ec5a99ec540d1d6c
