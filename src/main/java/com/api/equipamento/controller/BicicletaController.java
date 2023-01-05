@@ -1,6 +1,7 @@
 package com.api.equipamento.controller;
 
 import com.api.equipamento.model.Bicicleta;
+import com.api.equipamento.model.IdsEquipamentos;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.BicicletaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,17 @@ public class BicicletaController {
         mensage = service.excluirBicicleta(id);
 
         return new ResponseEntity<>(mensage, HttpStatus.OK);
+    }
+
+    @PostMapping("/bicicleta/integrarNaRede")
+    public ResponseEntity<String> integrarNaRede(@RequestBody IdsEquipamentos dados){
+        service.integrarNaRede(dados);
+        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
+    }
+    @PostMapping("/bicicleta/retriarDaRede")
+    public ResponseEntity<String> retirarDaRede(@RequestBody IdsEquipamentos dados){
+        service.retirarDaRede(dados);
+        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
     }
 
     //corrigir dps, o objetivo é alterar a ação

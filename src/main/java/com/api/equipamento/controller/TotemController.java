@@ -1,5 +1,6 @@
 package com.api.equipamento.controller;
 
+
 import com.api.equipamento.model.Totem;
 import com.api.equipamento.service.TotemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,11 @@ public class TotemController {
     @Autowired
     private TotemService service;
 
-    @GetMapping("/totem")
+    /*@GetMapping("/totem")
     public ResponseEntity<List> getTotem(){
+        service.removerRedes();
         return new ResponseEntity<>(service.listaTotem(), HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping("/totem")
     public ResponseEntity<Totem> setTotem(@RequestBody Totem totem){
@@ -37,4 +39,5 @@ public class TotemController {
     public void deletTotem(@PathVariable int id){
         service.excluirTotem(id);
     }
+
 }

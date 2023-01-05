@@ -1,7 +1,9 @@
 package com.api.equipamento.service;
 
 import com.api.equipamento.model.Bicicleta;
+import com.api.equipamento.model.IdsEquipamentos;
 import com.api.equipamento.model.Mensage;
+import com.api.equipamento.repositori.RepRede;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.repositori.RepBicicleta;
@@ -14,6 +16,12 @@ public class BicicletaService{
 
     @Autowired
     private RepBicicleta bicicletaRep;
+
+    @Autowired
+    private RepRede repRede;
+
+    @Autowired
+    private RedeService serviceRede;
 
     public Bicicleta cadastrar(Bicicleta bicicleta){
 
@@ -65,6 +73,16 @@ public class BicicletaService{
         mensage.setMensage("Excluido");
 
         return mensage;
-
     }
+
+    //Em contrução
+    public void integrarNaRede(IdsEquipamentos dados){
+        // TODO
+    }
+
+    public void retirarDaRede(IdsEquipamentos dados){
+        // TODO
+    }
+
+
 }

@@ -8,16 +8,19 @@ import java.util.List;
 
 @Service
 public class TotemService {
-
     @Autowired
     private RepTotem repTotem;
+    @Autowired
+    private RedeService serviceRede;
 
     public List<Totem> listaTotem(){
         return repTotem.findAll();
     }
 
     public Totem cadastrarTotem(Totem totem){
-        return repTotem.save(totem);
+        Totem totem1 = repTotem.save(totem);
+        serviceRede.criarRedeId(totem1.getId());
+        return totem1;
     }
 
     public Totem mostrarTotem(int id) {
@@ -33,4 +36,9 @@ public class TotemService {
     public void excluirTotem(int id) {
         repTotem.delete(repTotem.findById(id));
     }
+
+    //Metodo criado para zerar os totens presentes no BD
+    /*public void removerRedes(){
+        serviceRede.removerDaRede();
+    }*/
 }

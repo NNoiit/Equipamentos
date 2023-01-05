@@ -3,19 +3,17 @@ package com.api.equipamento.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
 public class Rede {
-
     @Id
-    private int Id;
-
+    private int id;
     private int idTotem;
-    private List<Integer> idTranca;
-    private List<Integer> idBicicleta;
-
+    private List<Integer> idTranca = new ArrayList<>();
+    private List<Integer> idBicicleta = new ArrayList<>();
 
     public int getIdTotem() {
         return idTotem;
@@ -29,10 +27,9 @@ public class Rede {
         return idTranca;
     }
 
-    public void setIdTranca(List<Integer> idTranca) {
+    public void setIdTranca(List<Integer> idTranca){
         this.idTranca = idTranca;
     }
-
     public List<Integer> getIdBicicleta() {
         return idBicicleta;
     }
@@ -42,6 +39,10 @@ public class Rede {
     }
 
     public int getId() {
-        return Id;
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

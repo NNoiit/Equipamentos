@@ -1,8 +1,11 @@
 package com.api.equipamento.service;
 
 import com.api.equipamento.EquipamentoApplicationTests;
+import com.api.equipamento.model.IdsEquipamentos;
+import com.api.equipamento.model.Rede;
 import com.api.equipamento.model.Status;
 import com.api.equipamento.model.Tranca;
+import com.api.equipamento.repositori.RepRede;
 import com.api.equipamento.repositori.RepTranca;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Collections;
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -26,6 +30,15 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     private RepTranca trancaRep;
     @MockBean
     private Tranca tranca;
+
+    @MockBean
+    private IdsEquipamentos idsEquipamentos;
+
+    @MockBean
+    private Rede rede;
+
+    @MockBean
+    private RepRede repRede;
 
     @Test
     @DisplayName("Testa se um objeto do tipo tranca está sendo passado no metodo save")
@@ -112,6 +125,25 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Mockito.when(trancaRep.countById(trancaId)).thenReturn(0);
         service.excluirTranca(trancaId);
         Mockito.verify(trancaRep, Mockito.times(1)).findById(trancaId);
+    }
+
+    @Test
+    @DisplayName("Verifiando a adição no totem")
+    void adicionaTrancaRede(){
+        idsEquipamentos = new IdsEquipamentos();
+        rede = Mockito.mock(Rede.class);
+        Mockito.when(repRede.findById(0)).thenReturn(rede);
+        service.adicionaTrancaRede(idsEquipamentos);
+        Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
+    }
+    @Test
+    @DisplayName("Verifica a retirada da tranca do totem")
+    void removerTrancaRede(){
+        idsEquipamentos = new IdsEquipamentos();
+        Mockito.when(repRede.findById(0)).thenReturn(rede);
+
+        service.removerTrancaRede(idsEquipamentos);
+        Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
     }
 
     private Tranca criarTranca() {

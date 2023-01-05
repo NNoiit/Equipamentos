@@ -1,6 +1,8 @@
 package com.api.equipamento.controller;
 
+import com.api.equipamento.model.IdsEquipamentos;
 import com.api.equipamento.model.Mensage;
+import com.api.equipamento.model.Rede;
 import com.api.equipamento.model.Tranca;
 import com.api.equipamento.service.TrancaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +65,20 @@ public class TrancaController {
         service.excluirTranca(id);
     }
 
+    @PostMapping("/tranca/integrarNaRede")
+    public ResponseEntity<String> integrarNaRede(@RequestBody IdsEquipamentos dado){
+        service.adicionaTrancaRede(dado);
+        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
+    }
+
+    @PostMapping("/tranca/retirarDaRede")
+    public ResponseEntity<String> retirarDaRede(@RequestBody IdsEquipamentos dado){
+        service.removerTrancaRede(dado);
+        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
+    }
+
+    @GetMapping("/tranca/retirarDaRede")
+    public List<Rede> listaRede(){
+        return service.listaRede();
+    }
 }
