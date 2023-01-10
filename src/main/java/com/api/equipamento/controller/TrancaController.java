@@ -1,9 +1,6 @@
 package com.api.equipamento.controller;
 
-import com.api.equipamento.model.IdsEquipamentos;
-import com.api.equipamento.model.Mensage;
-import com.api.equipamento.model.Rede;
-import com.api.equipamento.model.Tranca;
+import com.api.equipamento.model.*;
 import com.api.equipamento.service.TrancaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,11 +18,10 @@ public class TrancaController {
 
     @PostMapping("/tranca")
     public ResponseEntity<Mensage> postTranca(@RequestBody Tranca trc){
-        try {
+        if(service.cadastrarTranca(trc) != null){
             mensage.setMensage("Tranca cadastrada");
-            service.cadastrarTranca(trc);
             return new ResponseEntity<>(mensage, HttpStatus.OK);
-        }catch (Exception e){
+        }else {
             mensage.setMensage("Tranca não cadastrada");
             return new ResponseEntity<>(mensage, HttpStatus.BAD_REQUEST);
         }
@@ -65,6 +61,26 @@ public class TrancaController {
         service.excluirTranca(id);
     }
 
+    @PostMapping("/tranca/{id}/trancar")
+    public ResponseEntity<String> trancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
+        service.trancarTranca(id, idBicicleta);
+        return new ResponseEntity<>("Trancoyu", HttpStatus.OK);
+    }
+    @PostMapping("/tranca/{id}/destrancar")
+    public ResponseEntity<String> destrancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
+        service.destrancarTranca(id, idBicicleta);
+        return new ResponseEntity<>("Destrancou", HttpStatus.OK);
+    }
+    @PostMapping("/tranca/{id}/status/{acao}")
+    public ResponseEntity<String> alterarStatusTranca(@PathVariable int id, @PathVariable Acao acao){
+        service.alterarStatusTranca(id, acao);
+        return new ResponseEntity<>("alterou", HttpStatus.OK);
+    }
+
+    @GetMapping("/tranca/{id}/bicicleta")
+    public ResponseEntity<Bicicleta> bicicletaTranca(@PathVariable int id){
+        return new ResponseEntity<>(service.getBicicleta(id), HttpStatus.OK);
+    }
     @PostMapping("/tranca/integrarNaRede")
     public ResponseEntity<String> integrarNaRede(@RequestBody IdsEquipamentos dado){
         service.adicionaTrancaRede(dado);

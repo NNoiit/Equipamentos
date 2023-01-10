@@ -24,6 +24,9 @@ public class BicicletaService{
     @Autowired
     private RedeService serviceRede;
 
+    @Autowired
+    private TrancaService trancaService;
+
     public Bicicleta cadastrar(Bicicleta bicicleta){
 
         if(bicicleta.getModelo().equals("") || bicicleta.getAno().equals("") || bicicleta.getMarca().equals("")
@@ -76,6 +79,11 @@ public class BicicletaService{
         return mensage;
     }
 
+    public void alterarStatusBicicleta(int idBicicleta, Status status) {
+        Bicicleta bicicleta1 = bicicletaRep.findById(idBicicleta);
+        bicicleta1.setStatusBike(status);
+    }
+
     //Em contrução
     public void integrarNaRede(IdsEquipamentos dados){
         // TODO
@@ -87,9 +95,7 @@ public class BicicletaService{
             for (int j = 0; listaTranca.size() > j; j++) {
                 if (listaTranca.get(j) == dados.getIdTranca()) {
                     //busca a tranca e salva o id da bicicleta na tranca
-                    Tranca trancaNova = repTranca.findById(dados.getIdTranca());
-                    trancaNova.setBicicleta(dados.getIdBicicleta());
-                    repTranca.save(trancaNova);
+                    trancaService.trancarTranca(dados.getIdTranca(), dados.getIdBicicleta());
                     //salva o id da bicicleta no totem
                     List<Integer> listaBicicleta = totem.getIdBicicleta();
                     listaBicicleta.add(dados.getIdBicicleta());
@@ -103,7 +109,23 @@ public class BicicletaService{
 
     public void retirarDaRede(IdsEquipamentos dados){
         // TODO
+        List<Rede> listaTotens = repRede.findAll();
+
+        for (int i = 0; listaTotens.size() > i; i++) {
+            Rede totem = listaTotens.get(i);
+            List<Integer> listaTranca = totem.getIdTranca();
+            for (int j = 0; listaTranca.size() > j; j++) {
+                if (listaTranca.get(j) == dados.getIdTranca()) {
+                    List<Integer> listaBicicleta = totem.getIdBicicleta();
+                    for (int h = 0; listaBicicleta.size() > h; h++) {
+                        if(listaBicicleta.get(h) == dados.getIdBicicleta()){
+                            listaBicicleta.remove(listaBicicleta.get(h));
+                            repRede.save(totem);
+                        }
+                    }
+                    return;
+                }
+            }
+        }
     }
-
-
 }

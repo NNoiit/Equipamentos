@@ -1,21 +1,27 @@
 package com.api.equipamento.service;
 
-import com.api.equipamento.model.IdsEquipamentos;
-import com.api.equipamento.model.Rede;
+import com.api.equipamento.model.*;
+import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
 import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import com.api.equipamento.model.Tranca;
+
 import java.util.List;
 
 @Service
 public class TrancaService{
     @Autowired
     private RepTranca tranca;
-
+    @Autowired
+    private BicicletaService bicicletaService;
     @Autowired
     private RepRede repRede;
+    @Autowired
+    @Qualifier("bicicletas")
+    private RepBicicleta repBicicleta;
+
     public Tranca cadastrarTranca(Tranca trc){
 
         if(trc.getLocalizacao().equals("") || trc.getAnoDeFabricacao().equals("") || trc.getModelo().equals("")){
@@ -66,6 +72,38 @@ public class TrancaService{
         tranca.delete(trc);
     }
 
+    public Tranca alterarStatusTranca(int idTranca, Acao trancaDestranca){
+        Tranca tranca1 = tranca.findById(idTranca);
+        if(trancaDestranca.getDescricao()== "trancar" || trancaDestranca.getDescricao() == "TRANCAR"){
+            tranca1.setStatus(Status.OCUPADO);
+        } else{
+            tranca1.setStatus(Status.LIVRE);
+        }
+
+        return tranca1;
+    }
+    public Boolean trancarTranca(int idTranca, int idBicicleta){
+        Tranca tranca1 =tranca.findById(idTranca);
+
+        if(tranca1.getStatus() == Status.LIVRE){
+            tranca1.setBicicleta(idBicicleta);
+            tranca1.setStatus(Status.OCUPADO);
+            bicicletaService.alterarStatusBicicleta(idBicicleta, Status.LIVRE);
+            return true;
+        }
+        return false;
+    }
+    public Boolean destrancarTranca(int idTranca, int idBicicleta){
+        Tranca tranca1 = tranca.findById(idTranca);
+
+         if(tranca1.getBicicleta() == idBicicleta){
+             tranca1.setBicicleta(0);
+             tranca1.setStatus(Status.LIVRE);
+             return true;
+         }
+        return false;
+    }
+
     public void adicionaTrancaRede(IdsEquipamentos idsParaRede){
 
         Rede totem = repRede.findByIdTotem(idsParaRede.getIdTotem());
@@ -91,8 +129,16 @@ public class TrancaService{
         repRede.save(totem);
     }
 
+    public Bicicleta getBicicleta(int idTranca) {
+        Tranca tranca1 = tranca.findById(idTranca);
+        if(tranca1.getStatus() == Status.OCUPADO){
+            return repBicicleta.findById(tranca1.getBicicleta());
+        }
+        return null;
+    }
     //Metodo criado para verificar as Redes/Totens presentes no BD
     public List<Rede> listaRede() {
         return repRede.findAll();
     }
+
 }
