@@ -13,7 +13,6 @@ public class RedeService {
 
     public Rede criarRedeId(int id){
         Rede novaRede = new Rede();
-        novaRede.setId(id);
         novaRede.setIdTotem(id);
         return repRede.save(novaRede);
     }

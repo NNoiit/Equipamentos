@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface RepRede extends CrudRepository<Rede, UUID> {
     List<Rede> findAll();
 
-    Rede findById(int id);
+    Rede findByIdTotem(int id);
 
-        List<Integer> findByIdTranca(int id);
+    //int contByIdTotem(int id);
 }

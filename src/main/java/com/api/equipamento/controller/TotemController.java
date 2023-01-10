@@ -15,11 +15,10 @@ public class TotemController {
     @Autowired
     private TotemService service;
 
-    /*@GetMapping("/totem")
+    @GetMapping("/totem")
     public ResponseEntity<List> getTotem(){
-        service.removerRedes();
         return new ResponseEntity<>(service.listaTotem(), HttpStatus.OK);
-    }*/
+    }
 
     @PostMapping("/totem")
     public ResponseEntity<Totem> setTotem(@RequestBody Totem totem){

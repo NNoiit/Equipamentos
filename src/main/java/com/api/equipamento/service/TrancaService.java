@@ -66,26 +66,24 @@ public class TrancaService{
         tranca.delete(trc);
     }
 
-    public void adicionaTrancaRede(IdsEquipamentos rede){
-        int id = rede.getIdTotem();
+    public void adicionaTrancaRede(IdsEquipamentos idsParaRede){
 
-        Rede totem = repRede.findById(id);
+        Rede totem = repRede.findByIdTotem(idsParaRede.getIdTotem());
         List<Integer> listaTranca = totem.getIdTranca();
-        listaTranca.add(rede.getIdTranca());
-
+        listaTranca.add(idsParaRede.getIdTranca());
         totem.setIdTranca(listaTranca);
 
         repRede.save(totem);
     }
 
-    public void removerTrancaRede(IdsEquipamentos rede){
-        int id = rede.getIdTotem();
+    public void removerTrancaRede(IdsEquipamentos idsParaRede){
+        int id = idsParaRede.getIdTotem();
 
-        Rede totem = repRede.findById(id);
+        Rede totem = repRede.findByIdTotem(id);
         List<Integer> listaTranca = totem.getIdTranca();
 
         for (int i = 0; listaTranca.size()>i; i++) {
-            if(listaTranca.get(i) == rede.getIdTranca()){
+            if(listaTranca.get(i) == idsParaRede.getIdTranca()){
                 listaTranca.remove(listaTranca.get(i));
             }
         }

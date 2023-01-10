@@ -1,9 +1,8 @@
 package com.api.equipamento.service;
 
-import com.api.equipamento.model.Bicicleta;
-import com.api.equipamento.model.IdsEquipamentos;
-import com.api.equipamento.model.Mensage;
+import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepRede;
+import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.repositori.RepBicicleta;
@@ -20,6 +19,8 @@ public class BicicletaService{
     @Autowired
     private RepRede repRede;
 
+    @Autowired
+    private RepTranca repTranca;
     @Autowired
     private RedeService serviceRede;
 
@@ -78,6 +79,26 @@ public class BicicletaService{
     //Em contrução
     public void integrarNaRede(IdsEquipamentos dados){
         // TODO
+        List<Rede> listaTotens = repRede.findAll();
+
+        for (int i = 0; listaTotens.size() > i; i++) {
+            Rede totem = listaTotens.get(i);
+            List<Integer> listaTranca = totem.getIdTranca();
+            for (int j = 0; listaTranca.size() > j; j++) {
+                if (listaTranca.get(j) == dados.getIdTranca()) {
+                    //busca a tranca e salva o id da bicicleta na tranca
+                    Tranca trancaNova = repTranca.findById(dados.getIdTranca());
+                    trancaNova.setBicicleta(dados.getIdBicicleta());
+                    repTranca.save(trancaNova);
+                    //salva o id da bicicleta no totem
+                    List<Integer> listaBicicleta = totem.getIdBicicleta();
+                    listaBicicleta.add(dados.getIdBicicleta());
+                    repRede.save(totem);
+                    return;
+                }
+            }
+        }
+
     }
 
     public void retirarDaRede(IdsEquipamentos dados){
