@@ -1,6 +1,8 @@
 package com.api.equipamento.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 @Entity
 public class Rede {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private int idTotem;
     private List<Integer> idTranca = new ArrayList<>();
@@ -36,13 +39,5 @@ public class Rede {
 
     public void setIdBicicleta(List<Integer> idBicicleta) {
         this.idBicicleta = idBicicleta;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
