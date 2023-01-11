@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class Mensage {
+public class Erro {
     private String mensage;
 
-    private List<Mensage> listMensagens;
+    private List<Erro> listMensagens;
 
     public String getMensage(){
         return mensage;

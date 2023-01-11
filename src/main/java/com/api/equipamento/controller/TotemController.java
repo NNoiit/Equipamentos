@@ -1,6 +1,7 @@
 package com.api.equipamento.controller;
 
 
+import com.api.equipamento.model.Erro;
 import com.api.equipamento.model.Totem;
 import com.api.equipamento.service.TotemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import java.util.List;
 public class TotemController {
     @Autowired
     private TotemService service;
+    @Autowired
+    private Erro erro;
 
     @GetMapping("/totem")
     public ResponseEntity<List> getTotem(){
@@ -21,22 +24,48 @@ public class TotemController {
     }
 
     @PostMapping("/totem")
-    public ResponseEntity<Totem> setTotem(@RequestBody Totem totem){
-
-        return new ResponseEntity<>(service.cadastrarTotem(totem), HttpStatus.CREATED);
+    public ResponseEntity<?> setTotem(@RequestBody Totem totem){
+        if(service.cadastrarTotem(totem) != null){
+            return new ResponseEntity<>(service.cadastrarTotem(totem), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(erro, HttpStatus.UNPROCESSABLE_ENTITY);
     }
     @GetMapping("/totem/{id}")
-    public ResponseEntity<Totem> putTotem(@PathVariable int id){
+    public ResponseEntity<Totem> mostraTotem(@PathVariable int id){
         return new ResponseEntity<>(service.mostrarTotem(id), HttpStatus.OK);
     }
     @PutMapping("/totem/{id}")
-    public ResponseEntity<Totem> putTotem(@RequestBody Totem totem, @PathVariable int id){
-        return new ResponseEntity<>(service.alterarTotem(totem, id), HttpStatus.OK);
+    public ResponseEntity<?> putTotem(@RequestBody Totem totem, @PathVariable int id){
+        if(service.alterarTotem(totem, id) != null) {
+            return new ResponseEntity<>(service.alterarTotem(totem, id), HttpStatus.OK);
+        }else if(totem.getLocalizacao() == null){
+            return new ResponseEntity<>(erro, HttpStatus.UNPROCESSABLE_ENTITY);
+        } else {
+            return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/totem/{id}")
-    public void deletTotem(@PathVariable int id){
-        service.excluirTotem(id);
+    public ResponseEntity<Erro> deletTotem(@PathVariable int id){
+        if(service.excluirTotem(id)){
+            return new ResponseEntity<>(erro, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/totem/{id}/trancas")
+    public ResponseEntity<?> listaTrancasTotem(@PathVariable int id){
+        if(service.listaTrancaTotem(id) != null){
+            return new ResponseEntity<>(service.listaTrancaTotem(id), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/totem/{id}/bicicletas")
+    public ResponseEntity<?> listaBicicletaTotem(@PathVariable int id){
+        if(service.listaBicicletaTotem(id) != null) {
+            return new ResponseEntity<>(service.listaBicicletaTotem(id), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(erro, HttpStatus.NOT_FOUND);
+    }
 }

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.api.equipamento.model.Mensage;
+import com.api.equipamento.model.Erro;
 import java.util.List;
 
 @RestController
@@ -21,7 +21,7 @@ public class BicicletaController {
     private BicicletaService service;
 
     @Autowired
-    private Mensage mensage;
+    private Erro mensage;
 
     @GetMapping("/")
     public String teste(){
@@ -51,7 +51,7 @@ public class BicicletaController {
     }
 
     @DeleteMapping("/bicicleta/{id}")
-    public ResponseEntity<Mensage> deleteBicicletaId(@PathVariable int id){
+    public ResponseEntity<Erro> deleteBicicletaId(@PathVariable int id){
 
         mensage = service.excluirBicicleta(id);
 

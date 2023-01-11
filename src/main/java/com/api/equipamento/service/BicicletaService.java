@@ -2,7 +2,6 @@ package com.api.equipamento.service;
 
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepRede;
-import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.repositori.RepBicicleta;
@@ -11,7 +10,7 @@ import java.util.List;
 @Service
 public class BicicletaService{
     @Autowired
-    private Mensage mensage;
+    private Erro mensage;
 
     @Autowired
     private RepBicicleta bicicletaRep;
@@ -20,12 +19,7 @@ public class BicicletaService{
     private RepRede repRede;
 
     @Autowired
-    private RepTranca repTranca;
-    @Autowired
-    private RedeService serviceRede;
-
-    @Autowired
-    private TrancaService trancaService;
+    private StatusService statusService;
 
     public Bicicleta cadastrar(Bicicleta bicicleta){
 
@@ -65,7 +59,7 @@ public class BicicletaService{
         }
     }
 
-    public Mensage excluirBicicleta(int id){
+    public Erro excluirBicicleta(int id){
         
         if(bicicletaRep.countById(id)==0){
             mensage.setMensage("Não encontrado");
@@ -95,7 +89,7 @@ public class BicicletaService{
             for (int j = 0; listaTranca.size() > j; j++) {
                 if (listaTranca.get(j) == dados.getIdTranca()) {
                     //busca a tranca e salva o id da bicicleta na tranca
-                    trancaService.trancarTranca(dados.getIdTranca(), dados.getIdBicicleta());
+                    statusService.inserirBicicletaTranca(dados.getIdTranca(), dados.getIdBicicleta());
                     //salva o id da bicicleta no totem
                     List<Integer> listaBicicleta = totem.getIdBicicleta();
                     listaBicicleta.add(dados.getIdBicicleta());

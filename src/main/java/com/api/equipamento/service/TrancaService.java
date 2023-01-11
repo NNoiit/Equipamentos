@@ -3,6 +3,7 @@ package com.api.equipamento.service;
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
+import com.api.equipamento.repositori.RepTotem;
 import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,31 +14,33 @@ import java.util.List;
 @Service
 public class TrancaService{
     @Autowired
-    private RepTranca tranca;
+    private RepTranca repTranca;
     @Autowired
     private BicicletaService bicicletaService;
     @Autowired
     private RepRede repRede;
     @Autowired
-    @Qualifier("bicicletas")
     private RepBicicleta repBicicleta;
+    @Autowired
+    @Qualifier("Totem")
+    private RepTotem repTotem;
 
     public Tranca cadastrarTranca(Tranca trc){
 
         if(trc.getLocalizacao().equals("") || trc.getAnoDeFabricacao().equals("") || trc.getModelo().equals("")){
             return null;
         } else {
-            return tranca.save(trc);
+            return repTranca.save(trc);
         }
     }
 
     public List<Tranca> listarTrancas(){
-        return tranca.findAll();
+        return repTranca.findAll();
     }
 
     public Tranca trancaFindId( int id){
-        if (tranca.countById(id)==1){
-            return tranca.findById(id);
+        if (repTranca.countById(id)==1){
+            return repTranca.findById(id);
         }
         return null;
     }
@@ -47,43 +50,33 @@ public class TrancaService{
 
         if(trc.getLocalizacao().equals("")
                 || trc.getAnoDeFabricacao().equals("")
-                || trc.getModelo().equals("") || tranca.countById(id) == 0)
+                || trc.getModelo().equals("") || repTranca.countById(id) == 0)
         {
             return null;
         }else{
-            Tranca trcA = tranca.findById(id);
+            Tranca trcA = repTranca.findById(id);
 
             trcA.setNumero(trc.getNumero());
             trcA.setLocalizacao(trc.getLocalizacao());
             trcA.setAnoDeFabricacao(trc.getAnoDeFabricacao());
             trcA.setModelo(trc.getModelo());
             trcA.setStatus(trc.getStatus());
-            return tranca.save(trcA);
+            return repTranca.save(trcA);
         }
     }
 
     public void excluirTranca(int id){
 
-        if(tranca.countById(id) == 0) {
+        if(repTranca.countById(id) == 0) {
             trancaFindId(id);
         }
-        Tranca trc = tranca.findById(id);
+        Tranca trc = repTranca.findById(id);
 
-        tranca.delete(trc);
+        repTranca.delete(trc);
     }
 
-    public Tranca alterarStatusTranca(int idTranca, Acao trancaDestranca){
-        Tranca tranca1 = tranca.findById(idTranca);
-        if(trancaDestranca.getDescricao()== "trancar" || trancaDestranca.getDescricao() == "TRANCAR"){
-            tranca1.setStatus(Status.OCUPADO);
-        } else{
-            tranca1.setStatus(Status.LIVRE);
-        }
-
-        return tranca1;
-    }
     public Boolean trancarTranca(int idTranca, int idBicicleta){
-        Tranca tranca1 =tranca.findById(idTranca);
+        Tranca tranca1 = repTranca.findById(idTranca);
 
         if(tranca1.getStatus() == Status.LIVRE){
             tranca1.setBicicleta(idBicicleta);
@@ -94,7 +87,7 @@ public class TrancaService{
         return false;
     }
     public Boolean destrancarTranca(int idTranca, int idBicicleta){
-        Tranca tranca1 = tranca.findById(idTranca);
+        Tranca tranca1 = repTranca.findById(idTranca);
 
          if(tranca1.getBicicleta() == idBicicleta){
              tranca1.setBicicleta(0);
@@ -104,14 +97,18 @@ public class TrancaService{
         return false;
     }
 
-    public void adicionaTrancaRede(IdsEquipamentos idsParaRede){
+    public Boolean adicionaTrancaRede(IdsEquipamentos idsParaRede){
 
-        Rede totem = repRede.findByIdTotem(idsParaRede.getIdTotem());
-        List<Integer> listaTranca = totem.getIdTranca();
-        listaTranca.add(idsParaRede.getIdTranca());
-        totem.setIdTranca(listaTranca);
+        if(repRede.findByIdTotem(idsParaRede.getIdTotem())!= null && repTranca.countById(idsParaRede.getIdTranca()) > 0) {
+            Rede totem = repRede.findByIdTotem(idsParaRede.getIdTotem());
+            List<Integer> listaTranca = totem.getIdTranca();
+            listaTranca.add(idsParaRede.getIdTranca());
+            totem.setIdTranca(listaTranca);
 
-        repRede.save(totem);
+            repRede.save(totem);
+            return true;
+        }
+        return false;
     }
 
     public void removerTrancaRede(IdsEquipamentos idsParaRede){
@@ -130,7 +127,7 @@ public class TrancaService{
     }
 
     public Bicicleta getBicicleta(int idTranca) {
-        Tranca tranca1 = tranca.findById(idTranca);
+        Tranca tranca1 = repTranca.findById(idTranca);
         if(tranca1.getStatus() == Status.OCUPADO){
             return repBicicleta.findById(tranca1.getBicicleta());
         }

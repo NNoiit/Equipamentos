@@ -132,7 +132,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     void adicionaTrancaRede(){
         idsEquipamentos = new IdsEquipamentos();
         rede = Mockito.mock(Rede.class);
-        Mockito.when(repRede.findById(0)).thenReturn(rede);
+        //Mockito.when(repRede.findById(0)).thenReturn(rede);
         service.adicionaTrancaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
     }
@@ -140,7 +140,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     @DisplayName("Verifica a retirada da tranca do totem")
     void removerTrancaRede(){
         idsEquipamentos = new IdsEquipamentos();
-        Mockito.when(repRede.findById(0)).thenReturn(rede);
+        //Mockito.when(repRede.findById(0)).thenReturn(rede);
 
         service.removerTrancaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
