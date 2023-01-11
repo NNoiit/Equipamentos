@@ -5,7 +5,6 @@ import com.api.equipamento.model.Rede;
 import com.api.equipamento.model.Totem;
 import com.api.equipamento.repositori.RepRede;
 import com.api.equipamento.repositori.RepTotem;
-import com.api.equipamento.repositori.RepTranca;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -47,13 +46,19 @@ public class TotemServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
+    void cadastrarTotemNull(){
+        Mockito.when(totem.getLocalizacao()).thenReturn("");
+        totemService.cadastrarTotem(totem);
+        Mockito.verify(repTotem, Mockito.times(0)).save(ArgumentMatchers.any(Totem.class));
+    }
+    @Test
     void mostrarTotem(){
         Mockito.when(repTotem.findById(totem.getId())).thenReturn(totem);
         Assertions.assertEquals(totemService.mostrarTotem(totem.getId()), totem);
     }
 
     @Test
-    void alterarTotem(){
+    public void alterarTotem(){
         totem = Mockito.mock(Totem.class);
         Mockito.when(repTotem.findById(0)).thenReturn(totem);
         totemService.alterarTotem(totem, 0);
@@ -61,6 +66,13 @@ public class TotemServiceTest extends EquipamentoApplicationTests {
         Mockito.verify(repTotem, Mockito.times(1)).save(ArgumentMatchers.any(Totem.class));
     }
 
+    @Test
+    public void alterarTotemNull(){
+        Mockito.when(repTotem.findById(0)).thenReturn(null);
+        totemService.alterarTotem(totem, 0);
+
+        Mockito.verify(repTotem, Mockito.times(0)).save(ArgumentMatchers.any(Totem.class));
+    }
     @Test
     void excluirTotem(){
         totem = Mockito.mock(Totem.class);
@@ -71,12 +83,24 @@ public class TotemServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
+    public void excluirFalse(){
+        Mockito.when(repTotem.findById(0)).thenReturn(null);
+        totemService.excluirTotem(0);
+        Mockito.verify(repTotem, Mockito.times(0)).delete(ArgumentMatchers.any(Totem.class));
+    }
+
+    @Test
     public void listaTrancaTotem() {
         rede = Mockito.mock(Rede.class);
         List<Integer> listIdsFake = new ArrayList<>();
         Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
         Mockito.when(rede.getIdTranca()).thenReturn(listIdsFake);
         Assertions.assertNotNull(totemService.listaTrancaTotem(0));
+    }
+
+    @Test
+    public void listaTrancaTotemNull(){
+
     }
     @Test
     public void listaBicicletaTotem() {
@@ -85,6 +109,12 @@ public class TotemServiceTest extends EquipamentoApplicationTests {
         Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
         Mockito.when(rede.getIdBicicleta()).thenReturn(bicicletaList);
         Assertions.assertNotNull(totemService.listaBicicletaTotem(0));
+    }
+
+    @Test
+    public void listaBicicletaTotemNull(){
+        Mockito.when(repRede.findByIdTotem(0)).thenReturn(null);
+        Assertions.assertNull(totemService.listaBicicletaTotem(0));
     }
 
 }

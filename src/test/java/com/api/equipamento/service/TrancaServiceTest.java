@@ -132,7 +132,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     void adicionaTrancaRede(){
         idsEquipamentos = new IdsEquipamentos();
         rede = Mockito.mock(Rede.class);
-        //Mockito.when(repRede.findById(0)).thenReturn(rede);
         service.adicionaTrancaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
     }

@@ -55,7 +55,6 @@ public class TrancaService{
             return null;
         }else{
             Tranca trcA = repTranca.findById(id);
-
             trcA.setNumero(trc.getNumero());
             trcA.setLocalizacao(trc.getLocalizacao());
             trcA.setAnoDeFabricacao(trc.getAnoDeFabricacao());
@@ -65,14 +64,14 @@ public class TrancaService{
         }
     }
 
-    public void excluirTranca(int id){
+    public boolean excluirTranca(int id){
 
         if(repTranca.countById(id) == 0) {
-            trancaFindId(id);
+            return false;
         }
         Tranca trc = repTranca.findById(id);
-
         repTranca.delete(trc);
+        return true;
     }
 
     public Boolean trancarTranca(int idTranca, int idBicicleta){
@@ -111,31 +110,30 @@ public class TrancaService{
         return false;
     }
 
-    public void removerTrancaRede(IdsEquipamentos idsParaRede){
+    public boolean removerTrancaRede(IdsEquipamentos idsParaRede){
         int id = idsParaRede.getIdTotem();
+        if(repRede.findByIdTotem(id) != null) {
+            Rede totem = repRede.findByIdTotem(id);
+            List<Integer> listaTranca = totem.getIdTranca();
 
-        Rede totem = repRede.findByIdTotem(id);
-        List<Integer> listaTranca = totem.getIdTranca();
-
-        for (int i = 0; listaTranca.size()>i; i++) {
-            if(listaTranca.get(i) == idsParaRede.getIdTranca()){
-                listaTranca.remove(listaTranca.get(i));
+            for (int i = 0; listaTranca.size() > i; i++) {
+                if (listaTranca.get(i) == idsParaRede.getIdTranca()) {
+                    listaTranca.remove(listaTranca.get(i));
+                }
             }
+            repRede.save(totem);
+            return true;
+        }else {
+            return false;
         }
-
-        repRede.save(totem);
     }
 
     public Bicicleta getBicicleta(int idTranca) {
         Tranca tranca1 = repTranca.findById(idTranca);
         if(tranca1.getStatus() == Status.OCUPADO){
             return repBicicleta.findById(tranca1.getBicicleta());
+        }else {
+            return null;
         }
-        return null;
     }
-    //Metodo criado para verificar as Redes/Totens presentes no BD
-    public List<Rede> listaRede() {
-        return repRede.findAll();
-    }
-
 }
