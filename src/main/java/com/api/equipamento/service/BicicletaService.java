@@ -2,7 +2,6 @@ package com.api.equipamento.service;
 
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepRede;
-import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.repositori.RepBicicleta;
@@ -11,7 +10,7 @@ import java.util.List;
 @Service
 public class BicicletaService{
     @Autowired
-    private Mensage mensage;
+    private Erro mensage;
 
     @Autowired
     private RepBicicleta bicicletaRep;
@@ -20,9 +19,7 @@ public class BicicletaService{
     private RepRede repRede;
 
     @Autowired
-    private RepTranca repTranca;
-    @Autowired
-    private RedeService serviceRede;
+    private StatusService statusService;
 
     public Bicicleta cadastrar(Bicicleta bicicleta){
 
@@ -62,7 +59,7 @@ public class BicicletaService{
         }
     }
 
-    public Mensage excluirBicicleta(int id){
+    public Erro excluirBicicleta(int id){
         
         if(bicicletaRep.countById(id)==0){
             mensage.setMensage("Não encontrado");
@@ -71,13 +68,24 @@ public class BicicletaService{
 
         Bicicleta bc = bicicletaRep.findById(id);
         bicicletaRep.delete(bc);
-        mensage.setMensage("Excluido");
+        mensage.setMensage("Dados removidos");
 
         return mensage;
     }
 
-    //Em contrução
-    public void integrarNaRede(IdsEquipamentos dados){
+    public Erro alterarStatusBicicleta(int idBicicleta, Status status) {
+        if (bicicletaRep.countById(idBicicleta) == 1) {
+            Bicicleta bicicleta1 = bicicletaRep.findById(idBicicleta);
+            bicicleta1.setStatusBike(status);
+            mensage.setMensage("Ação bem sucedida");
+            return mensage;
+        } else {
+            mensage.setMensage("Não encontrado");
+            return mensage;
+        }
+    }
+
+    public boolean integrarNaRede(IdsEquipamentos dados){
         // TODO
         List<Rede> listaTotens = repRede.findAll();
 
@@ -87,23 +95,39 @@ public class BicicletaService{
             for (int j = 0; listaTranca.size() > j; j++) {
                 if (listaTranca.get(j) == dados.getIdTranca()) {
                     //busca a tranca e salva o id da bicicleta na tranca
-                    Tranca trancaNova = repTranca.findById(dados.getIdTranca());
-                    trancaNova.setBicicleta(dados.getIdBicicleta());
-                    repTranca.save(trancaNova);
+                    statusService.inserirBicicletaTranca(dados.getIdTranca(), dados.getIdBicicleta());
                     //salva o id da bicicleta no totem
                     List<Integer> listaBicicleta = totem.getIdBicicleta();
                     listaBicicleta.add(dados.getIdBicicleta());
                     repRede.save(totem);
-                    return;
+                    return true;
                 }
             }
         }
 
+        return false;
     }
 
-    public void retirarDaRede(IdsEquipamentos dados){
+    public boolean retirarDaRede(IdsEquipamentos dados){
         // TODO
+        List<Rede> listaTotens = repRede.findAll();
+
+        for (int i = 0; listaTotens.size() > i; i++) {
+            Rede totem = listaTotens.get(i);
+            List<Integer> listaTranca = totem.getIdTranca();
+            for (int j = 0; listaTranca.size() > j; j++) {
+                if (listaTranca.get(j) == dados.getIdTranca()) {
+                    List<Integer> listaBicicleta = totem.getIdBicicleta();
+                    for (int h = 0; listaBicicleta.size() > h; h++) {
+                        if(listaBicicleta.get(h) == dados.getIdBicicleta()){
+                            listaBicicleta.remove(listaBicicleta.get(h));
+                            repRede.save(totem);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
-
-
 }

@@ -1,10 +1,8 @@
 package com.api.equipamento.service;
 
 import com.api.equipamento.EquipamentoApplicationTests;
-import com.api.equipamento.model.IdsEquipamentos;
-import com.api.equipamento.model.Rede;
-import com.api.equipamento.model.Status;
-import com.api.equipamento.model.Tranca;
+import com.api.equipamento.model.*;
+import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
 import com.api.equipamento.repositori.RepTranca;
 import org.junit.jupiter.api.Assertions;
@@ -16,32 +14,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("TrancaServiceTest")
 class TrancaServiceTest extends EquipamentoApplicationTests {
 
     @Autowired
     private TrancaService service;
+
+    @MockBean
+    private BicicletaService bicicletaService;
     @MockBean
     private RepTranca trancaRep;
     @MockBean
+    private RepBicicleta repBicicleta;
+    @MockBean
+    private RepRede repRede;
+    @MockBean
     private Tranca tranca;
-
+    @MockBean
+    private  Bicicleta bicicleta;
+    @MockBean
+    private Totem totem;
     @MockBean
     private IdsEquipamentos idsEquipamentos;
 
     @MockBean
     private Rede rede;
 
-    @MockBean
-    private RepRede repRede;
-
     @Test
-    @DisplayName("Testa se um objeto do tipo tranca está sendo passado no metodo save")
     void cadastrarTranca(){
         tranca = criarTranca();
         service.cadastrarTranca(tranca);
@@ -49,7 +54,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Testa se um objeto do tipo tranca está com parametros em branco")
     void erroCadastrarTranca(){
         tranca = criarTranca();
         Mockito.when(tranca.getModelo()).thenReturn("");
@@ -59,7 +63,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("verifica se o metodo para listar esta sendo corretamente chamado")
     void listarTrancas(){
         Mockito.when(trancaRep.findAll()).thenReturn(Collections.emptyList());
         service.listarTrancas();
@@ -67,7 +70,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Verifica se o metodo de busca esta sendo chamado corretamente")
     void trancaFindId(){
         int trancaId = 0;
         Mockito.when(trancaRep.countById(trancaId)).thenReturn(1);
@@ -76,7 +78,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Verifica se quando ID passado não existe, um null e retornado")
     void erroTrancaFindId(){
         int trancaId = 0;
         Mockito.when(trancaRep.countById(trancaId)).thenReturn(0);
@@ -85,7 +86,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Assertions.assertNull(service.trancaFindId(trancaId));
     }
     @Test
-    @DisplayName("Verificando se o metodo para salvar uma tranca alterada está sendo chamado corretamente")
     void alterarTranca(){
         int trancaId = 0;
         tranca = criarTranca();
@@ -96,7 +96,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Verificando se a tranca nova possui parametros em branco")
     void novAlterarTranca(){
         int trancaId = 0;
         tranca = criarTranca();
@@ -108,7 +107,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Assertions.assertNull(service.alterarTranca(tranca, trancaId));
     }
     @Test
-    @DisplayName("Verifica se o metodo delete está sendo chamado corretamente dentro da classe")
     void excluirTranca(){
         int trancaId = 0;
         tranca = criarTranca();
@@ -119,33 +117,62 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Verifica se o metodo delete não pode ser chamado dentro da classe")
     void erroExcluirTranca(){
-        int trancaId = 0;
-        Mockito.when(trancaRep.countById(trancaId)).thenReturn(0);
-        service.excluirTranca(trancaId);
-        Mockito.verify(trancaRep, Mockito.times(1)).findById(trancaId);
+        Mockito.when(trancaRep.countById(1)).thenReturn(1);
+        service.excluirTranca(1);
+        Mockito.verify(trancaRep, Mockito.times(1)).findById(1);
     }
 
     @Test
-    @DisplayName("Verifiando a adição no totem")
+    void erroExcluirTrancaFalse(){
+        Mockito.when(trancaRep.countById(1)).thenReturn(0);
+        Assertions.assertFalse(service.excluirTranca(1));
+    }
+    @Test
+    void trancarTranca(){
+        Mockito.when(trancaRep.findById(0)).thenReturn(tranca);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.LIVRE);
+
+        Assertions.assertTrue(service.trancarTranca(0,0));
+    }
+
+    @Test
+    void destrancarTramca(){
+        Mockito.when(trancaRep.findById(0)).thenReturn(tranca);
+        Mockito.when(tranca.getBicicleta()).thenReturn(0);
+        service.destrancarTranca(0,0);
+    }
+    @Test
     void adicionaTrancaRede(){
-        idsEquipamentos = new IdsEquipamentos();
         rede = Mockito.mock(Rede.class);
-        Mockito.when(repRede.findById(0)).thenReturn(rede);
+        List<Integer> listaFake = new ArrayList<>();
+        Mockito.when(repRede.findByIdTotem(1)).thenReturn(rede);
+        Mockito.when(trancaRep.countById(1)).thenReturn(1);
+        Mockito.when(idsEquipamentos.getIdTotem()).thenReturn(1);
+        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(1);
+        Mockito.when(rede.getIdTranca()).thenReturn(listaFake);
+
         service.adicionaTrancaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
     }
     @Test
     @DisplayName("Verifica a retirada da tranca do totem")
     void removerTrancaRede(){
-        idsEquipamentos = new IdsEquipamentos();
-        Mockito.when(repRede.findById(0)).thenReturn(rede);
-
+        List<Integer> listaFake = new ArrayList<>();
+        Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
+        Mockito.when(rede.getIdTranca()).thenReturn(listaFake);
         service.removerTrancaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
     }
 
+    @Test
+    void getBicicleta(){
+        Mockito.when(trancaRep.findById(0)).thenReturn(tranca);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.OCUPADO);
+        Mockito.when(tranca.getBicicleta()).thenReturn(0);
+        Mockito.when(repBicicleta.findById(0)).thenReturn(bicicleta);
+        service.getBicicleta(0);
+    }
     private Tranca criarTranca() {
         tranca = Mockito.mock(Tranca.class);
 

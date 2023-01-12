@@ -1,10 +1,10 @@
 package com.api.equipamento.service;
 
 
-import com.api.equipamento.EquipamentoApplicationTests;
-import com.api.equipamento.model.Bicicleta;
-import com.api.equipamento.model.Status;
+
+import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
+import com.api.equipamento.repositori.RepRede;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,25 +14,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DisplayName("BicicletaServiceTessst")
-class BicicletaServiceTest extends EquipamentoApplicationTests {
+@DisplayName("BicicletaServiceTest")
+class BicicletaServiceTest {
 
     @Autowired
     private BicicletaService bicicletaService;
 
     @MockBean
     private RepBicicleta bicicletaRep;
-
+    @MockBean
+    private RepRede repRede;
     @MockBean
     private Bicicleta bicicleta;
+    @MockBean
+    private StatusService statusService;
+    @MockBean
+    private Rede rede;
+    @MockBean
+    private IdsEquipamentos idsEquipamentos;
 
     @Test
-    @DisplayName("Realiza o cadastro de uma nova bicicleta")
     void testCadastro(){
         bicicleta = criarBicicleta();
         Mockito.when(bicicletaRep.save(bicicleta)).thenReturn(bicicleta);
@@ -40,13 +49,11 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
         Mockito.verify(bicicletaRep, Mockito.times(1)).save(ArgumentMatchers.any(Bicicleta.class));
     }
     @Test
-    @DisplayName("Devolve um null para tentativa de cadastro")
     void testErroCadastro(){
         Mockito.when(bicicleta.getModelo()).thenReturn("");
         Assertions.assertNull(bicicletaService.cadastrar(bicicleta));
     }
     @Test
-    @DisplayName("Verifica se o metodo de listagem esta sendo chamado")
     void listarBicicletas(){
 
         Mockito.when(bicicletaRep.findAll()).thenReturn(Collections.emptyList());
@@ -56,7 +63,6 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Verifica se o metodo está buscando pelo ID")
     void bicicletaFindId(){
         int bicicletaId = 9;
 
@@ -66,7 +72,6 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
         Mockito.verify(bicicletaRep, Mockito.times(1)).findById(bicicletaId);
     }
     @Test
-    @DisplayName("Verifica se o metodo está dando erro quando busca por um ID que não existe")
     void bicicletaFindIdInexistente(){
         int bicicletaId = 9;
 
@@ -77,7 +82,6 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Verifica se o metodo save esta endo chamado passando um novo obj bicicleta")
     void alterarBicicleta(){
         int bicicletaId = 9;
         bicicleta = criarBicicleta();
@@ -87,7 +91,6 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
     }
 
     @Test
-    @DisplayName("Verifica se está retornando nul para quando um parametro não é passado")
     void ErroAlterarBicicleta(){
         int bicicletaId = 9;
         bicicleta = criarBicicleta();
@@ -100,7 +103,6 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
 
 
     @Test
-    @DisplayName("Deve excluir uma bicicleta")
     void excluirBicicletaTest(){
         int bicicletaId = 9;
 
@@ -111,7 +113,6 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
 
     }
     @Test
-    @DisplayName("Não deve excluir a bicicleta")
     void erroExcluirBicicletaTest(){
         int bicicletaId = 9;
 
@@ -122,7 +123,51 @@ class BicicletaServiceTest extends EquipamentoApplicationTests {
 
     }
 
+    @Test
+    void alterarStatusBicicleta(){
+        Mockito.when(bicicletaRep.countById(0)).thenReturn(1);
+        Mockito.when(bicicletaRep.findById(0)).thenReturn(bicicleta);
+        String textoMensage = bicicletaService.alterarStatusBicicleta(0,Status.LIVRE).getMensage();
+        Assertions.assertEquals("Ação bem sucedida", textoMensage);
+    }
 
+    @Test
+    void alterarStatusBicicletaFalse(){
+        Mockito.when(bicicletaRep.countById(0)).thenReturn(0);
+        String textoMensage = bicicletaService.alterarStatusBicicleta(0,Status.LIVRE).getMensage();
+        Assertions.assertEquals("Não encontrado", textoMensage);
+    }
+    @Test
+    void integrarNaRede(){
+        List<Rede> listaRedeTest = new ArrayList<>();
+        listaRedeTest.add(rede);
+        List<Integer> listaIdsTest = new ArrayList<>();
+        listaIdsTest.add(0);
+
+        Mockito.when(repRede.findAll()).thenReturn(listaRedeTest);
+        Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
+        Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
+        //Mockito.when(statusService.inserirBicicletaTranca(0,0)).equals(true);
+        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(0);
+
+        bicicletaService.integrarNaRede(idsEquipamentos);
+        Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
+    }
+    @Test
+    void retirarDaRede(){
+        List<Rede> listaRedeTest = new ArrayList<>();
+        listaRedeTest.add(rede);
+        List<Integer> listaIdsTest = new ArrayList<>();
+        listaIdsTest.add(0);
+
+        Mockito.when(repRede.findAll()).thenReturn(listaRedeTest);
+        Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
+        Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
+        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(0);
+
+        bicicletaService.retirarDaRede(idsEquipamentos);
+        Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
+    }
     private Bicicleta criarBicicleta() {
         bicicleta = Mockito.mock(Bicicleta.class);
         Mockito.when(bicicleta.getModelo()).thenReturn("zoe");

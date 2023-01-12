@@ -1,9 +1,7 @@
 package com.api.equipamento.controller;
 
-import com.api.equipamento.model.IdsEquipamentos;
-import com.api.equipamento.model.Mensage;
-import com.api.equipamento.model.Rede;
-import com.api.equipamento.model.Tranca;
+import com.api.equipamento.model.*;
+import com.api.equipamento.service.StatusService;
 import com.api.equipamento.service.TrancaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,42 +13,44 @@ import java.util.List;
 @RestController
 public class TrancaController {
     @Autowired
-    private TrancaService service;
+    private TrancaService trancaService;
+
     @Autowired
-    private Mensage mensage;
+    private StatusService statusService;
+    @Autowired
+    private Erro mensage;
 
     @PostMapping("/tranca")
-    public ResponseEntity<Mensage> postTranca(@RequestBody Tranca trc){
-        try {
+    public ResponseEntity<?> postTranca(@RequestBody Tranca trc){
+        if(trancaService.cadastrarTranca(trc) != null){
             mensage.setMensage("Tranca cadastrada");
-            service.cadastrarTranca(trc);
-            return new ResponseEntity<>(mensage, HttpStatus.OK);
-        }catch (Exception e){
+            return new ResponseEntity<>(trc, HttpStatus.OK);
+        }else {
             mensage.setMensage("Tranca não cadastrada");
-            return new ResponseEntity<>(mensage, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
     }
 
     @GetMapping("/tranca")
     public ResponseEntity<List<Tranca>> getTranca(){
-        return new ResponseEntity<>(service.listarTrancas(), HttpStatus.OK);
+        return new ResponseEntity<>(trancaService.listarTrancas(), HttpStatus.OK);
     }
 
     @GetMapping("/tranca/{id}")
     public ResponseEntity<?> getTranca(@PathVariable int id){
 
-        if(service.trancaFindId(id) == null){
+        if(trancaService.trancaFindId(id) == null){
             mensage.setMensage("Tranca não encontrada");
             return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
         }else{
-            return new ResponseEntity<>(service.trancaFindId(id), HttpStatus.OK);
+            return new ResponseEntity<>(trancaService.trancaFindId(id), HttpStatus.OK);
         }
     }
 
     @PutMapping("/tranca/{id}")
     public ResponseEntity<?> putTranca(@RequestBody Tranca novaTranca, @PathVariable int id){
-        Tranca tranca = service.alterarTranca(novaTranca, id);
+        Tranca tranca = trancaService.alterarTranca(novaTranca, id);
         if(tranca == null){
             mensage.setMensage("Alteração malssucedida");
             return new ResponseEntity<>(mensage, HttpStatus.BAD_REQUEST);
@@ -61,24 +61,70 @@ public class TrancaController {
     }
 
     @DeleteMapping("/tranca/{id}")
-    public void deleteTrancaId(@PathVariable int id){
-        service.excluirTranca(id);
+    public ResponseEntity<?> deleteTrancaId(@PathVariable int id){
+        if(trancaService.excluirTranca(id)){
+            mensage.setMensage("Tranca removida");
+            return new ResponseEntity<>(mensage.getMensage(), HttpStatus.OK);
+        } else {
+            mensage.setMensage("Não encontrado");
+            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
+    @PostMapping("/tranca/{id}/trancar")
+    public ResponseEntity<Erro> trancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
+        if(trancaService.trancarTranca(id, idBicicleta)) {
+            mensage.setMensage("Ação bem sucedida");
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
+        }else {
+            mensage.setMensage("Não encontrado");
+            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping("/tranca/{id}/destrancar")
+    public ResponseEntity<Erro> destrancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
+        if(trancaService.destrancarTranca(id, idBicicleta)){
+            mensage.setMensage("Ação bem sucedida");
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
+        }else {
+            mensage.setMensage("Não encontrado");
+            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping("/tranca/{id}/status/{acao}")
+    public ResponseEntity<String> alterarStatusTranca(@PathVariable int id, @PathVariable Acao acao){
+        statusService.alterarStatusTranca(id, acao);
+        return new ResponseEntity<>("alterou", HttpStatus.OK);
+    }
+
+    @GetMapping("/tranca/{id}/bicicleta")
+    public ResponseEntity<?> bicicletaTranca(@PathVariable int id){
+        if(trancaService.getBicicleta(id) != null) {
+            return new ResponseEntity<>(trancaService.getBicicleta(id), HttpStatus.OK);
+        } else {
+            mensage.setMensage("Bicicleta não encontrada");
+            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+        }
+    }
     @PostMapping("/tranca/integrarNaRede")
-    public ResponseEntity<String> integrarNaRede(@RequestBody IdsEquipamentos dado){
-        service.adicionaTrancaRede(dado);
-        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
+    public ResponseEntity<Erro> integrarNaRede(@RequestBody IdsEquipamentos dado){
+        if(trancaService.adicionaTrancaRede(dado)) {
+            mensage.setMensage("Dados cadastrados");
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
+        } else {
+            mensage.setMensage("Dados Inválidos");
+            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
     @PostMapping("/tranca/retirarDaRede")
-    public ResponseEntity<String> retirarDaRede(@RequestBody IdsEquipamentos dado){
-        service.removerTrancaRede(dado);
-        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
-    }
-
-    @GetMapping("/tranca/retirarDaRede")
-    public List<Rede> listaRede(){
-        return service.listaRede();
+    public ResponseEntity<Erro> retirarDaRede(@RequestBody IdsEquipamentos dado){
+        if(trancaService.removerTrancaRede(dado)) {
+            mensage.setMensage("Dados cadastrados");
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
+        } else {
+            mensage.setMensage("Dados invalidos");
+            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 }
