@@ -3,10 +3,8 @@ package com.api.equipamento.service;
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
-import com.api.equipamento.repositori.RepTotem;
 import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +19,6 @@ public class TrancaService{
     private RepRede repRede;
     @Autowired
     private RepBicicleta repBicicleta;
-    @Autowired
-    @Qualifier("Totem")
-    private RepTotem repTotem;
 
     public Tranca cadastrarTranca(Tranca trc){
 

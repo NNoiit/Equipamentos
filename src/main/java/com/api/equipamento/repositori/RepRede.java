@@ -12,8 +12,6 @@ import java.util.UUID;
 @Repository
 public interface RepRede extends CrudRepository<Rede, UUID> {
     List<Rede> findAll();
-
     Rede findByIdTotem(int id);
 
-    //int contByIdTotem(int id);
 }

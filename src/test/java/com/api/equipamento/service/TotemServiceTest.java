@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class TotemServiceTest{
+class TotemServiceTest{
 
     @Autowired
     private TotemService totemService;
@@ -58,7 +58,7 @@ public class TotemServiceTest{
     }
 
     @Test
-    public void alterarTotem(){
+    void alterarTotem(){
         totem = Mockito.mock(Totem.class);
         Mockito.when(repTotem.findById(0)).thenReturn(totem);
         totemService.alterarTotem(totem, 0);
@@ -67,7 +67,7 @@ public class TotemServiceTest{
     }
 
     @Test
-    public void alterarTotemNull(){
+    void alterarTotemNull(){
         Mockito.when(repTotem.findById(0)).thenReturn(null);
         totemService.alterarTotem(totem, 0);
 
@@ -83,27 +83,22 @@ public class TotemServiceTest{
     }
 
     @Test
-    public void excluirFalse(){
+    void excluirFalse(){
         Mockito.when(repTotem.findById(0)).thenReturn(null);
         totemService.excluirTotem(0);
         Mockito.verify(repTotem, Mockito.times(0)).delete(ArgumentMatchers.any(Totem.class));
     }
 
     @Test
-    public void listaTrancaTotem() {
+    void listaTrancaTotem() {
         rede = Mockito.mock(Rede.class);
         List<Integer> listIdsFake = new ArrayList<>();
         Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
         Mockito.when(rede.getIdTranca()).thenReturn(listIdsFake);
         Assertions.assertNotNull(totemService.listaTrancaTotem(0));
     }
-
     @Test
-    public void listaTrancaTotemNull(){
-
-    }
-    @Test
-    public void listaBicicletaTotem() {
+    void listaBicicletaTotem() {
         rede = Mockito.mock(Rede.class);
         List<Integer> bicicletaList = new ArrayList<>();
         Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
@@ -112,7 +107,7 @@ public class TotemServiceTest{
     }
 
     @Test
-    public void listaBicicletaTotemNull(){
+    void listaBicicletaTotemNull(){
         Mockito.when(repRede.findByIdTotem(0)).thenReturn(null);
         Assertions.assertNull(totemService.listaBicicletaTotem(0));
     }

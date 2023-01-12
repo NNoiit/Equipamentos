@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.api.equipamento.model.Totem;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -34,9 +35,8 @@ public class TotemService {
     }
 
     public Totem cadastrarTotem(Totem totem){
-        if(totem.getLocalizacao() != "") {
-            Totem totem1 = repTotem.save(totem);
-            return totem1;
+        if(totem.getLocalizacao().equals("")) {
+            return repTotem.save(totem);
         }
         return null;
     }

@@ -25,9 +25,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
 
     @Autowired
     private TrancaService service;
-
-    @MockBean
-    private BicicletaService bicicletaService;
     @MockBean
     private RepTranca trancaRep;
     @MockBean
@@ -38,8 +35,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     private Tranca tranca;
     @MockBean
     private  Bicicleta bicicleta;
-    @MockBean
-    private Totem totem;
     @MockBean
     private IdsEquipamentos idsEquipamentos;
 
@@ -140,7 +135,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     void destrancarTramca(){
         Mockito.when(trancaRep.findById(0)).thenReturn(tranca);
         Mockito.when(tranca.getBicicleta()).thenReturn(0);
-        service.destrancarTranca(0,0);
+        Assertions.assertTrue(service.destrancarTranca(0,0));
     }
     @Test
     void adicionaTrancaRede(){
@@ -156,7 +151,6 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
     }
     @Test
-    @DisplayName("Verifica a retirada da tranca do totem")
     void removerTrancaRede(){
         List<Integer> listaFake = new ArrayList<>();
         Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
@@ -171,7 +165,8 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Mockito.when(tranca.getStatus()).thenReturn(Status.OCUPADO);
         Mockito.when(tranca.getBicicleta()).thenReturn(0);
         Mockito.when(repBicicleta.findById(0)).thenReturn(bicicleta);
-        service.getBicicleta(0);
+        Assertions.assertNotNull(service.getBicicleta(0));
+
     }
     private Tranca criarTranca() {
         tranca = Mockito.mock(Tranca.class);

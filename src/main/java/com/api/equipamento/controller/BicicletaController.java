@@ -3,7 +3,6 @@ package com.api.equipamento.controller;
 import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.IdsEquipamentos;
 import com.api.equipamento.model.Status;
-import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.BicicletaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +13,6 @@ import java.util.List;
 
 @RestController
 public class BicicletaController {
-
-    @Autowired
-    private RepBicicleta bicicleta;
-
     @Autowired
     private BicicletaService service;
 
@@ -71,7 +66,8 @@ public class BicicletaController {
 
     @PostMapping("/bicicleta/integrarNaRede")
     public ResponseEntity<Erro> integrarNaRede(@RequestBody IdsEquipamentos dados){
-        if(service.integrarNaRede(dados)) {
+        boolean resul = service.integrarNaRede(dados);
+        if(resul) {
             mensage.setMensage("Dados cadastrados");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         } else {
@@ -81,11 +77,12 @@ public class BicicletaController {
     }
     @PostMapping("/bicicleta/retriarDaRede")
     public ResponseEntity<Erro> retirarDaRede(@RequestBody IdsEquipamentos dados){
-        if(service.retirarDaRede(dados)) {
+        boolean resul = service.retirarDaRede(dados);
+        if(resul) {
             mensage.setMensage("Dados cadastrados");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         } else {
-            mensage.setMensage("Dados invalidos");
+            mensage.setMensage("Dado invalido");
             return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
@@ -93,7 +90,7 @@ public class BicicletaController {
     //corrigir dps, o objetivo é alterar a ação
     @PutMapping("/bicicleta/{id}/status/{acao}")
     public ResponseEntity<Erro> putStatusBicicleta(@PathVariable int id, @PathVariable Status acao){
-        if(service.alterarStatusBicicleta(id, acao).getMensage() == "Ação bem sucedida") {
+        if(service.alterarStatusBicicleta(id, acao).getMensage().equals("Ação bem sucedida")) {
             return new ResponseEntity<>(service.alterarStatusBicicleta(id, acao), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(service.alterarStatusBicicleta(id, acao), HttpStatus.NOT_FOUND);

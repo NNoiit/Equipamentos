@@ -86,7 +86,6 @@ public class BicicletaService{
     }
 
     public boolean integrarNaRede(IdsEquipamentos dados){
-        // TODO
         List<Rede> listaTotens = repRede.findAll();
 
         for (int i = 0; listaTotens.size() > i; i++) {
@@ -109,7 +108,6 @@ public class BicicletaService{
     }
 
     public boolean retirarDaRede(IdsEquipamentos dados){
-        // TODO
         List<Rede> listaTotens = repRede.findAll();
 
         for (int i = 0; listaTotens.size() > i; i++) {

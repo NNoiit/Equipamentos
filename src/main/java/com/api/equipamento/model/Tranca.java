@@ -20,6 +20,7 @@ public class Tranca {
     private String modelo;
    @GeneratedValue(strategy = GenerationType.AUTO)
     private int bicicletaId;
+
     public Status status;
     public Status getStatus(){
         return status;

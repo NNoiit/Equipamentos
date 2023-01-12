@@ -62,7 +62,8 @@ public class TrancaController {
 
     @DeleteMapping("/tranca/{id}")
     public ResponseEntity<?> deleteTrancaId(@PathVariable int id){
-        if(trancaService.excluirTranca(id)){
+        boolean resul = trancaService.excluirTranca(id);
+        if(resul){
             mensage.setMensage("Tranca removida");
             return new ResponseEntity<>(mensage.getMensage(), HttpStatus.OK);
         } else {
@@ -73,17 +74,19 @@ public class TrancaController {
 
     @PostMapping("/tranca/{id}/trancar")
     public ResponseEntity<Erro> trancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
-        if(trancaService.trancarTranca(id, idBicicleta)) {
+        boolean resul = trancaService.trancarTranca(id, idBicicleta);
+        if(resul) {
             mensage.setMensage("Ação bem sucedida");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         }else {
-            mensage.setMensage("Não encontrado");
+            mensage.setMensage("Dado não encontrado");
             return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/tranca/{id}/destrancar")
     public ResponseEntity<Erro> destrancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
-        if(trancaService.destrancarTranca(id, idBicicleta)){
+        boolean resul = trancaService.destrancarTranca(id, idBicicleta);
+        if(resul){
             mensage.setMensage("Ação bem sucedida");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         }else {
@@ -108,7 +111,8 @@ public class TrancaController {
     }
     @PostMapping("/tranca/integrarNaRede")
     public ResponseEntity<Erro> integrarNaRede(@RequestBody IdsEquipamentos dado){
-        if(trancaService.adicionaTrancaRede(dado)) {
+        boolean resul = trancaService.adicionaTrancaRede(dado);
+        if(resul) {
             mensage.setMensage("Dados cadastrados");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         } else {
@@ -119,7 +123,8 @@ public class TrancaController {
 
     @PostMapping("/tranca/retirarDaRede")
     public ResponseEntity<Erro> retirarDaRede(@RequestBody IdsEquipamentos dado){
-        if(trancaService.removerTrancaRede(dado)) {
+        boolean resul = trancaService.removerTrancaRede(dado);
+        if(resul) {
             mensage.setMensage("Dados cadastrados");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         } else {

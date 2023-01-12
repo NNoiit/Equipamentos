@@ -11,12 +11,12 @@ import jakarta.validation.constraints.NotBlank;
 public class Totem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int Id;
+    private int id;
     @NotBlank
     private String localizacao;
 
     public int getId() {
-        return Id;
+        return id;
     }
     public String getLocalizacao() {
         return localizacao;

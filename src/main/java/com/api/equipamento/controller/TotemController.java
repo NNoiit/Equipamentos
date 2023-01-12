@@ -47,7 +47,8 @@ public class TotemController {
 
     @DeleteMapping("/totem/{id}")
     public ResponseEntity<Erro> deletTotem(@PathVariable int id){
-        if(service.excluirTotem(id)){
+        boolean resul = service.excluirTotem(id);
+        if(resul){
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         }
         return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);

@@ -35,8 +35,6 @@ class BicicletaServiceTest {
     @MockBean
     private Bicicleta bicicleta;
     @MockBean
-    private StatusService statusService;
-    @MockBean
     private Rede rede;
     @MockBean
     private IdsEquipamentos idsEquipamentos;
