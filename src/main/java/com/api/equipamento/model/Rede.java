@@ -40,4 +40,8 @@ public class Rede {
     public void setIdBicicleta(List<Integer> idBicicleta) {
         this.idBicicleta = idBicicleta;
     }
+
+    public void setId(int id){
+        this.id = id;
+    }
 }

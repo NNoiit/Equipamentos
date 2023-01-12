@@ -6,7 +6,6 @@ import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
 import com.api.equipamento.repositori.RepTranca;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;

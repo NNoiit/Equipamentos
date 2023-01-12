@@ -3,8 +3,10 @@ package com.api.equipamento.service;
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
+import com.api.equipamento.repositori.RepTotem;
 import com.api.equipamento.repositori.RepTranca;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class TrancaService{
     private RepRede repRede;
     @Autowired
     private RepBicicleta repBicicleta;
+    @Autowired
+    @Qualifier("Totem")
+    private RepTotem repTotem;
 
     public Tranca cadastrarTranca(Tranca trc){
 
@@ -93,8 +98,15 @@ public class TrancaService{
 
     public Boolean adicionaTrancaRede(IdsEquipamentos idsParaRede){
 
-        if(repRede.findByIdTotem(idsParaRede.getIdTotem())!= null && repTranca.countById(idsParaRede.getIdTranca()) > 0) {
-            Rede totem = repRede.findByIdTotem(idsParaRede.getIdTotem());
+        if(repTotem.findById(idsParaRede.getIdTotem())!= null && repTranca.countById(idsParaRede.getIdTranca()) > 0) {
+            Rede totem;
+            if(repRede.findByIdTotem(idsParaRede.getIdTotem()) != null){
+                totem =  repRede.findByIdTotem(idsParaRede.getIdTotem());
+            } else {
+                totem = new Rede();
+                totem.setIdTotem(idsParaRede.getIdTotem());
+            }
+
             List<Integer> listaTranca = totem.getIdTranca();
             listaTranca.add(idsParaRede.getIdTranca());
             totem.setIdTranca(listaTranca);
