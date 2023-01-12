@@ -2,6 +2,7 @@ package com.api.equipamento.controller;
 
 import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.IdsEquipamentos;
+import com.api.equipamento.model.Status;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.BicicletaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,55 +26,78 @@ public class BicicletaController {
 
     @GetMapping("/")
     public String teste(){
-        return "olá, Paula <3";
+        return "Bem Vindos a Nossa Bike &#9773;";
     }
     @PostMapping("/bicicleta")
-    public ResponseEntity<Bicicleta> postBicicleta(@RequestBody Bicicleta bike1){
-        return new ResponseEntity<>(service.cadastrar(bike1), HttpStatus.OK);
+    public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike1){
+        if(service.cadastrar(bike1) != null){
+            return new ResponseEntity<>(service.cadastrar(bike1), HttpStatus.OK);
+        }else {
+            mensage.setMensage("Dados invalidos");
+            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
     //alterAar mais tarde para retornar uma mensagem
     @GetMapping("/bicicleta")
     public ResponseEntity<List<Bicicleta>> getBicicleta(){
-        List<Bicicleta> listarBicicletas = service.listarBicicletas();
-        return new ResponseEntity<>(listarBicicletas, HttpStatus.OK);
+        return new ResponseEntity<>(service.listarBicicletas(), HttpStatus.OK);
     }
 
     @GetMapping("/bicicleta/{id}")
-    public ResponseEntity<Bicicleta> getBicicleta(@PathVariable int id){
-        Bicicleta bicicletaFindId = service.bicicletaFindId(id);
-        return new ResponseEntity<>(bicicletaFindId, HttpStatus.OK);
+    public ResponseEntity<?> getBicicleta(@PathVariable int id){
+        if(service.bicicletaFindId(id) != null) {
+            return new ResponseEntity<>(service.bicicletaFindId(id), HttpStatus.OK);
+        } else{
+            mensage.setMensage("Não encontrado");
+            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/bicicleta/{id}")
-    public ResponseEntity<Bicicleta> putBicicleta(@RequestBody Bicicleta bike, @PathVariable int id){
-        return new ResponseEntity<>(service.alterarBicicleta(bike, id), HttpStatus.CREATED);
+    public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable int id){
+        if(service.alterarBicicleta(bike, id) != null) {
+            return new ResponseEntity<>(service.alterarBicicleta(bike, id), HttpStatus.OK);
+        } else {
+            mensage.setMensage("Não encotrado");
+            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/bicicleta/{id}")
     public ResponseEntity<Erro> deleteBicicletaId(@PathVariable int id){
-
-        mensage = service.excluirBicicleta(id);
-
-        return new ResponseEntity<>(mensage, HttpStatus.OK);
+        return new ResponseEntity<>(service.excluirBicicleta(id), HttpStatus.OK);
     }
 
     @PostMapping("/bicicleta/integrarNaRede")
-    public ResponseEntity<String> integrarNaRede(@RequestBody IdsEquipamentos dados){
-        service.integrarNaRede(dados);
-        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
+    public ResponseEntity<Erro> integrarNaRede(@RequestBody IdsEquipamentos dados){
+        if(service.integrarNaRede(dados)) {
+            mensage.setMensage("Dados cadastrados");
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
+        } else {
+            mensage.setMensage("Dados invalidos");
+            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
     @PostMapping("/bicicleta/retriarDaRede")
-    public ResponseEntity<String> retirarDaRede(@RequestBody IdsEquipamentos dados){
-        service.retirarDaRede(dados);
-        return new ResponseEntity<>("Dados cadastrados", HttpStatus.OK);
+    public ResponseEntity<Erro> retirarDaRede(@RequestBody IdsEquipamentos dados){
+        if(service.retirarDaRede(dados)) {
+            mensage.setMensage("Dados cadastrados");
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
+        } else {
+            mensage.setMensage("Dados invalidos");
+            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
     //corrigir dps, o objetivo é alterar a ação
     @PutMapping("/bicicleta/{id}/status/{acao}")
-    public Bicicleta putStatusBicicleta(@RequestBody String novoStatus, @PathVariable int id, @PathVariable String acao){
-        Bicicleta bc = bicicleta.findById(id);
-        return bicicleta.save(bc);
+    public ResponseEntity<Erro> putStatusBicicleta(@PathVariable int id, @PathVariable Status acao){
+        if(service.alterarStatusBicicleta(id, acao).getMensage() == "Ação bem sucedida") {
+            return new ResponseEntity<>(service.alterarStatusBicicleta(id, acao), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(service.alterarStatusBicicleta(id, acao), HttpStatus.NOT_FOUND);
+        }
     }
 
 

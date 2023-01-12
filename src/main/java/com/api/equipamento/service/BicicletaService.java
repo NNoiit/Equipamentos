@@ -68,18 +68,24 @@ public class BicicletaService{
 
         Bicicleta bc = bicicletaRep.findById(id);
         bicicletaRep.delete(bc);
-        mensage.setMensage("Excluido");
+        mensage.setMensage("Dados removidos");
 
         return mensage;
     }
 
-    public void alterarStatusBicicleta(int idBicicleta, Status status) {
-        Bicicleta bicicleta1 = bicicletaRep.findById(idBicicleta);
-        bicicleta1.setStatusBike(status);
+    public Erro alterarStatusBicicleta(int idBicicleta, Status status) {
+        if (bicicletaRep.countById(idBicicleta) == 1) {
+            Bicicleta bicicleta1 = bicicletaRep.findById(idBicicleta);
+            bicicleta1.setStatusBike(status);
+            mensage.setMensage("Ação bem sucedida");
+            return mensage;
+        } else {
+            mensage.setMensage("Não encontrado");
+            return mensage;
+        }
     }
 
-    //Em contrução
-    public void integrarNaRede(IdsEquipamentos dados){
+    public boolean integrarNaRede(IdsEquipamentos dados){
         // TODO
         List<Rede> listaTotens = repRede.findAll();
 
@@ -94,14 +100,15 @@ public class BicicletaService{
                     List<Integer> listaBicicleta = totem.getIdBicicleta();
                     listaBicicleta.add(dados.getIdBicicleta());
                     repRede.save(totem);
-                    return;
+                    return true;
                 }
             }
         }
 
+        return false;
     }
 
-    public void retirarDaRede(IdsEquipamentos dados){
+    public boolean retirarDaRede(IdsEquipamentos dados){
         // TODO
         List<Rede> listaTotens = repRede.findAll();
 
@@ -115,11 +122,12 @@ public class BicicletaService{
                         if(listaBicicleta.get(h) == dados.getIdBicicleta()){
                             listaBicicleta.remove(listaBicicleta.get(h));
                             repRede.save(totem);
+                            return true;
                         }
                     }
-                    return;
                 }
             }
         }
+        return false;
     }
 }

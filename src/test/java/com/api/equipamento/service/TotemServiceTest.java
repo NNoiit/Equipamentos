@@ -1,6 +1,6 @@
 package com.api.equipamento.service;
 
-import com.api.equipamento.EquipamentoApplicationTests;
+
 import com.api.equipamento.model.Rede;
 import com.api.equipamento.model.Totem;
 import com.api.equipamento.repositori.RepRede;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class TotemServiceTest extends EquipamentoApplicationTests {
+public class TotemServiceTest{
 
     @Autowired
     private TotemService totemService;

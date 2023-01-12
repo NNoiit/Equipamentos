@@ -13,9 +13,6 @@ public class StatusService {
     @Autowired
     private RepTranca repTranca;
 
-    @Autowired
-    private RepBicicleta repBicicleta;
-
     public Tranca alterarStatusTranca(int idTranca, Acao trancaDestranca){
         Tranca tranca1 = repTranca.findById(idTranca);
         if(trancaDestranca.getDescricao()== "trancar" || trancaDestranca.getDescricao() == "TRANCAR"){
@@ -30,11 +27,13 @@ public class StatusService {
     }
 
     public void inserirBicicletaTranca(int idTranca, int idBicicleta) {
-        Tranca tranca1 = repTranca.findById(idTranca);
+        if(repTranca.findById(idTranca) != null) {
+            Tranca tranca1 = repTranca.findById(idTranca);
 
-        if(tranca1.getStatus() == Status.LIVRE){
-            tranca1.setBicicleta(idBicicleta);
-            tranca1.setStatus(Status.OCUPADO);
+            if (tranca1.getStatus() == Status.LIVRE) {
+                tranca1.setBicicleta(idBicicleta);
+                tranca1.setStatus(Status.OCUPADO);
+            }
         }
     }
 }
