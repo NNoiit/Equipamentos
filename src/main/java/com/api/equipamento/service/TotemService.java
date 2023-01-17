@@ -14,6 +14,7 @@ import com.api.equipamento.model.Totem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TotemService {
@@ -40,53 +41,53 @@ public class TotemService {
         return null;
     }
 
-    public Totem mostrarTotem(int id) {
-        return repTotem.findById(id);
+    public Totem mostrarTotem(UUID id) {
+        return repTotem.findByUuid(id);
     }
 
-    public Totem alterarTotem(Totem totemNovo, int id){
+    public Totem alterarTotem(Totem totemNovo, UUID id){
         if(repTotem.findById(id) != null ) {
-            Totem totemAlterado = repTotem.findById(id);
+            Totem totemAlterado = repTotem.findByUuid(id);
             totemAlterado.setLocalizacao(totemNovo.getLocalizacao());
             return repTotem.save(totemAlterado);
         }
         return null;
     }
 
-    public boolean excluirTotem(int id) {
+    public boolean excluirTotem(UUID id) {
         if(repTotem.findById(id) != null){
-            repTotem.delete(repTotem.findById(id));
+            repTotem.delete(repTotem.findByUuid(id));
             return true;
         }
         return false;
     }
 
 
-    public List<Tranca> listaTrancaTotem(int idTotem) {
+    public List<Tranca> listaTrancaTotem(UUID idTotem) {
         if(repRede.findByIdTotem(idTotem) != null) {
             Rede totem1 = repRede.findByIdTotem(idTotem);
             //lista contendo os ids das trancas no totem
-            List<Integer> listaIdsTrancas = totem1.getIdTranca();
+            List<UUID> listaIdsTrancas = totem1.getIdTranca();
             //lista contendo as trancas no totem
             List<Tranca> listaTrancas = new ArrayList<>();
             for (int i = 0; listaIdsTrancas.size() > i; i++) {
-                listaTrancas.add(repTranca.findById(listaIdsTrancas.get(i)));
+                listaTrancas.add(repTranca.findByUuid(listaIdsTrancas.get(i)));
             }
             return listaTrancas;
         }
         return new ArrayList<>();
     }
 
-    public List<Bicicleta> listaBicicletaTotem(int idTotem) {
+    public List<Bicicleta> listaBicicletaTotem(UUID idTotem) {
         if(repRede.findByIdTotem(idTotem) != null) {
             Rede totem1 = repRede.findByIdTotem(idTotem);
             //lista contendo os ids das bicicletas presentes no totem
-            List<Integer> listaIdsBicicletas = totem1.getIdBicicleta();
+            List<UUID> listaIdsBicicletas = totem1.getIdBicicleta();
             //lista contendo as bicicletas no totem
             List<Bicicleta> listaBicicletas = new ArrayList<>();
 
             for (int i = 0; listaIdsBicicletas.size() > i; i++) {
-                listaBicicletas.add(repBicicleta.findById(listaIdsBicicletas.get(i)));
+                listaBicicletas.add(repBicicleta.findByUuid(listaIdsBicicletas.get(i)));
             }
             return listaBicicletas;
         }

@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 
 @SpringBootTest
@@ -62,37 +63,37 @@ class BicicletaServiceTest {
 
     @Test
     void bicicletaFindId(){
-        int bicicletaId = 9;
+        UUID bicicletaId = UUID.randomUUID();
 
-        Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
-        Mockito.when(bicicletaRep.countById(ArgumentMatchers.eq(bicicletaId))).thenReturn(1);
+        Mockito.when(bicicletaRep.findByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
+        Mockito.when(bicicletaRep.countByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(1);
         bicicletaService.bicicletaFindId(bicicletaId);
-        Mockito.verify(bicicletaRep, Mockito.times(1)).findById(bicicletaId);
+        Mockito.verify(bicicletaRep, Mockito.times(1)).findByUuid(bicicletaId);
     }
     @Test
     void bicicletaFindIdInexistente(){
-        int bicicletaId = 9;
+        UUID bicicletaId = UUID.randomUUID();
 
-        Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
+        Mockito.when(bicicletaRep.findByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
         bicicletaService.bicicletaFindId(bicicletaId);
-        Mockito.verify(bicicletaRep, Mockito.times(0)).findById(bicicletaId);
+        Mockito.verify(bicicletaRep, Mockito.times(0)).findByUuid(bicicletaId);
         Assertions.assertNull(bicicletaService.bicicletaFindId(bicicletaId));
     }
 
     @Test
     void alterarBicicleta(){
-        int bicicletaId = 9;
+        UUID bicicletaId = UUID.randomUUID();
         bicicleta = criarBicicleta();
-        Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
+        Mockito.when(bicicletaRep.findByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
         bicicletaService.alterarBicicleta(bicicleta, bicicletaId);
         Mockito.verify(bicicletaRep, Mockito.times(1)).save(ArgumentMatchers.any(Bicicleta.class));
     }
 
     @Test
     void ErroAlterarBicicleta(){
-        int bicicletaId = 9;
+        UUID bicicletaId = UUID.randomUUID();
         bicicleta = criarBicicleta();
-        Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
+        Mockito.when(bicicletaRep.findByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
         Mockito.when(bicicleta.getModelo()).thenReturn("");
         bicicletaService.alterarBicicleta(bicicleta, bicicletaId);
         Mockito.verify(bicicletaRep, Mockito.times(0)).save(ArgumentMatchers.any(Bicicleta.class));
@@ -102,20 +103,19 @@ class BicicletaServiceTest {
 
     @Test
     void excluirBicicletaTest(){
-        int bicicletaId = 9;
+        UUID bicicletaId = UUID.randomUUID();
 
-        Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
-        Mockito.when(bicicletaRep.countById(bicicletaId)).thenReturn(1);
+        Mockito.when(bicicletaRep.findByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
+        Mockito.when(bicicletaRep.countByUuid(bicicletaId)).thenReturn(1);
         bicicletaService.excluirBicicleta(bicicletaId);
         Mockito.verify(bicicletaRep, Mockito.times(1)).delete(ArgumentMatchers.any(Bicicleta.class));
 
     }
     @Test
     void erroExcluirBicicletaTest(){
-        int bicicletaId = 9;
+        UUID bicicletaId = UUID.randomUUID();
 
-
-        Mockito.when(bicicletaRep.findById(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
+        Mockito.when(bicicletaRep.findByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
         bicicletaService.excluirBicicleta(bicicletaId);
         Mockito.verify(bicicletaRep, Mockito.times(0)).delete(ArgumentMatchers.any(Bicicleta.class));
 
@@ -123,30 +123,33 @@ class BicicletaServiceTest {
 
     @Test
     void alterarStatusBicicleta(){
-        Mockito.when(bicicletaRep.countById(0)).thenReturn(1);
-        Mockito.when(bicicletaRep.findById(0)).thenReturn(bicicleta);
-        String textoMensage = bicicletaService.alterarStatusBicicleta(0,Status.LIVRE).getMensage();
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(bicicletaRep.countByUuid(uuid)).thenReturn(1);
+        Mockito.when(bicicletaRep.findByUuid(uuid)).thenReturn(bicicleta);
+        String textoMensage = bicicletaService.alterarStatusBicicleta(uuid,Status.LIVRE).getMensage();
         Assertions.assertEquals("Ação bem sucedida", textoMensage);
     }
 
     @Test
     void alterarStatusBicicletaFalse(){
-        Mockito.when(bicicletaRep.countById(0)).thenReturn(0);
-        String textoMensage = bicicletaService.alterarStatusBicicleta(0,Status.LIVRE).getMensage();
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(bicicletaRep.countByUuid(uuid)).thenReturn(0);
+        String textoMensage = bicicletaService.alterarStatusBicicleta(uuid,Status.LIVRE).getMensage();
         Assertions.assertEquals("Não encontrado", textoMensage);
     }
     @Test
     void integrarNaRede(){
         List<Rede> listaRedeTest = new ArrayList<>();
         listaRedeTest.add(rede);
-        List<Integer> listaIdsTest = new ArrayList<>();
-        listaIdsTest.add(0);
+        List<UUID> listaIdsTest = new ArrayList<>();
+        UUID uuid = UUID.randomUUID();
+        listaIdsTest.add(uuid);
 
         Mockito.when(repRede.findAll()).thenReturn(listaRedeTest);
         Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
         Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
         //Mockito.when(statusService.inserirBicicletaTranca(0,0)).equals(true);
-        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(0);
+        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
 
         bicicletaService.integrarNaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
@@ -155,13 +158,14 @@ class BicicletaServiceTest {
     void retirarDaRede(){
         List<Rede> listaRedeTest = new ArrayList<>();
         listaRedeTest.add(rede);
-        List<Integer> listaIdsTest = new ArrayList<>();
-        listaIdsTest.add(0);
+        List<UUID> listaIdsTest = new ArrayList<>();
+        UUID uuid = UUID.randomUUID();
+        listaIdsTest.add(uuid);
 
         Mockito.when(repRede.findAll()).thenReturn(listaRedeTest);
         Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
         Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
-        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(0);
+        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
 
         bicicletaService.retirarDaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));

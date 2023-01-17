@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.UUID;
+
 @SpringBootTest
 class StatusServiceTest {
     @Autowired
@@ -23,22 +25,25 @@ class StatusServiceTest {
 
     @Test
     void alterarStatusTranca(){
-        Mockito.when(repTranca.findById(0)).thenReturn(tranca);
-        statusService.alterarStatusTranca(0, Acao.TRANCAR);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(repTranca.findByUuid(uuid)).thenReturn(tranca);
+        statusService.alterarStatusTranca(uuid, Acao.TRANCAR);
         Mockito.verify(repTranca, Mockito.times(1)).save(ArgumentMatchers.any(Tranca.class));
     }
     @Test
     void alterarStatusTrancaDestrancar(){
-        Mockito.when(repTranca.findById(0)).thenReturn(tranca);
-        statusService.alterarStatusTranca(0, Acao.DESTRANCAR);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(repTranca.findByUuid(uuid)).thenReturn(tranca);
+        statusService.alterarStatusTranca(uuid, Acao.DESTRANCAR);
         Mockito.verify(repTranca, Mockito.times(1)).save(ArgumentMatchers.any(Tranca.class));
     }
     @Test
     void inserirBicicletaTranca(){
-        Mockito.when(repTranca.findById(0)).thenReturn(tranca);
-        Mockito.when(repTranca.findById(0)).thenReturn(tranca);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(repTranca.findByUuid(uuid)).thenReturn(tranca);
+        Mockito.when(repTranca.findByUuid(uuid)).thenReturn(tranca);
         Mockito.when(tranca.getStatus()).thenReturn(Status.LIVRE);
-        statusService.inserirBicicletaTranca(0, 0);
+        statusService.inserirBicicletaTranca(uuid, uuid);
         Mockito.verify(repTranca, Mockito.times(1)).save(ArgumentMatchers.any(Tranca.class));
     }
 }

@@ -6,11 +6,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.UUID;
+
 @Entity
 public class Tranca {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uuid;
     private int numero;
     @NotBlank
     private String localizacao;
@@ -19,7 +21,7 @@ public class Tranca {
     @NotBlank
     private String modelo;
    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int bicicletaId;
+    private UUID bicicletaId;
 
     public Status status;
     public Status getStatus(){
@@ -31,8 +33,8 @@ public class Tranca {
     }
 
 
-    public int getId(){
-        return id;
+    public UUID getUuid(){
+        return uuid;
     }
     public int getNumero() {
         return numero;
@@ -66,11 +68,11 @@ public class Tranca {
         this.modelo = modelo;
     }
 
-    public int getBicicleta() {
+    public UUID getBicicleta() {
         return bicicletaId;
     }
 
-    public void setBicicleta(int bicicleta) {
+    public void setBicicleta(UUID bicicleta) {
         this.bicicletaId = bicicleta;
     }
 }

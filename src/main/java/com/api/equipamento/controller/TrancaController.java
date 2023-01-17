@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class TrancaController {
@@ -38,7 +39,7 @@ public class TrancaController {
     }
 
     @GetMapping("/tranca/{id}")
-    public ResponseEntity<?> getTranca(@PathVariable int id){
+    public ResponseEntity<?> getTranca(@PathVariable UUID id){
 
         if(trancaService.trancaFindId(id) == null){
             mensage.setMensage("Tranca não encontrada");
@@ -49,7 +50,7 @@ public class TrancaController {
     }
 
     @PutMapping("/tranca/{id}")
-    public ResponseEntity<?> putTranca(@RequestBody Tranca novaTranca, @PathVariable int id){
+    public ResponseEntity<?> putTranca(@RequestBody Tranca novaTranca, @PathVariable UUID id){
         Tranca tranca = trancaService.alterarTranca(novaTranca, id);
         if(tranca == null){
             mensage.setMensage("Alteração malssucedida");
@@ -61,7 +62,7 @@ public class TrancaController {
     }
 
     @DeleteMapping("/tranca/{id}")
-    public ResponseEntity<?> deleteTrancaId(@PathVariable int id){
+    public ResponseEntity<?> deleteTrancaId(@PathVariable UUID id){
         boolean resul = trancaService.excluirTranca(id);
         if(resul){
             mensage.setMensage("Tranca removida");
@@ -73,7 +74,7 @@ public class TrancaController {
     }
 
     @PostMapping("/tranca/{id}/trancar")
-    public ResponseEntity<Erro> trancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
+    public ResponseEntity<Erro> trancarTranca(@PathVariable UUID id, @RequestBody UUID idBicicleta){
         boolean resul = trancaService.trancarTranca(id, idBicicleta);
         if(resul) {
             mensage.setMensage("Ação bem sucedida");
@@ -84,7 +85,7 @@ public class TrancaController {
         }
     }
     @PostMapping("/tranca/{id}/destrancar")
-    public ResponseEntity<Erro> destrancarTranca(@PathVariable int id, @RequestBody int idBicicleta){
+    public ResponseEntity<Erro> destrancarTranca(@PathVariable UUID id, @RequestBody UUID idBicicleta){
         boolean resul = trancaService.destrancarTranca(id, idBicicleta);
         if(resul){
             mensage.setMensage("Ação bem sucedida");
@@ -95,13 +96,13 @@ public class TrancaController {
         }
     }
     @PostMapping("/tranca/{id}/status/{acao}")
-    public ResponseEntity<String> alterarStatusTranca(@PathVariable int id, @PathVariable Acao acao){
+    public ResponseEntity<String> alterarStatusTranca(@PathVariable UUID id, @PathVariable Acao acao){
         statusService.alterarStatusTranca(id, acao);
         return new ResponseEntity<>("alterou", HttpStatus.OK);
     }
 
     @GetMapping("/tranca/{id}/bicicleta")
-    public ResponseEntity<?> bicicletaTranca(@PathVariable int id){
+    public ResponseEntity<?> bicicletaTranca(@PathVariable UUID id){
         if(trancaService.getBicicleta(id) != null) {
             return new ResponseEntity<>(trancaService.getBicicleta(id), HttpStatus.OK);
         } else {

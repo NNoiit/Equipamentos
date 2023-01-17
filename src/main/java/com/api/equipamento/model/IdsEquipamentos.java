@@ -2,24 +2,26 @@ package com.api.equipamento.model;
 
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class IdsEquipamentos {
 
-    private int idTotem;
+    private UUID idTotem;
 
-    private int idTranca;
+    private UUID idTranca;
 
-    private int idBicicleta;
+    private UUID idBicicleta;
 
-    public int getIdTotem() {
+    public UUID getIdTotem() {
         return idTotem;
     }
 
-    public int getIdTranca() {
+    public UUID getIdTranca() {
         return idTranca;
     }
 
-    public int getIdBicicleta(){
+    public UUID getIdBicicleta(){
         return idBicicleta;
     }
 }

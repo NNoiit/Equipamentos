@@ -1,9 +1,11 @@
 package com.api.equipamento.repositori;
 
 import com.api.equipamento.model.Bicicleta;
+import org.hibernate.sql.Delete;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.yaml.snakeyaml.events.Event;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +14,7 @@ import java.util.UUID;
 public interface RepBicicleta extends CrudRepository<Bicicleta, UUID> {
     List<Bicicleta> findAll();
 
-    Bicicleta findById(int id);
+    Bicicleta findByUuid(UUID uuid);
 
-    int countById(int id);
+    int countByUuid(UUID id);
 }

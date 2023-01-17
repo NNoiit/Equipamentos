@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -14,30 +15,30 @@ public class Rede {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private int idTotem;
-    private List<Integer> idTranca = new ArrayList<>();
-    private List<Integer> idBicicleta = new ArrayList<>();
+    private UUID idTotem;
+    private List<UUID> idTranca = new ArrayList<UUID>();
+    private List<UUID> idBicicleta = new ArrayList<UUID>();
 
-    public int getIdTotem() {
+    public UUID getIdTotem() {
         return idTotem;
     }
 
-    public void setIdTotem(int idTotem) {
+    public void setIdTotem(UUID idTotem) {
         this.idTotem = idTotem;
     }
 
-    public List<Integer> getIdTranca() {
+    public List<UUID> getIdTranca() {
         return idTranca;
     }
 
-    public void setIdTranca(List<Integer> idTranca){
+    public void setIdTranca(List<UUID> idTranca){
         this.idTranca = idTranca;
     }
-    public List<Integer> getIdBicicleta() {
+    public List<UUID> getIdBicicleta() {
         return idBicicleta;
     }
 
-    public void setIdBicicleta(List<Integer> idBicicleta) {
+    public void setIdBicicleta(List<UUID> idBicicleta) {
         this.idBicicleta = idBicicleta;
     }
 

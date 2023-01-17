@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.api.equipamento.repositori.RepBicicleta;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BicicletaService{
@@ -35,21 +36,21 @@ public class BicicletaService{
         return bicicletaRep.findAll();
     }
 
-    public Bicicleta bicicletaFindId( int id){
-        if(bicicletaRep.countById(id) == 0){
+    public Bicicleta bicicletaFindId(UUID id){
+        if(bicicletaRep.countByUuid(id) == 0){
             return null;
         }else {
-            return bicicletaRep.findById(id);
+            return bicicletaRep.findByUuid(id);
         }
     }
 
-    public Bicicleta alterarBicicleta(Bicicleta bike, int id){
+    public Bicicleta alterarBicicleta(Bicicleta bike, UUID id){
 
         if(bike.getMarca().equals("") || bike.getModelo().equals("") || bike.getAno().equals("")
                 ){
             return null;
         }else {
-            Bicicleta bc = bicicletaRep.findById(id);
+            Bicicleta bc = bicicletaRep.findByUuid(id);
             bc.setMarca(bike.getMarca());
             bc.setModelo(bike.getModelo());
             bc.setAno(bike.getAno());
@@ -59,23 +60,23 @@ public class BicicletaService{
         }
     }
 
-    public Erro excluirBicicleta(int id){
+    public Erro excluirBicicleta(UUID id){
         
-        if(bicicletaRep.countById(id)==0){
+        if(bicicletaRep.countByUuid(id)==0){
             mensage.setMensage("Não encontrado");
             return mensage;
         }
 
-        Bicicleta bc = bicicletaRep.findById(id);
+        Bicicleta bc = bicicletaRep.findByUuid(id);
         bicicletaRep.delete(bc);
         mensage.setMensage("Dados removidos");
 
         return mensage;
     }
 
-    public Erro alterarStatusBicicleta(int idBicicleta, Status status) {
-        if (bicicletaRep.countById(idBicicleta) == 1) {
-            Bicicleta bicicleta1 = bicicletaRep.findById(idBicicleta);
+    public Erro alterarStatusBicicleta(UUID idBicicleta, Status status) {
+        if (bicicletaRep.countByUuid(idBicicleta) == 1) {
+            Bicicleta bicicleta1 = bicicletaRep.findByUuid(idBicicleta);
             bicicleta1.setStatusBike(status);
             mensage.setMensage("Ação bem sucedida");
             return mensage;
@@ -90,13 +91,13 @@ public class BicicletaService{
 
         for (int i = 0; listaTotens.size() > i; i++) {
             Rede totem = listaTotens.get(i);
-            List<Integer> listaTranca = totem.getIdTranca();
+            List<UUID> listaTranca = totem.getIdTranca();
             for (int j = 0; listaTranca.size() > j; j++) {
                 if (listaTranca.get(j) == dados.getIdTranca()) {
                     //busca a tranca e salva o id da bicicleta na tranca
                     statusService.inserirBicicletaTranca(dados.getIdTranca(), dados.getIdBicicleta());
                     //salva o id da bicicleta no totem
-                    List<Integer> listaBicicleta = totem.getIdBicicleta();
+                    List<UUID> listaBicicleta = totem.getIdBicicleta();
                     listaBicicleta.add(dados.getIdBicicleta());
                     repRede.save(totem);
                     return true;
@@ -112,10 +113,10 @@ public class BicicletaService{
 
         for (int i = 0; listaTotens.size() > i; i++) {
             Rede totem = listaTotens.get(i);
-            List<Integer> listaTranca = totem.getIdTranca();
+            List<UUID> listaTranca = totem.getIdTranca();
             for (int j = 0; listaTranca.size() > j; j++) {
                 if (listaTranca.get(j) == dados.getIdTranca()) {
-                    List<Integer> listaBicicleta = totem.getIdBicicleta();
+                    List<UUID> listaBicicleta = totem.getIdBicicleta();
                     for (int h = 0; listaBicicleta.size() > h; h++) {
                         if(listaBicicleta.get(h) == dados.getIdBicicleta()){
                             listaBicicleta.remove(listaBicicleta.get(h));

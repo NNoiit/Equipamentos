@@ -3,11 +3,13 @@ package com.api.equipamento.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.UUID;
+
 @Entity
 public class Bicicleta {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uuid;
     @NotBlank
     private String marca;
     @NotBlank
@@ -24,8 +26,8 @@ public class Bicicleta {
     public void setStatusBike(Status status){
         this.status = status;
     }
-    public int getId(){
-        return id;
+    public UUID getUuid(){
+        return uuid;
     }
     public String getMarca() {
         return marca;

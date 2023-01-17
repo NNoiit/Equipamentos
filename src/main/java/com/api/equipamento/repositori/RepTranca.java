@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface RepTranca extends CrudRepository<Tranca, UUID> {
 
     List<Tranca> findAll();
-    Tranca findById(int id);
+    Tranca findByUuid(UUID id);
 
-    int countById(int id);
+    int countByUuid(UUID id);
 }

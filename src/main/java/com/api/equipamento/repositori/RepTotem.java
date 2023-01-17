@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,5 +13,6 @@ import java.util.UUID;
 @Repository
 public interface RepTotem extends CrudRepository<Totem, UUID> {
     List<Totem> findAll();
-   Totem findById(int id);
+   Totem findByUuid(UUID id);
+
 }

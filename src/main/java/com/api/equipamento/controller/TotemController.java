@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -31,11 +32,11 @@ public class TotemController {
         return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
     }
     @GetMapping("/totem/{id}")
-    public ResponseEntity<Totem> mostraTotem(@PathVariable int id){
+    public ResponseEntity<Totem> mostraTotem(@PathVariable UUID id){
         return new ResponseEntity<>(service.mostrarTotem(id), HttpStatus.OK);
     }
     @PutMapping("/totem/{id}")
-    public ResponseEntity<?> putTotem(@RequestBody Totem totem, @PathVariable int id){
+    public ResponseEntity<?> putTotem(@RequestBody Totem totem, @PathVariable UUID id){
         if(service.alterarTotem(totem, id) != null) {
             return new ResponseEntity<>(service.alterarTotem(totem, id), HttpStatus.OK);
         }else if(totem.getLocalizacao() == null){
@@ -46,7 +47,7 @@ public class TotemController {
     }
 
     @DeleteMapping("/totem/{id}")
-    public ResponseEntity<Erro> deletTotem(@PathVariable int id){
+    public ResponseEntity<Erro> deletTotem(@PathVariable UUID id){
         boolean resul = service.excluirTotem(id);
         if(resul){
             return new ResponseEntity<>(mensage, HttpStatus.OK);
@@ -55,7 +56,7 @@ public class TotemController {
     }
 
     @GetMapping("/totem/{id}/trancas")
-    public ResponseEntity<?> listaTrancasTotem(@PathVariable int id){
+    public ResponseEntity<?> listaTrancasTotem(@PathVariable UUID id){
         if(service.listaTrancaTotem(id) != null){
             return new ResponseEntity<>(service.listaTrancaTotem(id), HttpStatus.OK);
         }
@@ -63,7 +64,7 @@ public class TotemController {
     }
 
     @GetMapping("/totem/{id}/bicicletas")
-    public ResponseEntity<?> listaBicicletaTotem(@PathVariable int id){
+    public ResponseEntity<?> listaBicicletaTotem(@PathVariable UUID id){
         if(service.listaBicicletaTotem(id) != null) {
             return new ResponseEntity<>(service.listaBicicletaTotem(id), HttpStatus.OK);
         }

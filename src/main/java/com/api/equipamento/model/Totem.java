@@ -6,17 +6,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.UUID;
+
 
 @Entity
 public class Totem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uuid;
     @NotBlank
     private String localizacao;
 
-    public int getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
     public String getLocalizacao() {
         return localizacao;

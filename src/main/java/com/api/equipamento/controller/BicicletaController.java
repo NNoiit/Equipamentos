@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.api.equipamento.model.Erro;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class BicicletaController {
@@ -40,7 +41,7 @@ public class BicicletaController {
     }
 
     @GetMapping("/bicicleta/{id}")
-    public ResponseEntity<?> getBicicleta(@PathVariable int id){
+    public ResponseEntity<?> getBicicleta(@PathVariable UUID id){
         if(service.bicicletaFindId(id) != null) {
             return new ResponseEntity<>(service.bicicletaFindId(id), HttpStatus.OK);
         } else{
@@ -50,7 +51,7 @@ public class BicicletaController {
     }
 
     @PutMapping("/bicicleta/{id}")
-    public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable int id){
+    public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable UUID id){
         if(service.alterarBicicleta(bike, id) != null) {
             return new ResponseEntity<>(service.alterarBicicleta(bike, id), HttpStatus.OK);
         } else {
@@ -60,7 +61,7 @@ public class BicicletaController {
     }
 
     @DeleteMapping("/bicicleta/{id}")
-    public ResponseEntity<Erro> deleteBicicletaId(@PathVariable int id){
+    public ResponseEntity<Erro> deleteBicicletaId(@PathVariable UUID id){
         return new ResponseEntity<>(service.excluirBicicleta(id), HttpStatus.OK);
     }
 
@@ -89,7 +90,7 @@ public class BicicletaController {
 
     //corrigir dps, o objetivo é alterar a ação
     @PutMapping("/bicicleta/{id}/status/{acao}")
-    public ResponseEntity<Erro> putStatusBicicleta(@PathVariable int id, @PathVariable Status acao){
+    public ResponseEntity<Erro> putStatusBicicleta(@PathVariable UUID id, @PathVariable Status acao){
         if(service.alterarStatusBicicleta(id, acao).getMensage().equals("Ação bem sucedida")) {
             return new ResponseEntity<>(service.alterarStatusBicicleta(id, acao), HttpStatus.OK);
         } else {

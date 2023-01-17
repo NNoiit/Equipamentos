@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TrancaService{
@@ -38,23 +39,23 @@ public class TrancaService{
         return repTranca.findAll();
     }
 
-    public Tranca trancaFindId( int id){
-        if (repTranca.countById(id)==1){
-            return repTranca.findById(id);
+    public Tranca trancaFindId(UUID id){
+        if (repTranca.countByUuid(id)==1){
+            return repTranca.findByUuid(id);
         }
         return null;
     }
 
 
-    public Tranca alterarTranca(Tranca trc, int id){
+    public Tranca alterarTranca(Tranca trc, UUID id){
 
         if(trc.getLocalizacao().equals("")
                 || trc.getAnoDeFabricacao().equals("")
-                || trc.getModelo().equals("") || repTranca.countById(id) == 0)
+                || trc.getModelo().equals("") || repTranca.countByUuid(id) == 0)
         {
             return null;
         }else{
-            Tranca trcA = repTranca.findById(id);
+            Tranca trcA = repTranca.findByUuid(id);
             trcA.setNumero(trc.getNumero());
             trcA.setLocalizacao(trc.getLocalizacao());
             trcA.setAnoDeFabricacao(trc.getAnoDeFabricacao());
@@ -64,18 +65,18 @@ public class TrancaService{
         }
     }
 
-    public boolean excluirTranca(int id){
+    public boolean excluirTranca(UUID id){
 
-        if(repTranca.countById(id) == 0) {
+        if(repTranca.countByUuid(id) == 0) {
             return false;
         }
-        Tranca trc = repTranca.findById(id);
+        Tranca trc = repTranca.findByUuid(id);
         repTranca.delete(trc);
         return true;
     }
 
-    public Boolean trancarTranca(int idTranca, int idBicicleta){
-        Tranca tranca1 = repTranca.findById(idTranca);
+    public Boolean trancarTranca(UUID idTranca, UUID idBicicleta){
+        Tranca tranca1 = repTranca.findByUuid(idTranca);
 
         if(tranca1.getStatus() == Status.LIVRE){
             tranca1.setBicicleta(idBicicleta);
@@ -85,11 +86,11 @@ public class TrancaService{
         }
         return false;
     }
-    public Boolean destrancarTranca(int idTranca, int idBicicleta){
-        Tranca tranca1 = repTranca.findById(idTranca);
+    public Boolean destrancarTranca(UUID idTranca, UUID idBicicleta){
+        Tranca tranca1 = repTranca.findByUuid(idTranca);
 
          if(tranca1.getBicicleta() == idBicicleta){
-             tranca1.setBicicleta(0);
+             tranca1.setBicicleta(null);
              tranca1.setStatus(Status.LIVRE);
              return true;
          }
@@ -98,7 +99,7 @@ public class TrancaService{
 
     public Boolean adicionaTrancaRede(IdsEquipamentos idsParaRede){
 
-        if(repTotem.findById(idsParaRede.getIdTotem())!= null && repTranca.countById(idsParaRede.getIdTranca()) > 0) {
+        if(repTotem.findById(idsParaRede.getIdTotem())!= null && repTranca.countByUuid(idsParaRede.getIdTranca()) > 0) {
             Rede totem;
             if(repRede.findByIdTotem(idsParaRede.getIdTotem()) != null){
                 totem =  repRede.findByIdTotem(idsParaRede.getIdTotem());
@@ -107,7 +108,7 @@ public class TrancaService{
                 totem.setIdTotem(idsParaRede.getIdTotem());
             }
 
-            List<Integer> listaTranca = totem.getIdTranca();
+            List<UUID> listaTranca = totem.getIdTranca();
             listaTranca.add(idsParaRede.getIdTranca());
             totem.setIdTranca(listaTranca);
 
@@ -118,10 +119,10 @@ public class TrancaService{
     }
 
     public boolean removerTrancaRede(IdsEquipamentos idsParaRede){
-        int id = idsParaRede.getIdTotem();
+        UUID id = idsParaRede.getIdTotem();
         if(repRede.findByIdTotem(id) != null) {
             Rede totem = repRede.findByIdTotem(id);
-            List<Integer> listaTranca = totem.getIdTranca();
+            List<UUID> listaTranca = totem.getIdTranca();
 
             for (int i = 0; listaTranca.size() > i; i++) {
                 if (listaTranca.get(i) == idsParaRede.getIdTranca()) {
@@ -135,10 +136,10 @@ public class TrancaService{
         }
     }
 
-    public Bicicleta getBicicleta(int idTranca) {
-        Tranca tranca1 = repTranca.findById(idTranca);
+    public Bicicleta getBicicleta(UUID idTranca) {
+        Tranca tranca1 = repTranca.findByUuid(idTranca);
         if(tranca1.getStatus() == Status.OCUPADO){
-            return repBicicleta.findById(tranca1.getBicicleta());
+            return repBicicleta.findByUuid(tranca1.getBicicleta());
         }else {
             return null;
         }

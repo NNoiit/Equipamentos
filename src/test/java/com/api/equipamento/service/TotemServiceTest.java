@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest
 class TotemServiceTest{
@@ -40,7 +41,7 @@ class TotemServiceTest{
         totem = Mockito.mock(Totem.class);
         Mockito.when(repTotem.save(totem)).thenReturn(totem);
         Mockito.when(totem.getLocalizacao()).thenReturn("Rio de Janeiro");
-        Mockito.when(totem.getId()).thenReturn(0);
+        Mockito.when(totem.getUuid()).thenReturn(UUID.randomUUID());
         totemService.cadastrarTotem(totem);
         Mockito.verify(repTotem, Mockito.times(1)).save(ArgumentMatchers.any(Totem.class));
     }
@@ -53,63 +54,70 @@ class TotemServiceTest{
     }
     @Test
     void mostrarTotem(){
-        Mockito.when(repTotem.findById(totem.getId())).thenReturn(totem);
-        Assertions.assertEquals(totemService.mostrarTotem(totem.getId()), totem);
+        Mockito.when(repTotem.findByUuid(totem.getUuid())).thenReturn(totem);
+        Assertions.assertEquals(totemService.mostrarTotem(totem.getUuid()), totem);
     }
 
     @Test
     void alterarTotem(){
+        UUID uuid = UUID.randomUUID();
         totem = Mockito.mock(Totem.class);
-        Mockito.when(repTotem.findById(0)).thenReturn(totem);
-        totemService.alterarTotem(totem, 0);
+        Mockito.when(repTotem.findByUuid(uuid)).thenReturn(totem);
+        totemService.alterarTotem(totem, uuid);
 
         Mockito.verify(repTotem, Mockito.times(1)).save(ArgumentMatchers.any(Totem.class));
     }
 
     @Test
     void alterarTotemNull(){
-        Mockito.when(repTotem.findById(0)).thenReturn(null);
-        totemService.alterarTotem(totem, 0);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(repTotem.findByUuid(uuid)).thenReturn(null);
+        totemService.alterarTotem(totem, uuid);
 
         Mockito.verify(repTotem, Mockito.times(0)).save(ArgumentMatchers.any(Totem.class));
     }
     @Test
     void excluirTotem(){
+        UUID uuid = UUID.randomUUID();
         totem = Mockito.mock(Totem.class);
-        Mockito.when(repTotem.findById(0)).thenReturn(totem);
-        totemService.excluirTotem(0);
+        Mockito.when(repTotem.findByUuid(uuid)).thenReturn(totem);
+        totemService.excluirTotem(uuid);
 
         Mockito.verify(repTotem, Mockito.times(1)).delete(ArgumentMatchers.any(Totem.class));
     }
 
     @Test
     void excluirFalse(){
-        Mockito.when(repTotem.findById(0)).thenReturn(null);
-        totemService.excluirTotem(0);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(repTotem.findByUuid(uuid)).thenReturn(null);
+        totemService.excluirTotem(uuid);
         Mockito.verify(repTotem, Mockito.times(0)).delete(ArgumentMatchers.any(Totem.class));
     }
 
     @Test
     void listaTrancaTotem() {
+        UUID uuid = UUID.randomUUID();
         rede = Mockito.mock(Rede.class);
-        List<Integer> listIdsFake = new ArrayList<>();
-        Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
+        List<UUID> listIdsFake = new ArrayList<>();
+        Mockito.when(repRede.findByIdTotem(uuid)).thenReturn(rede);
         Mockito.when(rede.getIdTranca()).thenReturn(listIdsFake);
-        Assertions.assertNotNull(totemService.listaTrancaTotem(0));
+        Assertions.assertNotNull(totemService.listaTrancaTotem(uuid));
     }
     @Test
     void listaBicicletaTotem() {
         rede = Mockito.mock(Rede.class);
-        List<Integer> bicicletaList = new ArrayList<>();
-        Mockito.when(repRede.findByIdTotem(0)).thenReturn(rede);
+        List<UUID> bicicletaList = new ArrayList<>();
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(repRede.findByIdTotem(uuid)).thenReturn(rede);
         Mockito.when(rede.getIdBicicleta()).thenReturn(bicicletaList);
-        Assertions.assertNotNull(totemService.listaBicicletaTotem(0));
+        Assertions.assertNotNull(totemService.listaBicicletaTotem(uuid));
     }
 
     @Test
     void listaBicicletaTotemNull(){
-        Mockito.when(repRede.findByIdTotem(0)).thenReturn(null);
-        Assertions.assertNull(totemService.listaBicicletaTotem(0));
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(repRede.findByIdTotem(uuid)).thenReturn(null);
+        Assertions.assertNull(totemService.listaBicicletaTotem(uuid));
     }
 
 }
