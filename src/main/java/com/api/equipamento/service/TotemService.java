@@ -74,7 +74,7 @@ public class TotemService {
             }
             return listaTrancas;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public List<Bicicleta> listaBicicletaTotem(int idTotem) {
@@ -90,6 +90,6 @@ public class TotemService {
             }
             return listaBicicletas;
         }
-        return null;
+        return new ArrayList<>();
     }
 }
