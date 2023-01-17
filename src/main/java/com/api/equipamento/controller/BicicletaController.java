@@ -25,9 +25,10 @@ public class BicicletaController {
         return "Bem Vindos a Nossa Bike &#9773;";
     }
     @PostMapping("/bicicleta")
-    public ResponseEntity<?> postBicicleta(@RequestBody Bicicleta bike1){
+    public ResponseEntity<Erro> postBicicleta(@RequestBody Bicicleta bike1){
         if(service.cadastrar(bike1) != null){
-            return new ResponseEntity<>(service.cadastrar(bike1), HttpStatus.OK);
+            mensage.setMensage("Bicicleta criada");
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
         }else {
             mensage.setMensage("Dados invalidos");
             return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);

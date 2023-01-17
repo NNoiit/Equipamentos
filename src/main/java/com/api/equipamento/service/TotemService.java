@@ -55,7 +55,7 @@ public class TotemService {
     }
 
     public boolean excluirTotem(UUID id) {
-        if(repTotem.findById(id) != null){
+        if(repTotem.findByUuid(id) != null){
             repTotem.delete(repTotem.findByUuid(id));
             return true;
         }

@@ -99,7 +99,7 @@ public class TrancaService{
 
     public Boolean adicionaTrancaRede(IdsEquipamentos idsParaRede){
 
-        if(repTotem.findById(idsParaRede.getIdTotem())!= null && repTranca.countByUuid(idsParaRede.getIdTranca()) > 0) {
+        if(repTotem.findByUuid(idsParaRede.getIdTotem())!= null && repTranca.countByUuid(idsParaRede.getIdTranca()) > 0) {
             Rede totem;
             if(repRede.findByIdTotem(idsParaRede.getIdTotem()) != null){
                 totem =  repRede.findByIdTotem(idsParaRede.getIdTotem());
