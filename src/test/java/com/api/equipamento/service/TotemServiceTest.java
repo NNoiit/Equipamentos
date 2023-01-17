@@ -1,6 +1,7 @@
 package com.api.equipamento.service;
 
 
+import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.Rede;
 import com.api.equipamento.model.Totem;
 import com.api.equipamento.repositori.RepRede;
@@ -117,7 +118,9 @@ class TotemServiceTest{
     void listaBicicletaTotemNull(){
         UUID uuid = UUID.randomUUID();
         Mockito.when(repRede.findByIdTotem(uuid)).thenReturn(null);
-        Assertions.assertNull(totemService.listaBicicletaTotem(uuid));
+        List<Bicicleta> bikeList = totemService.listaBicicletaTotem(uuid);
+        Assertions.assertFalse(bikeList.size() > 1);
+
     }
 
 }

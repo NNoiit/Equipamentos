@@ -28,7 +28,7 @@ public class StatusService {
     }
 
     public void inserirBicicletaTranca(UUID idTranca, UUID idBicicleta) {
-        if(repTranca.findById(idTranca) != null) {
+        if(repTranca.findByUuid(idTranca) != null) {
             Tranca tranca1 = repTranca.findByUuid(idTranca);
 
             if (tranca1.getStatus() == Status.LIVRE) {

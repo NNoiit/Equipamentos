@@ -46,7 +46,7 @@ public class TotemService {
     }
 
     public Totem alterarTotem(Totem totemNovo, UUID id){
-        if(repTotem.findById(id) != null ) {
+        if(repTotem.findByUuid(id) != null ) {
             Totem totemAlterado = repTotem.findByUuid(id);
             totemAlterado.setLocalizacao(totemNovo.getLocalizacao());
             return repTotem.save(totemAlterado);

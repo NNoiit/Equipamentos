@@ -148,7 +148,6 @@ class BicicletaServiceTest {
         Mockito.when(repRede.findAll()).thenReturn(listaRedeTest);
         Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
         Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
-        //Mockito.when(statusService.inserirBicicletaTranca(0,0)).equals(true);
         Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
 
         bicicletaService.integrarNaRede(idsEquipamentos);
@@ -166,6 +165,7 @@ class BicicletaServiceTest {
         Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
         Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
         Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getIdBicicleta()).thenReturn(uuid);
 
         bicicletaService.retirarDaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
