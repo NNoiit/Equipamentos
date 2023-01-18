@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -67,6 +69,12 @@ public class BicicletaControllerTest {
                         "numero:0, status: NOVA"));
 
     }*/
+
+    @Test
+    void getBicicleta() throws Exception {
+        Mockito.when(bicicletaService.listarBicicletas()).thenReturn(Collections.emptyList());
+        this.mockMvc.perform(get("/bicicleta")).andDo(print()).andExpect(status().isOk());
+    }
     private Bicicleta criarBicicleta() {
         bicicleta = Mockito.mock(Bicicleta.class);
         Mockito.when(bicicleta.getModelo()).thenReturn("tester");
