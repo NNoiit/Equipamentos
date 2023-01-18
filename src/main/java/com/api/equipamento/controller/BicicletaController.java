@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 public class BicicletaController {
     @Autowired
-    private BicicletaService service;
+    private BicicletaService bicicletaService;
 
     @Autowired
     private Erro mensage;
@@ -26,7 +26,7 @@ public class BicicletaController {
     }
     @PostMapping("/bicicleta")
     public ResponseEntity<Erro> postBicicleta(@RequestBody Bicicleta bike1){
-        if(service.cadastrar(bike1) != null){
+        if(bicicletaService.cadastrar(bike1) != null){
             mensage.setMensage("Bicicleta criada");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         }else {
@@ -38,13 +38,13 @@ public class BicicletaController {
     //alterAar mais tarde para retornar uma mensagem
     @GetMapping("/bicicleta")
     public ResponseEntity<List<Bicicleta>> getBicicleta(){
-        return new ResponseEntity<>(service.listarBicicletas(), HttpStatus.OK);
+        return new ResponseEntity<>(bicicletaService.listarBicicletas(), HttpStatus.OK);
     }
 
     @GetMapping("/bicicleta/{id}")
     public ResponseEntity<?> getBicicleta(@PathVariable UUID id){
-        if(service.bicicletaFindId(id) != null) {
-            return new ResponseEntity<>(service.bicicletaFindId(id), HttpStatus.OK);
+        if(bicicletaService.bicicletaFindId(id) != null) {
+            return new ResponseEntity<>(bicicletaService.bicicletaFindId(id), HttpStatus.OK);
         } else{
             mensage.setMensage("Não encontrado");
             return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
@@ -53,8 +53,8 @@ public class BicicletaController {
 
     @PutMapping("/bicicleta/{id}")
     public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable UUID id){
-        if(service.alterarBicicleta(bike, id) != null) {
-            return new ResponseEntity<>(service.alterarBicicleta(bike, id), HttpStatus.OK);
+        if(bicicletaService.alterarBicicleta(bike, id) != null) {
+            return new ResponseEntity<>(bicicletaService.alterarBicicleta(bike, id), HttpStatus.OK);
         } else {
             mensage.setMensage("Não encotrado");
             return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
@@ -63,12 +63,12 @@ public class BicicletaController {
 
     @DeleteMapping("/bicicleta/{id}")
     public ResponseEntity<Erro> deleteBicicletaId(@PathVariable UUID id){
-        return new ResponseEntity<>(service.excluirBicicleta(id), HttpStatus.OK);
+        return new ResponseEntity<>(bicicletaService.excluirBicicleta(id), HttpStatus.OK);
     }
 
     @PostMapping("/bicicleta/integrarNaRede")
     public ResponseEntity<Erro> integrarNaRede(@RequestBody IdsEquipamentos dados){
-        boolean resul = service.integrarNaRede(dados);
+        boolean resul = bicicletaService.integrarNaRede(dados);
         if(resul) {
             mensage.setMensage("Dados cadastrados");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
@@ -79,7 +79,7 @@ public class BicicletaController {
     }
     @PostMapping("/bicicleta/retriarDaRede")
     public ResponseEntity<Erro> retirarDaRede(@RequestBody IdsEquipamentos dados){
-        boolean resul = service.retirarDaRede(dados);
+        boolean resul = bicicletaService.retirarDaRede(dados);
         if(resul) {
             mensage.setMensage("Dados cadastrados");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
@@ -92,10 +92,10 @@ public class BicicletaController {
     //corrigir dps, o objetivo é alterar a ação
     @PutMapping("/bicicleta/{id}/status/{acao}")
     public ResponseEntity<Erro> putStatusBicicleta(@PathVariable UUID id, @PathVariable Status acao){
-        if(service.alterarStatusBicicleta(id, acao).getMensage().equals("Ação bem sucedida")) {
-            return new ResponseEntity<>(service.alterarStatusBicicleta(id, acao), HttpStatus.OK);
+        if(bicicletaService.alterarStatusBicicleta(id, acao).getMensage().equals("Ação bem sucedida")) {
+            return new ResponseEntity<>(bicicletaService.alterarStatusBicicleta(id, acao), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(service.alterarStatusBicicleta(id, acao), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(bicicletaService.alterarStatusBicicleta(id, acao), HttpStatus.NOT_FOUND);
         }
     }
 

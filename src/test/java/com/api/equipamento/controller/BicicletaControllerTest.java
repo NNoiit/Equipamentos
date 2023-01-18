@@ -2,6 +2,8 @@ package com.api.equipamento.controller;
 
 import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.Erro;
+import com.api.equipamento.model.Status;
+import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.BicicletaService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,10 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,6 +35,10 @@ public class BicicletaControllerTest {
 
     @MockBean
     private BicicletaService bicicletaService;
+
+    @MockBean
+    private RepBicicleta repBicicleta;
+
     @Test
     void teste() throws Exception {
         this.mockMvc.perform(get("/"))
@@ -40,9 +47,33 @@ public class BicicletaControllerTest {
                 .isOk()).andExpect(content().string("Bem Vindos a Nossa Bike &#9773;"));
     }
 
-    @Test
-    void postBicicleta(){
+    /*@Test
+    void postBicicleta() throws Exception {
+        bicicleta = criarBicicleta();
         Mockito.when(bicicletaService.cadastrar(bicicleta)).thenReturn(bicicleta);
+        Mockito.when(repBicicleta.save(bicicleta)).thenReturn(bicicleta);
 
+        this.mockMvc.perform(post("/bicicleta").contentType(MediaType.APPLICATION_JSON).content("{\n" +
+                "  \"marca\": \"tester\",\n" +
+                "  \"modelo\": \"tester\",\n" +
+                "  \"ano\": \"tester\",\n" +
+                "  \"numero\": 0,\n" +
+                "  \"status\": \"NOVA\"\n" +
+                "}").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk()).andExpect(content().json("{ " +
+                        "marca : tester, " +
+                        "modelo: tester, " +
+                        "ano: tester, " +
+                        "numero:0, status: NOVA"));
+
+    }*/
+    private Bicicleta criarBicicleta() {
+        bicicleta = Mockito.mock(Bicicleta.class);
+        Mockito.when(bicicleta.getModelo()).thenReturn("tester");
+        Mockito.when(bicicleta.getAno()).thenReturn("testr");
+        Mockito.when(bicicleta.getMarca()).thenReturn("tester");
+        Mockito.when(bicicleta.getStatus()).thenReturn(Status.NOVA);
+        return bicicleta;
     }
 }

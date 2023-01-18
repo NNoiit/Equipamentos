@@ -1,7 +1,5 @@
 package com.api.equipamento.service;
 
-
-
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
