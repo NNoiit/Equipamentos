@@ -41,15 +41,15 @@ public class BicicletaController {
         return new ResponseEntity<>(bicicletaService.listarBicicletas(), HttpStatus.OK);
     }
 
-    @GetMapping("/bicicleta/{id}")
-    public ResponseEntity<?> getBicicleta(@PathVariable UUID id){
+    /*@GetMapping("/bicicleta/{id}")
+    public ResponseEntity<Bicicleta> getBicicleta(@PathVariable UUID id){
         if(bicicletaService.bicicletaFindId(id) != null) {
             return new ResponseEntity<>(bicicletaService.bicicletaFindId(id), HttpStatus.OK);
         } else{
             mensage.setMensage("Não encontrado");
-            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
     @PutMapping("/bicicleta/{id}")
     public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable UUID id){

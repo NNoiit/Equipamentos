@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -74,6 +75,13 @@ public class BicicletaControllerTest {
     void getBicicleta() throws Exception {
         Mockito.when(bicicletaService.listarBicicletas()).thenReturn(Collections.emptyList());
         this.mockMvc.perform(get("/bicicleta")).andDo(print()).andExpect(status().isOk());
+    }
+    @Test
+    void getBicicletaUuid() throws Exception {
+        bicicleta = criarBicicleta();
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(bicicletaService.bicicletaFindId(uuid)).thenReturn(bicicleta);
+        this.mockMvc.perform(get("/bicicleta/{id}", uuid)).andDo(print()).andExpect(status().isOk());
     }
     private Bicicleta criarBicicleta() {
         bicicleta = Mockito.mock(Bicicleta.class);
