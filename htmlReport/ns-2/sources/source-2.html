@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > StatusService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.api.equipamento.service</a>
+</div>
+
+<h1>Coverage Summary for Class: StatusService (com.api.equipamento.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StatusService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.api.equipamento.service;
+&nbsp;
+&nbsp;import com.api.equipamento.model.Acao;
+&nbsp;import com.api.equipamento.model.Status;
+&nbsp;import com.api.equipamento.model.Tranca;
+&nbsp;import com.api.equipamento.repositori.RepTranca;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class StatusService {</b>
+&nbsp;    @Autowired
+&nbsp;    private RepTranca repTranca;
+&nbsp;
+&nbsp;    public Tranca alterarStatusTranca(UUID idTranca, Acao trancaDestranca){
+<b class="fc">&nbsp;        Tranca tranca1 = repTranca.findByUuid(idTranca);</b>
+<b class="fc">&nbsp;        if(trancaDestranca.getDescricao().equals(&quot;trancar&quot;) || trancaDestranca.getDescricao().equals(&quot;TRANCAR&quot;)){</b>
+<b class="fc">&nbsp;            tranca1.setStatus(Status.OCUPADO);</b>
+<b class="fc">&nbsp;            repTranca.save(tranca1);</b>
+&nbsp;        } else{
+<b class="fc">&nbsp;            tranca1.setStatus(Status.LIVRE);</b>
+<b class="fc">&nbsp;            repTranca.save(tranca1);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return tranca1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void inserirBicicletaTranca(UUID idTranca, UUID idBicicleta) {
+<b class="fc">&nbsp;        if(repTranca.findByUuid(idTranca) != null) {</b>
+<b class="fc">&nbsp;            Tranca tranca1 = repTranca.findByUuid(idTranca);</b>
+&nbsp;
+<b class="fc">&nbsp;            if (tranca1.getStatus() == Status.LIVRE) {</b>
+<b class="fc">&nbsp;                tranca1.setBicicleta(idBicicleta);</b>
+<b class="fc">&nbsp;                tranca1.setStatus(Status.OCUPADO);</b>
+<b class="fc">&nbsp;                repTranca.save(tranca1);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-01-23 11:18</div>
+</div>
+</body>
+</html>

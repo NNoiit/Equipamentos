@@ -25,13 +25,14 @@ public class BicicletaController {
         return "Bem Vindos a Nossa Bike &#9773;";
     }
     @PostMapping("/bicicleta")
-    public ResponseEntity<Erro> postBicicleta(@RequestBody Bicicleta bike1){
-        if(bicicletaService.cadastrar(bike1) != null){
+    public ResponseEntity<Bicicleta> postBicicleta(@RequestBody Bicicleta bike1){
+        Bicicleta bicicletaNova = bicicletaService.cadastrar(bike1);
+        if(bicicletaNova != null){
             mensage.setMensage("Bicicleta criada");
-            return new ResponseEntity<>(mensage, HttpStatus.OK);
+            return new ResponseEntity<>(bicicletaNova, HttpStatus.OK);
         }else {
             mensage.setMensage("Dados invalidos");
-            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(bicicletaNova, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -41,15 +42,18 @@ public class BicicletaController {
         return new ResponseEntity<>(bicicletaService.listarBicicletas(), HttpStatus.OK);
     }
 
-    /*@GetMapping("/bicicleta/{id}")
+    @GetMapping("/bicicleta/{id}")
     public ResponseEntity<Bicicleta> getBicicleta(@PathVariable UUID id){
         if(bicicletaService.bicicletaFindId(id) != null) {
             return new ResponseEntity<>(bicicletaService.bicicletaFindId(id), HttpStatus.OK);
         } else{
             mensage.setMensage("Não encontrado");
+            mensage.setUuid(id);
+            mensage.setCodigo("NOT FOUND");
+            mensagensDoSistema(mensage);
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-    }*/
+    }
 
     @PutMapping("/bicicleta/{id}")
     public ResponseEntity<?> putBicicleta(@RequestBody Bicicleta bike, @PathVariable UUID id){
@@ -99,5 +103,7 @@ public class BicicletaController {
         }
     }
 
-
+    private void mensagensDoSistema(Erro mensage){
+        System.out.println(mensage);
+    }
 }
