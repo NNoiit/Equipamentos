@@ -130,7 +130,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     void trancarTranca(){
         UUID uuid = UUID.randomUUID();
         Mockito.when(trancaRep.findByUuid(uuid)).thenReturn(tranca);
-        Mockito.when(tranca.getStatus()).thenReturn(Status.LIVRE);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.DISPONIVEL);
 
         Assertions.assertTrue(service.trancarTranca(uuid,uuid));
     }
@@ -171,7 +171,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     void getBicicleta(){
         UUID uuid = UUID.randomUUID();
         Mockito.when(trancaRep.findByUuid(uuid)).thenReturn(tranca);
-        Mockito.when(tranca.getStatus()).thenReturn(Status.OCUPADO);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.EM_USO);
         Mockito.when(tranca.getBicicleta()).thenReturn(uuid);
         Mockito.when(repBicicleta.findByUuid(uuid)).thenReturn(bicicleta);
         Assertions.assertNotNull(service.getBicicleta(uuid));
@@ -185,7 +185,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Mockito.when(tranca.getNumero()).thenReturn(10);
         Mockito.when(tranca.getLocalizacao()).thenReturn("Rio de Janeiro");
         Mockito.when(tranca.getBicicleta()).thenReturn(UUID.randomUUID());
-        Mockito.when(tranca.getStatus()).thenReturn(Status.LIVRE);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.DISPONIVEL);
 
         return tranca;
     }

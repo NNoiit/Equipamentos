@@ -58,7 +58,7 @@ public class BicicletaControllerTest {
 
         bicicletaTest.setModelo("tester");
         bicicletaTest.setAno("tester");
-        bicicletaTest.setNumero(0);
+        //bicicletaTest.setNumero(0);
         bicicletaTest.setStatusBike(Status.NOVA);
         Mockito.when(bicicletaService.cadastrar(Mockito.any(Bicicleta.class))).thenReturn(bicicletaTest);
         Mockito.when(repBicicleta.save(Mockito.any(Bicicleta.class))).thenReturn(bicicletaTest);

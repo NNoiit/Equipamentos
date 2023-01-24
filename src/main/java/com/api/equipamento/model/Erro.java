@@ -1,13 +1,18 @@
 package com.api.equipamento.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.processing.Generated;
 import java.util.UUID;
 
 
 @Component
 public class Erro {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
     private String codigo;
     private String mensage;
@@ -21,10 +26,6 @@ public class Erro {
 
     public UUID getUuid() {
         return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 
     public String getCodigo() {

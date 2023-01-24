@@ -124,7 +124,7 @@ class BicicletaServiceTest {
         UUID uuid = UUID.randomUUID();
         Mockito.when(bicicletaRep.countByUuid(uuid)).thenReturn(1);
         Mockito.when(bicicletaRep.findByUuid(uuid)).thenReturn(bicicleta);
-        String textoMensage = bicicletaService.alterarStatusBicicleta(uuid,Status.LIVRE).getMensage();
+        String textoMensage = bicicletaService.alterarStatusBicicleta(uuid,Status.DISPONIVEL).getMensage();
         Assertions.assertEquals("Ação bem sucedida", textoMensage);
     }
 
@@ -132,7 +132,7 @@ class BicicletaServiceTest {
     void alterarStatusBicicletaFalse(){
         UUID uuid = UUID.randomUUID();
         Mockito.when(bicicletaRep.countByUuid(uuid)).thenReturn(0);
-        String textoMensage = bicicletaService.alterarStatusBicicleta(uuid,Status.LIVRE).getMensage();
+        String textoMensage = bicicletaService.alterarStatusBicicleta(uuid,Status.DISPONIVEL).getMensage();
         Assertions.assertEquals("Não encontrado", textoMensage);
     }
     @Test
@@ -173,7 +173,7 @@ class BicicletaServiceTest {
         Mockito.when(bicicleta.getModelo()).thenReturn("zoe");
         Mockito.when(bicicleta.getAno()).thenReturn("2023");
         Mockito.when(bicicleta.getMarca()).thenReturn("renault");
-        Mockito.when(bicicleta.getStatus()).thenReturn(Status.LIVRE);
+        Mockito.when(bicicleta.getStatus()).thenReturn(Status.DISPONIVEL);
         return bicicleta;
     }
 }

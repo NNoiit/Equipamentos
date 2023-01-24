@@ -78,10 +78,10 @@ public class TrancaService{
     public Boolean trancarTranca(UUID idTranca, UUID idBicicleta){
         Tranca tranca1 = repTranca.findByUuid(idTranca);
 
-        if(tranca1.getStatus() == Status.LIVRE){
+        if(tranca1.getStatus() == Status.DISPONIVEL){
             tranca1.setBicicleta(idBicicleta);
-            tranca1.setStatus(Status.OCUPADO);
-            bicicletaService.alterarStatusBicicleta(idBicicleta, Status.LIVRE);
+            tranca1.setStatus(Status.EM_USO);
+            bicicletaService.alterarStatusBicicleta(idBicicleta, Status.DISPONIVEL);
             return true;
         }
         return false;
@@ -91,7 +91,7 @@ public class TrancaService{
 
          if(tranca1.getBicicleta() == idBicicleta){
              tranca1.setBicicleta(null);
-             tranca1.setStatus(Status.LIVRE);
+             tranca1.setStatus(Status.DISPONIVEL);
              return true;
          }
         return false;
@@ -138,7 +138,7 @@ public class TrancaService{
 
     public Bicicleta getBicicleta(UUID idTranca) {
         Tranca tranca1 = repTranca.findByUuid(idTranca);
-        if(tranca1.getStatus() == Status.OCUPADO){
+        if(tranca1.getStatus() == Status.EM_USO){
             return repBicicleta.findByUuid(tranca1.getBicicleta());
         }else {
             return null;

@@ -16,6 +16,7 @@ public class Bicicleta {
     private String modelo;
     @NotBlank
     private String ano;
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int numero;
     private Status status;
 
@@ -56,8 +57,8 @@ public class Bicicleta {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    /*public void setNumero(int numero) {
         this.numero = numero;
-    }
+    }*/
 
 }

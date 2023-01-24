@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.api.equipamento.repositori.RepBicicleta;
 import java.util.List;
 import java.util.UUID;
+import com.api.equipamento.repositori.RepTranca;
 
 @Service
 public class BicicletaService{
@@ -20,11 +21,16 @@ public class BicicletaService{
     private RepRede repRede;
 
     @Autowired
+    private RepTranca repTranca;
+    @Autowired
     private StatusService statusService;
 
     public Bicicleta cadastrar(Bicicleta bicicleta){
 
-        if(bicicleta.getModelo().equals("") || bicicleta.getAno().equals("") || bicicleta.getMarca().equals("")
+        if(bicicleta.getModelo().equals("")
+                || bicicleta.getAno().equals("")
+                || bicicleta.getMarca().equals("")
+                || !bicicleta.getStatus().equals(Status.NOVA)
                 ){
             return null;
         }else {
@@ -44,19 +50,25 @@ public class BicicletaService{
         }
     }
 
-    public Bicicleta alterarBicicleta(Bicicleta bike, UUID id){
+    public Bicicleta alterarBicicleta(Bicicleta bicicletaAlterada, UUID id){
+        Bicicleta bicicletaNoSistema = bicicletaRep.findByUuid(id);
+        if(bicicletaNoSistema != null) {
+            if (bicicletaAlterada.getMarca().equals("")
+                    || bicicletaAlterada.getModelo().equals("")
+                    || bicicletaAlterada.getAno().equals("")
+            ) {
+                return null;
+            } else {
 
-        if(bike.getMarca().equals("") || bike.getModelo().equals("") || bike.getAno().equals("")
-                ){
+                bicicletaNoSistema.setMarca(bicicletaAlterada.getMarca());
+                bicicletaNoSistema.setModelo(bicicletaAlterada.getModelo());
+                bicicletaNoSistema.setAno(bicicletaAlterada.getAno());
+                //bicicletaNoSistema.setNumero(bicicletaAlterada.getNumero());
+
+                return bicicletaRep.save(bicicletaNoSistema);
+            }
+        } else {
             return null;
-        }else {
-            Bicicleta bc = bicicletaRep.findByUuid(id);
-            bc.setMarca(bike.getMarca());
-            bc.setModelo(bike.getModelo());
-            bc.setAno(bike.getAno());
-            bc.setNumero(bike.getNumero());
-
-            return bicicletaRep.save(bc);
         }
     }
 
@@ -64,12 +76,21 @@ public class BicicletaService{
         
         if(bicicletaRep.countByUuid(id)==0){
             mensage.setMensage("Não encontrado");
+            mensage.setMensage("NOT FOUD");
             return mensage;
         }
 
-        Bicicleta bc = bicicletaRep.findByUuid(id);
-        bicicletaRep.delete(bc);
-        mensage.setMensage("Dados removidos");
+        Bicicleta bicicletaParaExclusao = bicicletaRep.findByUuid(id);
+        if(bicicletaParaExclusao.getStatus().equals(Status.APOSENTADA)
+        && repTranca.countByBicicleta(bicicletaParaExclusao.getUuid()) == 0) {
+
+            bicicletaRep.delete(bicicletaParaExclusao);
+            mensage.setMensage("Dados removidos");
+            mensage.setMensage("OK");
+
+        } else {
+            mensage.setMensage("Status da bicilceta incorreto");
+        }
 
         return mensage;
     }
@@ -87,22 +108,27 @@ public class BicicletaService{
     }
 
     public boolean integrarNaRede(IdsEquipamentos dados){
-        List<Rede> listaTotens = repRede.findAll();
-
-        for (int i = 0; listaTotens.size() > i; i++) {
-            Rede totem = listaTotens.get(i);
-            List<UUID> listaTranca = totem.getIdTranca();
-            for (int j = 0; listaTranca.size() > j; j++) {
-                if (listaTranca.get(j) == dados.getIdTranca()) {
-                    //busca a tranca e salva o id da bicicleta na tranca
-                    statusService.inserirBicicletaTranca(dados.getIdTranca(), dados.getIdBicicleta());
-                    //salva o id da bicicleta no totem
-                    List<UUID> listaBicicleta = totem.getIdBicicleta();
-                    listaBicicleta.add(dados.getIdBicicleta());
-                    repRede.save(totem);
-                    return true;
+        Bicicleta bicicletaInserir = bicicletaFindId(dados.getIdBicicleta());
+        if(bicicletaInserir != null && !bicicletaInserir.getStatus().equals(Status.EM_USO)){
+            List<Rede> listaTotens = repRede.findAll();
+            for (int i = 0; listaTotens.size() > i; i++) {
+                Rede totem = listaTotens.get(i);
+                List<UUID> listaTranca = totem.getIdTranca();
+                for (int j = 0; listaTranca.size() > j; j++) {
+                    if (listaTranca.get(j) == dados.getIdTranca()) {
+                        //busca a tranca e salva o id da bicicleta na tranca
+                        statusService.inserirBicicletaTranca(dados.getIdTranca(), dados.getIdBicicleta());
+                        //salva o id da bicicleta no totem
+                        List<UUID> listaBicicleta = totem.getIdBicicleta();
+                        listaBicicleta.add(dados.getIdBicicleta());
+                        repRede.save(totem);
+                        return true;
+                    }
                 }
             }
+        } else if(bicicletaInserir.getStatus().equals(Status.EM_USO)){
+            statusService.inserirBicicletaTranca(dados.getIdTranca(), dados.getIdBicicleta());
+            return true;
         }
 
         return false;

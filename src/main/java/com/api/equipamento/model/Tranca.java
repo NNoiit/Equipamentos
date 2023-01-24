@@ -21,7 +21,7 @@ public class Tranca {
     @NotBlank
     private String modelo;
    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID bicicletaId;
+    private UUID bicicleta;
 
     public Status status;
     public Status getStatus(){
@@ -69,10 +69,10 @@ public class Tranca {
     }
 
     public UUID getBicicleta() {
-        return bicicletaId;
+        return bicicleta;
     }
 
     public void setBicicleta(UUID bicicleta) {
-        this.bicicletaId = bicicleta;
+        this.bicicleta = bicicleta;
     }
 }

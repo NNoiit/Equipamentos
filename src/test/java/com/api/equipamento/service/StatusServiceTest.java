@@ -42,7 +42,7 @@ class StatusServiceTest {
         UUID uuid = UUID.randomUUID();
         Mockito.when(repTranca.findByUuid(uuid)).thenReturn(tranca);
         Mockito.when(repTranca.findByUuid(uuid)).thenReturn(tranca);
-        Mockito.when(tranca.getStatus()).thenReturn(Status.LIVRE);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.DISPONIVEL);
         statusService.inserirBicicletaTranca(uuid, uuid);
         Mockito.verify(repTranca, Mockito.times(1)).save(ArgumentMatchers.any(Tranca.class));
     }

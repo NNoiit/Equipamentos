@@ -13,6 +13,7 @@ public interface RepTranca extends CrudRepository<Tranca, UUID> {
 
     List<Tranca> findAll();
     Tranca findByUuid(UUID id);
-
     int countByUuid(UUID id);
+
+    int countByBicicleta(UUID id);
 }
