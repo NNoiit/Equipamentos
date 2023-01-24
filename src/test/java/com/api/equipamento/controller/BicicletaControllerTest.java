@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -60,8 +61,8 @@ public class BicicletaControllerTest {
         bicicletaTest.setAno("tester");
         //bicicletaTest.setNumero(0);
         bicicletaTest.setStatusBike(Status.NOVA);
-        Mockito.when(bicicletaService.cadastrar(Mockito.any(Bicicleta.class))).thenReturn(bicicletaTest);
-        Mockito.when(repBicicleta.save(Mockito.any(Bicicleta.class))).thenReturn(bicicletaTest);
+        Mockito.when(bicicletaService.cadastrar(any(Bicicleta.class))).thenReturn(bicicletaTest);
+        Mockito.when(repBicicleta.save(any(Bicicleta.class))).thenReturn(bicicletaTest);
 
         this.mockMvc.perform(post("/bicicleta").contentType(MediaType.APPLICATION_JSON_VALUE).content(
                 "{\"marca\": \"tester\",\"modelo\": \"tester\",\"ano\":\"tester\",\"numero\":0,\"status\":\"NOVA\"}").accept(MediaType.APPLICATION_JSON))
@@ -74,8 +75,8 @@ public class BicicletaControllerTest {
     void postBicicletaFail() throws Exception {
         Bicicleta bicicletaTest = new Bicicleta();
 
-        Mockito.when(bicicletaService.cadastrar(Mockito.any(Bicicleta.class))).thenReturn(null);
-        Mockito.when(repBicicleta.save(Mockito.any(Bicicleta.class))).thenReturn(null);
+        Mockito.when(bicicletaService.cadastrar(any(Bicicleta.class))).thenReturn(null);
+        Mockito.when(repBicicleta.save(any(Bicicleta.class))).thenReturn(null);
 
         this.mockMvc.perform(post("/bicicleta").contentType(MediaType.APPLICATION_JSON_VALUE).content(
                         "{\"marca\": \"tester\",\"modelo\": \"tester\",\"ano\":\"tester\",\"numero\":0,\"status\":\"NOVA\"}").accept(MediaType.APPLICATION_JSON))
@@ -102,7 +103,24 @@ public class BicicletaControllerTest {
         Mockito.when(bicicletaService.bicicletaFindId(uuid)).thenReturn(null);
         this.mockMvc.perform(get("/bicicleta/{id}", uuid)).andDo(print()).andExpect(status().isNotFound());
     }
-    
+    @Test
+    void  putBicicleta() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        bicicleta = criarBicicleta();
+        Mockito.when(bicicletaService.alterarBicicleta(Mockito.any(), uuid)).thenReturn(bicicleta);
+        this.mockMvc.perform(put("/bicicleta/{id}", uuid)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"marca\": \"tester\"," +
+                                "\"modelo\": \"tester\"," +
+                                "\"ano\":\"tester\"," +
+                                "\"numero\":0," +
+                                "\"status\":\"NOVA\"}")
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andDo(print()).andExpect(status().isOk());
+    }
+
+    /*private String converterJson(){
+    }*/
     private Bicicleta criarBicicleta() {
         bicicleta = Mockito.mock(Bicicleta.class);
         Mockito.when(bicicleta.getModelo()).thenReturn("tester");

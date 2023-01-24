@@ -3,6 +3,7 @@ package com.api.equipamento.service;
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
+import com.api.equipamento.repositori.RepTranca;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,10 +38,13 @@ class BicicletaServiceTest {
     private Rede rede;
     @MockBean
     private IdsEquipamentos idsEquipamentos;
+    @MockBean
+    private RepTranca repTranca;
 
     @Test
     void testCadastro(){
         bicicleta = criarBicicleta();
+        Mockito.when(bicicleta.getStatus()).thenReturn(Status.NOVA);
         Mockito.when(bicicletaRep.save(bicicleta)).thenReturn(bicicleta);
         bicicletaService.cadastrar(bicicleta);
         Mockito.verify(bicicletaRep, Mockito.times(1)).save(ArgumentMatchers.any(Bicicleta.class));
@@ -105,6 +109,8 @@ class BicicletaServiceTest {
 
         Mockito.when(bicicletaRep.findByUuid(ArgumentMatchers.eq(bicicletaId))).thenReturn(bicicleta);
         Mockito.when(bicicletaRep.countByUuid(bicicletaId)).thenReturn(1);
+        Mockito.when(repTranca.countByBicicleta(bicicletaId)).thenReturn(0);
+        Mockito.when(bicicleta.getStatus()).thenReturn(Status.APOSENTADA);
         bicicletaService.excluirBicicleta(bicicletaId);
         Mockito.verify(bicicletaRep, Mockito.times(1)).delete(ArgumentMatchers.any(Bicicleta.class));
 
@@ -146,10 +152,25 @@ class BicicletaServiceTest {
         Mockito.when(repRede.findAll()).thenReturn(listaRedeTest);
         Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
         Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
+        Mockito.when(bicicletaRep.findByUuid(uuid)).thenReturn(bicicleta);
+        Mockito.when(bicicleta.getStatus()).thenReturn(Status.NOVA);
         Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getIdBicicleta()).thenReturn(uuid);
 
         bicicletaService.integrarNaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
+    }
+    @Test
+    void integrarNaRedeFail(){
+        UUID uuid = UUID.randomUUID();
+
+        Mockito.when(bicicletaRep.findByUuid(uuid)).thenReturn(bicicleta);
+        Mockito.when(bicicleta.getStatus()).thenReturn(Status.EM_USO);
+        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getIdBicicleta()).thenReturn(uuid);
+
+        bicicletaService.integrarNaRede(idsEquipamentos);
+        Mockito.verify(repRede, Mockito.times(0)).save(ArgumentMatchers.any(Rede.class));
     }
     @Test
     void retirarDaRede(){

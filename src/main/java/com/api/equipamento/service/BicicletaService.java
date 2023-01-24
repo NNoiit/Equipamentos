@@ -88,10 +88,7 @@ public class BicicletaService{
             mensage.setMensage("Dados removidos");
             mensage.setMensage("OK");
 
-        } else {
-            mensage.setMensage("Status da bicilceta incorreto");
         }
-
         return mensage;
     }
 
@@ -108,7 +105,7 @@ public class BicicletaService{
     }
 
     public boolean integrarNaRede(IdsEquipamentos dados){
-        Bicicleta bicicletaInserir = bicicletaFindId(dados.getIdBicicleta());
+        Bicicleta bicicletaInserir = bicicletaRep.findByUuid(dados.getIdBicicleta());
         if(bicicletaInserir != null && !bicicletaInserir.getStatus().equals(Status.EM_USO)){
             List<Rede> listaTotens = repRede.findAll();
             for (int i = 0; listaTotens.size() > i; i++) {
