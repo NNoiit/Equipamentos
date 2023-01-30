@@ -123,7 +123,7 @@ public class BicicletaService{
                     }
                 }
             }
-        } else if(bicicletaInserir.getStatus().equals(Status.EM_USO)){
+        } else if(bicicletaInserir != null && bicicletaInserir.getStatus().equals(Status.EM_USO)){
             statusService.inserirBicicletaTranca(dados.getIdTranca(), dados.getIdBicicleta());
             return true;
         }
