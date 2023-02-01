@@ -2,6 +2,7 @@ package com.api.equipamento.controller;
 
 import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.Erro;
+import com.api.equipamento.model.IdsEquipamentos;
 import com.api.equipamento.model.Status;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.BicicletaService;
@@ -108,9 +109,35 @@ public class BicicletaControllerTest {
         UUID uuid = UUID.randomUUID();
         bicicleta = criarBicicleta();
         Mockito.when(bicicletaService.alterarBicicleta(any(Bicicleta.class), any(UUID.class))).thenReturn(bicicleta);
-        this.mockMvc.perform(put("/bicicleta/{id}", uuid)).andDo(print()).andExpect(status().isNotFound());
+        this.mockMvc.perform(put("/bicicleta/{id}", uuid).contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"marca\":\"tester\",\"modelo\":\"tester\",\"ano\":\"tester\",\"numero\":0,\"status\":\"NOVA\"}").accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());
     }
 
+    @Test
+    void  putBicicletaFail() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        bicicleta = criarBicicleta();
+        Mockito.when(bicicletaService.alterarBicicleta(any(Bicicleta.class), any(UUID.class))).thenReturn(null);
+        this.mockMvc.perform(put("/bicicleta/{id}", uuid).contentType(MediaType.APPLICATION_JSON_VALUE).content("{\"marca\":\"tester\",\"modelo\":\"tester\",\"ano\":\"tester\",\"numero\":0,\"status\":\"NOVA\"}").accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isNotFound());
+    }
+    @Test
+    void deletarBicicleta() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        mensage.setMensage("Ok");
+        Mockito.when(bicicletaService.excluirBicicleta(any(UUID.class))).thenReturn(mensage);
+        this.mockMvc.perform(delete("/bicicleta/{id}", uuid)).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void  integrarNaRede() throws Exception {
+        Mockito.when(bicicletaService.integrarNaRede(any(IdsEquipamentos.class))).thenReturn(true);
+        this.mockMvc.perform(post("/bicicleta/integrarNaRede").contentType(MediaType.APPLICATION_JSON).content("{\"idTanca\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\",\"idBicicleta\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\"}").accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void  integrarNaRedeFail() throws Exception {
+        Mockito.when(bicicletaService.integrarNaRede(any(IdsEquipamentos.class))).thenReturn(false);
+        this.mockMvc.perform(post("/bicicleta/integrarNaRede").contentType(MediaType.APPLICATION_JSON).content("{\"idTanca\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\",\"idBicicleta\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\"}").accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isUnprocessableEntity());
+    }
     /*private String converterJson(){
     }*/
     private Bicicleta criarBicicleta() {

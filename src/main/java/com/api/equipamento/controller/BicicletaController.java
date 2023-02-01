@@ -69,19 +69,20 @@ public class BicicletaController {
 
     @DeleteMapping("/bicicleta/{id}")
     public ResponseEntity<Erro> deleteBicicletaId(@PathVariable UUID id){
-        return new ResponseEntity<>(bicicletaService.excluirBicicleta(id), HttpStatus.OK);
+        mensage = bicicletaService.excluirBicicleta(id);
+        return new ResponseEntity<>(mensage, HttpStatus.OK);
     }
 
     @PostMapping("/bicicleta/integrarNaRede")
-    public ResponseEntity<Erro> integrarNaRede(@RequestBody IdsEquipamentos dados){
+    public ResponseEntity<String> integrarNaRede(@RequestBody IdsEquipamentos dados){
         boolean resul = bicicletaService.integrarNaRede(dados);
         if(resul) {
             mensage.setMensage("Dados cadastrados");
-            return new ResponseEntity<>(mensage, HttpStatus.OK);
+            return new ResponseEntity<>(mensage.getMensage(), HttpStatus.OK);
         } else {
             mensage.setCodigo("422");
             mensage.setMensage("Dados invalidos");
-            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(mensage.getMensage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
     @PostMapping("/bicicleta/retriarDaRede")
