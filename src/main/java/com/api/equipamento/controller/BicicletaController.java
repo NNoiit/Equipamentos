@@ -56,14 +56,14 @@ public class BicicletaController {
 
     @PutMapping("/bicicleta/{id}")
     public ResponseEntity<Bicicleta> putBicicleta(@RequestBody Bicicleta bike, @PathVariable UUID id){
-
-        if(bicicletaService.alterarBicicleta(bike, id) != null) {
-            return new ResponseEntity<>(bicicletaService.alterarBicicleta(bike, id), HttpStatus.OK);
+        Bicicleta bicicletaAalterada = bicicletaService.alterarBicicleta(bike, id);
+        if(bicicletaAalterada != null) {
+            return new ResponseEntity<>(bicicletaAalterada, HttpStatus.OK);
         } else {
             mensage.setMensage("Não encotrado");
             mensage.setCodigo("NOT FOUD");
             mensagensDoSistema(mensage);
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(bicicletaAalterada, HttpStatus.NOT_FOUND);
         }
     }
 

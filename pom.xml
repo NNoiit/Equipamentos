@@ -18,9 +18,6 @@
   		<sonar.organization>api-cpt</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
-		<!-- maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target -->
-
 	</properties>
 	<dependencies>
 		<dependency>
@@ -32,10 +29,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!--dependency>
-      		<groupId>org.springframework.boot</groupId>
-      		<artifactId>spring-boot-starter-data-mongodb</artifactId>
-    	</dependency -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

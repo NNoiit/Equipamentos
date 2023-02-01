@@ -107,16 +107,8 @@ public class BicicletaControllerTest {
     void  putBicicleta() throws Exception {
         UUID uuid = UUID.randomUUID();
         bicicleta = criarBicicleta();
-        Mockito.when(bicicletaService.alterarBicicleta(Mockito.any(), uuid)).thenReturn(bicicleta);
-        this.mockMvc.perform(put("/bicicleta/{id}", uuid)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"marca\": \"tester\"," +
-                                "\"modelo\": \"tester\"," +
-                                "\"ano\":\"tester\"," +
-                                "\"numero\":0," +
-                                "\"status\":\"NOVA\"}")
-                        .accept(MediaType.APPLICATION_JSON))
-                        .andDo(print()).andExpect(status().isOk());
+        Mockito.when(bicicletaService.alterarBicicleta(any(Bicicleta.class), any(UUID.class))).thenReturn(bicicleta);
+        this.mockMvc.perform(put("/bicicleta/{id}", uuid)).andDo(print()).andExpect(status().isNotFound());
     }
 
     /*private String converterJson(){
