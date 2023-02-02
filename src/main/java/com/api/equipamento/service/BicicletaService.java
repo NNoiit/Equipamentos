@@ -112,7 +112,7 @@ public class BicicletaService{
                 Rede totem = listaTotens.get(i);
                 List<UUID> listaTranca = totem.getIdTranca();
                 for (int j = 0; listaTranca.size() > j; j++) {
-                    if (listaTranca.get(j) == dados.getTranca()) {
+                    if (listaTranca.get(j).equals(dados.getTranca())) {
                         //busca a tranca e salva o id da bicicleta na tranca
                         statusService.inserirBicicletaTranca(dados.getTranca(), dados.getBicicleta());
                         //salva o id da bicicleta no totem
@@ -140,11 +140,12 @@ public class BicicletaService{
                 Rede totem = listaTotens.get(i);
                 List<UUID> listaTranca = totem.getIdTranca();
                 for (int j = 0; listaTranca.size() > j; j++) {
-                    if (listaTranca.get(j) == dados.getTranca()) {
+                    if (listaTranca.get(j).equals(dados.getTranca())) {
                         List<UUID> listaBicicleta = totem.getIdBicicleta();
                         for (int h = 0; listaBicicleta.size() > h; h++) {
-                            if (listaBicicleta.get(h) == dados.getBicicleta()) {
+                            if (listaBicicleta.get(h).equals(dados.getBicicleta())) {
                                 listaBicicleta.remove(listaBicicleta.get(h));
+                                statusService.alterarStatusTranca(dados.getTranca(), Acao.DESTRANCAR);
                                 alterarStatusBicicleta(dados.getBicicleta(), Status.EM_REPARO);
                                 repRede.save(totem);
                                 return true;

@@ -103,12 +103,13 @@ public class TrancaController {
     }
 
     @GetMapping("/tranca/{id}/bicicleta")
-    public ResponseEntity<?> bicicletaTranca(@PathVariable UUID id){
-        if(trancaService.getBicicleta(id) != null) {
-            return new ResponseEntity<>(trancaService.getBicicleta(id), HttpStatus.OK);
+    public ResponseEntity<Bicicleta> bicicletaTranca(@PathVariable UUID id){
+        Bicicleta uuidBicicleta = trancaService.getBicicleta(id);
+        if(uuidBicicleta != null) {
+            return new ResponseEntity<>(uuidBicicleta, HttpStatus.OK);
         } else {
             mensage.setMensage("Bicicleta não encontrada");
-            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(uuidBicicleta, HttpStatus.NOT_FOUND);
         }
     }
     @PostMapping("/tranca/integrarNaRede")

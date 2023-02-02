@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.api.equipamento.service.BicicletaServiceTest
 -------------------------------------------------------------------------------
-Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.619 s - in com.api.equipamento.service.BicicletaServiceTest
+Tests run: 14, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.334 s <<< FAILURE! - in com.api.equipamento.service.BicicletaServiceTest
+retirarDaRede  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "com.api.equipamento.model.Tranca.setStatus(com.api.equipamento.model.Status)" because "tranca1" is null
+	at com.api.equipamento.service.BicicletaServiceTest.retirarDaRede(BicicletaServiceTest.java:188)
+

@@ -1,9 +1,6 @@
 package com.api.equipamento.controller;
 
-import com.api.equipamento.model.IdsEquipamentos;
-import com.api.equipamento.model.Status;
-import com.api.equipamento.model.Totem;
-import com.api.equipamento.model.Tranca;
+import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
 import com.api.equipamento.repositori.RepTotem;
@@ -39,6 +36,9 @@ public class TrancaControllerTest {
 
     @MockBean
     private Tranca tranca;
+
+    @MockBean
+    private Bicicleta bicicleta;
     @MockBean
     private RepTranca repTranca;
     @MockBean
@@ -58,16 +58,10 @@ public class TrancaControllerTest {
 
     @Test
     void postTranca() throws Exception {
-        //tranca = criarTranca();
+        tranca = criarTranca();
         Mockito.when(trancaService.cadastrarTranca(any(Tranca.class))).thenReturn(tranca);
         this.mockMvc.perform(post("/tranca").contentType(MediaType.APPLICATION_JSON).content(
-                        "{\n" +
-                                "        \"numero\": 1,\n" +
-                                "        \"localizacao\": \"Rio de Janeiro\",\n" +
-                                "        \"anoDeFabricacao\": \"01/02/2023\",\n" +
-                                "        \"modelo\": \"nort\",\n" +
-                                "        \"status\": \"NOVA\"\n" +
-                                "    }").accept(MediaType.APPLICATION_JSON)).andDo(print())
+                        "{\"numero\": 1,\"localizacao\":\"Rio de Janeiro\",\"anoDeFabricacao\":\"01/02/2023\",\"modelo\":\"nort\",\"status\":\"NOVA\"}").accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().isOk());
     }
     @Test
@@ -189,6 +183,69 @@ public class TrancaControllerTest {
                                 "    \"bicicleta\":\"328a9942-f7ce-4244-9ae8-447693a78f52\"\n" +
                                 "}").accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().isNotFound());
+    }
+    @Test
+    void alterarStatusTranca() throws Exception{
+        UUID uuid = UUID.randomUUID();
+        this.mockMvc.perform(post("/tranca/{id}/status/{acao}", uuid, Acao.DESTRANCAR))
+                .andDo(print()).andExpect(status().isOk());
+    }
+    @Test
+    void bicicletaTranca() throws Exception {
+        bicicleta = Mockito.mock(Bicicleta.class);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(trancaService.getBicicleta(any(UUID.class))).thenReturn(bicicleta);
+        this.mockMvc.perform(get("/tranca/{id}/bicicleta", uuid))
+                .andDo(print()).andExpect(status().isOk());
+    }
+    @Test
+    void bicicletaTrancaFail() throws Exception {
+        bicicleta = Mockito.mock(Bicicleta.class);
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(trancaService.getBicicleta(any(UUID.class))).thenReturn(null);
+        this.mockMvc.perform(get("/tranca/{id}/bicicleta", uuid))
+                .andDo(print()).andExpect(status().isNotFound());
+    }
+    @Test
+    void integrarNaRede() throws Exception{
+        Mockito.when(trancaService.adicionaTrancaRede(any(IdsEquipamentos.class))).thenReturn(true);
+        this.mockMvc.perform(post("/tranca/integrarNaRede").contentType(MediaType.APPLICATION_JSON).content(
+                        "{\n" +
+                                "    \"idTotem\": \"e04cd5d7-4400-478b-9c15-0bb84494ad02\",\n" +
+                                "    \"idTranca\":\"f460a877-2e50-440b-b170-79d3fa829786\"\n" +
+                                "}").accept(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(status().isOk());
+    }
+    @Test
+    void integrarNaRedeFail() throws Exception{
+        Mockito.when(trancaService.adicionaTrancaRede(any(IdsEquipamentos.class))).thenReturn(false);
+        this.mockMvc.perform(post("/tranca/integrarNaRede").contentType(MediaType.APPLICATION_JSON).content(
+                        "{\n" +
+                                "    \"idTotem\": \"e04cd5d7-4400-478b-9c15-0bb84494ad02\",\n" +
+                                "    \"idTranca\":\"f460a877-2e50-440b-b170-79d3fa829786\"\n" +
+                                "}").accept(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void ritirarDaRede() throws Exception{
+        Mockito.when(trancaService.removerTrancaRede(any(IdsEquipamentos.class))).thenReturn(true);
+        this.mockMvc.perform(post("/tranca/retirarDaRede").contentType(MediaType.APPLICATION_JSON).content(
+                        "{\n" +
+                                "    \"idTotem\": \"e04cd5d7-4400-478b-9c15-0bb84494ad02\",\n" +
+                                "    \"idTranca\":\"f460a877-2e50-440b-b170-79d3fa829786\"\n" +
+                                "}").accept(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(status().isOk());
+    }
+    @Test
+    void retirarDaRedeFail() throws Exception{
+        Mockito.when(trancaService.removerTrancaRede(any(IdsEquipamentos.class))).thenReturn(false);
+        this.mockMvc.perform(post("/tranca/retirarDaRede").contentType(MediaType.APPLICATION_JSON).content(
+                        "{\n" +
+                                "    \"idTotem\": \"e04cd5d7-4400-478b-9c15-0bb84494ad02\",\n" +
+                                "    \"idTranca\":\"f460a877-2e50-440b-b170-79d3fa829786\"\n" +
+                                "}").accept(MediaType.APPLICATION_JSON)).andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
     private Tranca criarTranca(){
         tranca = Mockito.mock(Tranca.class);

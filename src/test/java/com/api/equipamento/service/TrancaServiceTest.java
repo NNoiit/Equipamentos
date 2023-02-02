@@ -4,6 +4,7 @@ import com.api.equipamento.EquipamentoApplicationTests;
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
+import com.api.equipamento.repositori.RepTotem;
 import com.api.equipamento.repositori.RepTranca;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class TrancaServiceTest extends EquipamentoApplicationTests {
@@ -27,6 +30,8 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     private TrancaService service;
     @MockBean
     private RepTranca trancaRep;
+    @MockBean
+    private RepTotem repTotem;
     @MockBean
     private RepBicicleta repBicicleta;
     @MockBean
@@ -37,7 +42,8 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     private  Bicicleta bicicleta;
     @MockBean
     private IdsEquipamentos idsEquipamentos;
-
+    @MockBean
+    private Totem totem;
     @MockBean
     private Rede rede;
 
@@ -45,7 +51,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     void cadastrarTranca(){
         tranca = criarTranca();
         service.cadastrarTranca(tranca);
-        Mockito.verify(trancaRep, Mockito.times(1)).save(ArgumentMatchers.any(Tranca.class));
+        Mockito.verify(trancaRep, Mockito.times(1)).save(any(Tranca.class));
     }
 
     @Test
@@ -53,7 +59,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         tranca = criarTranca();
         Mockito.when(tranca.getModelo()).thenReturn("");
         service.cadastrarTranca(tranca);
-        Mockito.verify(trancaRep, Mockito.times(0)).save(ArgumentMatchers.any(Tranca.class));
+        Mockito.verify(trancaRep, Mockito.times(0)).save(any(Tranca.class));
         Assertions.assertNull(service.cadastrarTranca(tranca));
     }
 
@@ -88,7 +94,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Mockito.when(trancaRep.findByUuid(trancaId)).thenReturn(tranca);
         Mockito.when(trancaRep.countByUuid(trancaId)).thenReturn(1);
         service.alterarTranca(tranca, trancaId);
-        Mockito.verify(trancaRep, Mockito.times(1)).save(ArgumentMatchers.any(Tranca.class));
+        Mockito.verify(trancaRep, Mockito.times(1)).save(any(Tranca.class));
     }
 
     @Test
@@ -99,7 +105,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Mockito.when(tranca.getModelo()).thenReturn("");
         Mockito.when(trancaRep.countByUuid(trancaId)).thenReturn(0);
         service.alterarTranca(tranca, trancaId);
-        Mockito.verify(trancaRep, Mockito.times(0)).save(ArgumentMatchers.any(Tranca.class));
+        Mockito.verify(trancaRep, Mockito.times(0)).save(any(Tranca.class));
         Assertions.assertNull(service.alterarTranca(tranca, trancaId));
     }
     @Test
@@ -109,7 +115,7 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         Mockito.when(trancaRep.countByUuid(trancaId)).thenReturn(1);
         Mockito.when(trancaRep.findByUuid(trancaId)).thenReturn(tranca);
         service.excluirTranca(trancaId);
-        Mockito.verify(trancaRep, Mockito.times(1)).delete(ArgumentMatchers.any(Tranca.class));
+        Mockito.verify(trancaRep, Mockito.times(1)).delete(any(Tranca.class));
     }
 
     @Test
@@ -145,26 +151,56 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
     @Test
     void adicionaTrancaRede(){
         rede = Mockito.mock(Rede.class);
+        idsEquipamentos = Mockito.mock(IdsEquipamentos.class);
+        totem = Mockito.mock(Totem.class);
+        tranca = Mockito.mock(Tranca.class);
         List<UUID> listaFake = new ArrayList<>();
         UUID uuid = UUID.randomUUID();
-        Mockito.when(repRede.findByIdTotem(uuid)).thenReturn(rede);
-        Mockito.when(trancaRep.countByUuid(uuid)).thenReturn(1);
         Mockito.when(idsEquipamentos.getTotem()).thenReturn(uuid);
         Mockito.when(idsEquipamentos.getTranca()).thenReturn(uuid);
+        Mockito.when(repTotem.findByUuid(idsEquipamentos.getTotem())).thenReturn(totem);
+        Mockito.when(repRede.findByIdTotem(idsEquipamentos.getTotem())).thenReturn(rede);
+        Mockito.when(trancaRep.countByUuid(uuid)).thenReturn(1);
+        Mockito.when(trancaRep.findByUuid(idsEquipamentos.getTranca())).thenReturn(tranca);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.NOVA);
+        Mockito.when(rede.getIdTranca()).thenReturn(listaFake);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.NOVA);
+
+        service.adicionaTrancaRede(idsEquipamentos);
+        Mockito.verify(repRede, Mockito.times(1)).save(any(Rede.class));
+    }
+    @Test
+    void adicionaTrancaRedeFail(){
+        rede = Mockito.mock(Rede.class);
+        idsEquipamentos = Mockito.mock(IdsEquipamentos.class);
+        totem = Mockito.mock(Totem.class);
+        tranca = Mockito.mock(Tranca.class);
+        List<UUID> listaFake = new ArrayList<>();
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(idsEquipamentos.getTotem()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getTranca()).thenReturn(uuid);
+        Mockito.when(repTotem.findByUuid(idsEquipamentos.getTotem())).thenReturn(totem);
+        Mockito.when(repRede.findByIdTotem(idsEquipamentos.getTotem())).thenReturn(rede);
+        Mockito.when(trancaRep.countByUuid(uuid)).thenReturn(1);
+        Mockito.when(trancaRep.findByUuid(idsEquipamentos.getTranca())).thenReturn(tranca);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.DISPONIVEL);
         Mockito.when(rede.getIdTranca()).thenReturn(listaFake);
 
         service.adicionaTrancaRede(idsEquipamentos);
-        Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
+        Mockito.verify(repRede, Mockito.times(1)).save(any(Rede.class));
     }
     @Test
     void removerTrancaRede(){
-        List<UUID> listaFake = new ArrayList<>();
-        UUID uuid = UUID.randomUUID();
+        rede = Mockito.mock(Rede.class);
+        tranca = Mockito.mock(Tranca.class);
 
-        Mockito.when(repRede.findByIdTotem(uuid)).thenReturn(rede);
+        List<UUID> listaFake = new ArrayList<>();
+        Mockito.when(trancaRep.findByUuid(idsEquipamentos.getTranca())).thenReturn(tranca);
+        Mockito.when(repRede.findByIdTotem(idsEquipamentos.getTotem())).thenReturn(rede);
         Mockito.when(rede.getIdTranca()).thenReturn(listaFake);
+        Mockito.when(tranca.getStatus()).thenReturn(Status.NOVA);
         service.removerTrancaRede(idsEquipamentos);
-        Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
+        Mockito.verify(repRede, Mockito.times(1)).save(any(Rede.class));
     }
 
     @Test

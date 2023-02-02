@@ -71,7 +71,7 @@ public class TotemControllerTest {
     void putTotem() throws Exception {
         UUID uuid = UUID.randomUUID();
         totem = criaTotem();
-        Mockito.when(totemService.alterarTotem(totem, uuid)).thenReturn(totem);
+        Mockito.when(totemService.alterarTotem(any(Totem.class), any(UUID.class))).thenReturn(totem);
         this.mockMvc.perform(put("/totem/{id}", uuid).contentType(MediaType.APPLICATION_JSON_VALUE).content(
                         "{\"localizacao\":\"test\"}").accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().isOk());
@@ -80,10 +80,10 @@ public class TotemControllerTest {
     @Test
     void putTotemFail() throws Exception {
         UUID uuid = UUID.randomUUID();
-        Mockito.when(totemService.alterarTotem(totem, uuid)).thenReturn(null);
+        Mockito.when(totemService.alterarTotem(any(Totem.class), any(UUID.class))).thenReturn(null);
         Mockito.when(totem.getLocalizacao()).thenReturn(null);
         this.mockMvc.perform(put("/totem/{id}", uuid).contentType(MediaType.APPLICATION_JSON_VALUE).content(
-                        "{\"uui\":\"null\",\"localizacao\":\"null\"}").accept(MediaType.APPLICATION_JSON)).andDo(print())
+                        "{\"uui\":\"null\"}").accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
 
