@@ -1,21 +1,21 @@
 -------------------------------------------------------------------------------
 Test set: com.api.equipamento.controller.TrancaControllerTest
 -------------------------------------------------------------------------------
-Tests run: 20, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 1.827 s <<< FAILURE! - in com.api.equipamento.controller.TrancaControllerTest
+Tests run: 20, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 1.254 s <<< FAILURE! - in com.api.equipamento.controller.TrancaControllerTest
 putTranca  Time elapsed: 0 s  <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TrancaControllerTest.putTranca(TrancaControllerTest.java:107)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TrancaControllerTest.putTranca(TrancaControllerTest.java:107)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Tranca$MockitoMock$SqLZ2UUv["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Tranca$MockitoMock$SHwZn7tG["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TrancaControllerTest.putTranca(TrancaControllerTest.java:107)
 
-getTranca  Time elapsed: 0.001 s  <<< ERROR!
+getTranca  Time elapsed: 0.021 s  <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TrancaControllerTest.getTranca(TrancaControllerTest.java:92)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TrancaControllerTest.getTranca(TrancaControllerTest.java:92)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Tranca$MockitoMock$SqLZ2UUv["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Tranca$MockitoMock$SHwZn7tG["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TrancaControllerTest.getTranca(TrancaControllerTest.java:92)
 
 bicicletaTranca  Time elapsed: 0 s  <<< ERROR!
@@ -23,7 +23,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 	at com.api.equipamento.controller.TrancaControllerTest.bicicletaTranca(TrancaControllerTest.java:198)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TrancaControllerTest.bicicletaTranca(TrancaControllerTest.java:198)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Bicicleta$MockitoMock$cPP3dlff["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Bicicleta$MockitoMock$ifT3yJhI["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TrancaControllerTest.bicicletaTranca(TrancaControllerTest.java:198)
 
 postTranca  Time elapsed: 0 s  <<< ERROR!
@@ -31,6 +31,6 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 	at com.api.equipamento.controller.TrancaControllerTest.postTranca(TrancaControllerTest.java:63)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TrancaControllerTest.postTranca(TrancaControllerTest.java:63)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Tranca$MockitoMock$SqLZ2UUv["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Tranca$MockitoMock$SHwZn7tG["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TrancaControllerTest.postTranca(TrancaControllerTest.java:63)
 

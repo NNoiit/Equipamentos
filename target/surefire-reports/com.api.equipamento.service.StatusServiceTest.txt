@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.api.equipamento.service.StatusServiceTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.416 s - in com.api.equipamento.service.StatusServiceTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.753 s - in com.api.equipamento.service.StatusServiceTest

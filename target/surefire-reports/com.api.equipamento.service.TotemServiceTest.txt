@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.api.equipamento.service.TotemServiceTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.941 s - in com.api.equipamento.service.TotemServiceTest
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.837 s - in com.api.equipamento.service.TotemServiceTest

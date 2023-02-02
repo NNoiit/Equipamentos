@@ -28,10 +28,8 @@ public class BicicletaController {
     public ResponseEntity<Bicicleta> postBicicleta(@RequestBody Bicicleta bike1){
         Bicicleta bicicletaNova = bicicletaService.cadastrar(bike1);
         if(bicicletaNova != null){
-            mensage.setMensage("Bicicleta criada");
             return new ResponseEntity<>(bicicletaNova, HttpStatus.OK);
         }else {
-            mensage.setMensage("Dados invalidos");
             return new ResponseEntity<>(bicicletaNova, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
@@ -47,10 +45,7 @@ public class BicicletaController {
         if(bicicicletaBuscada != null) {
             return new ResponseEntity<>(bicicicletaBuscada, HttpStatus.OK);
         } else{
-            mensage.setMensage("Não encontrado");
-            mensage.setCodigo("NOT FOUND");
-            mensagensDoSistema(mensage);
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(bicicicletaBuscada, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -60,9 +55,6 @@ public class BicicletaController {
         if(bicicletaAalterada != null) {
             return new ResponseEntity<>(bicicletaAalterada, HttpStatus.OK);
         } else {
-            mensage.setMensage("Não encotrado");
-            mensage.setCodigo("NOT FOUD");
-            mensagensDoSistema(mensage);
             return new ResponseEntity<>(bicicletaAalterada, HttpStatus.NOT_FOUND);
         }
     }
@@ -77,7 +69,7 @@ public class BicicletaController {
     public ResponseEntity<String> integrarNaRede(@RequestBody IdsEquipamentos dados){
         boolean resul = bicicletaService.integrarNaRede(dados);
         if(resul) {
-            mensage.setMensage("Dados cadastrados");
+            mensage.setMensage("Dados cadastrados na rede");
             return new ResponseEntity<>(mensage.getMensage(), HttpStatus.OK);
         } else {
             mensage.setCodigo("422");
@@ -89,7 +81,7 @@ public class BicicletaController {
     public ResponseEntity<Erro> retirarDaRede(@RequestBody IdsEquipamentos dados){
         boolean resul = bicicletaService.retirarDaRede(dados);
         if(resul) {
-            mensage.setMensage("Dados cadastrados");
+            mensage.setMensage("Dados cadastrados com exito");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
         } else {
             mensage.setCodigo("422");
@@ -104,13 +96,7 @@ public class BicicletaController {
         if(bicicletaService.alterarStatusBicicleta(id, acao).getMensage().equals("Ação bem sucedida")) {
             return new ResponseEntity<>(bicicletaService.bicicletaFindId(id), HttpStatus.OK);
         } else {
-            mensage.setMensage("Não encontrado");
-            mensage.setCodigo("NOT FOUND");
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(bicicletaService.bicicletaFindId(id), HttpStatus.NOT_FOUND);
         }
-    }
-
-    private void mensagensDoSistema(Erro mensage){
-        System.out.println(mensage);
     }
 }
