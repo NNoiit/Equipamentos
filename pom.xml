@@ -73,6 +73,14 @@
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- Ignore any tests that are marked by the @IntegrationTest annotation of Spring Boot -->
+					<excludedGroups>org.springframework.boot.test.IntegrationTest</excludedGroups>
+				</configuration>
+			</plugin>
+			
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
