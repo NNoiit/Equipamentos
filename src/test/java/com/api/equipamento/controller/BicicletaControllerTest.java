@@ -6,10 +6,8 @@ import com.api.equipamento.model.IdsEquipamentos;
 import com.api.equipamento.model.Status;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.service.BicicletaService;
-import net.minidev.json.annotate.JsonIgnore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -139,6 +137,37 @@ public class BicicletaControllerTest {
         this.mockMvc.perform(post("/bicicleta/integrarNaRede").contentType(MediaType.APPLICATION_JSON).content(
                 "{\"idTanca\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\",\"idBicicleta\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\"}"
         ).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void retirarDaRede() throws Exception {
+        Mockito.when(bicicletaService.retirarDaRede(any(IdsEquipamentos.class))).thenReturn(true);
+        this.mockMvc.perform(post("/bicicleta/retirarDaRede").contentType(MediaType.APPLICATION_JSON).content(
+                "{\"idTanca\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\",\"idBicicleta\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\"}"
+        ).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void retirarDaRedeFail() throws Exception {
+        Mockito.when(bicicletaService.retirarDaRede(any(IdsEquipamentos.class))).thenReturn(false);
+        this.mockMvc.perform(post("/bicicleta/retirarDaRede").contentType(MediaType.APPLICATION_JSON).content(
+                "{\"idTanca\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\",\"idBicicleta\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\"}"
+        ).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void putStatusBicicleta() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(bicicletaService.alterarStatusBicicleta(uuid, Status.DISPONIVEL)).thenReturn(mensage);
+        Mockito.when(mensage.getMensage()).thenReturn("Ação bem sucedida");
+        this.mockMvc.perform(put("/bicicleta/{id}/status/{acao}", uuid, Status.DISPONIVEL)).andDo(print()).andExpect(status().isOk());
+    }
+    @Test
+    void putStatusBicicletaFail() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        Mockito.when(bicicletaService.alterarStatusBicicleta(uuid, Status.DISPONIVEL)).thenReturn(mensage);
+        Mockito.when(mensage.getMensage()).thenReturn("Não encontrado");
+        this.mockMvc.perform(put("/bicicleta/{id}/status/{acao}", uuid, Status.DISPONIVEL)).andDo(print()).andExpect(status().isNotFound());
     }
     /*private String converterJson(){
     }*/

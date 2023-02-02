@@ -85,7 +85,7 @@ public class BicicletaController {
             return new ResponseEntity<>(mensage.getMensage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-    @PostMapping("/bicicleta/retriarDaRede")
+    @PostMapping("/bicicleta/retirarDaRede")
     public ResponseEntity<Erro> retirarDaRede(@RequestBody IdsEquipamentos dados){
         boolean resul = bicicletaService.retirarDaRede(dados);
         if(resul) {

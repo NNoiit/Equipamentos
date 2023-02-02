@@ -1,8 +1,10 @@
 package com.api.equipamento.controller;
 
 
+import com.api.equipamento.model.Bicicleta;
 import com.api.equipamento.model.Erro;
 import com.api.equipamento.model.Totem;
+import com.api.equipamento.model.Tranca;
 import com.api.equipamento.service.TotemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,24 +27,26 @@ public class TotemController {
     }
 
     @PostMapping("/totem")
-    public ResponseEntity<?> setTotem(@RequestBody Totem totem){
-        if(service.cadastrarTotem(totem) != null){
-            return new ResponseEntity<>(service.cadastrarTotem(totem), HttpStatus.CREATED);
+    public ResponseEntity<Totem> setTotem(@RequestBody Totem totem){
+        Totem totemNovo = service.cadastrarTotem(totem);
+        if(totemNovo != null){
+            return new ResponseEntity<>(totemNovo, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(totemNovo, HttpStatus.UNPROCESSABLE_ENTITY);
     }
     @GetMapping("/totem/{id}")
     public ResponseEntity<Totem> mostraTotem(@PathVariable UUID id){
         return new ResponseEntity<>(service.mostrarTotem(id), HttpStatus.OK);
     }
     @PutMapping("/totem/{id}")
-    public ResponseEntity<?> putTotem(@RequestBody Totem totem, @PathVariable UUID id){
-        if(service.alterarTotem(totem, id) != null) {
-            return new ResponseEntity<>(service.alterarTotem(totem, id), HttpStatus.OK);
+    public ResponseEntity<Totem> putTotem(@RequestBody Totem totem, @PathVariable UUID id){
+        Totem totemAlterado = service.alterarTotem(totem, id);
+        if(totemAlterado != null) {
+            return new ResponseEntity<>(totemAlterado, HttpStatus.OK);
         }else if(totem.getLocalizacao() == null){
-            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(totemAlterado, HttpStatus.UNPROCESSABLE_ENTITY);
         } else {
-            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(totemAlterado, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -56,18 +60,20 @@ public class TotemController {
     }
 
     @GetMapping("/totem/{id}/trancas")
-    public ResponseEntity<?> listaTrancasTotem(@PathVariable UUID id){
-        if(service.listaTrancaTotem(id) != null){
-            return new ResponseEntity<>(service.listaTrancaTotem(id), HttpStatus.OK);
+    public ResponseEntity<List<Tranca>> listaTrancasTotem(@PathVariable UUID id){
+        List<Tranca> listaTranca = service.listaTrancaTotem(id);
+        if(listaTranca != null){
+            return new ResponseEntity<>(listaTranca, HttpStatus.OK);
         }
-        return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(listaTranca, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/totem/{id}/bicicletas")
-    public ResponseEntity<?> listaBicicletaTotem(@PathVariable UUID id){
-        if(service.listaBicicletaTotem(id) != null) {
-            return new ResponseEntity<>(service.listaBicicletaTotem(id), HttpStatus.OK);
+    public ResponseEntity<List<Bicicleta>> listaBicicletaTotem(@PathVariable UUID id){
+        List<Bicicleta> listaBicicleta = service.listaBicicletaTotem(id);
+        if(listaBicicleta != null) {
+            return new ResponseEntity<>(listaBicicleta, HttpStatus.OK);
         }
-        return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(listaBicicleta, HttpStatus.NOT_FOUND);
     }
 }
