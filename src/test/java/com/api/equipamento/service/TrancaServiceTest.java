@@ -1,6 +1,6 @@
 package com.api.equipamento.service;
 
-import com.api.equipamento.EquipamentoApplicationTests;
+
 import com.api.equipamento.model.*;
 import com.api.equipamento.repositori.RepBicicleta;
 import com.api.equipamento.repositori.RepRede;
@@ -8,7 +8,6 @@ import com.api.equipamento.repositori.RepTotem;
 import com.api.equipamento.repositori.RepTranca;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class TrancaServiceTest extends EquipamentoApplicationTests {
+class TrancaServiceTest {
 
     @Autowired
     private TrancaService service;

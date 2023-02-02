@@ -1,21 +1,21 @@
 -------------------------------------------------------------------------------
 Test set: com.api.equipamento.controller.BicicletaControllerTest
 -------------------------------------------------------------------------------
-Tests run: 15, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 13.984 s <<< FAILURE! - in com.api.equipamento.controller.BicicletaControllerTest
-retirarDaRedeFail  Time elapsed: 0.121 s  <<< ERROR!
+Tests run: 15, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 12.308 s <<< FAILURE! - in com.api.equipamento.controller.BicicletaControllerTest
+retirarDaRedeFail  Time elapsed: 0.116 s  <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.BicicletaControllerTest.retirarDaRedeFail(BicicletaControllerTest.java:153)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.BicicletaControllerTest.retirarDaRedeFail(BicicletaControllerTest.java:153)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$xeF2bGZX["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$SNKioy2w["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.BicicletaControllerTest.retirarDaRedeFail(BicicletaControllerTest.java:153)
 
-deletarBicicleta  Time elapsed: 0.013 s  <<< ERROR!
+deletarBicicleta  Time elapsed: 0.019 s  <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.BicicletaControllerTest.deletarBicicleta(BicicletaControllerTest.java:125)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.BicicletaControllerTest.deletarBicicleta(BicicletaControllerTest.java:125)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$xeF2bGZX["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$SNKioy2w["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.BicicletaControllerTest.deletarBicicleta(BicicletaControllerTest.java:125)
 
 putBicicleta  Time elapsed: 0 s  <<< ERROR!
@@ -23,7 +23,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 	at com.api.equipamento.controller.BicicletaControllerTest.putBicicleta(BicicletaControllerTest.java:110)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.BicicletaControllerTest.putBicicleta(BicicletaControllerTest.java:110)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Bicicleta$MockitoMock$ifT3yJhI["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Bicicleta$MockitoMock$bC7SCX0l["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.BicicletaControllerTest.putBicicleta(BicicletaControllerTest.java:110)
 
 retirarDaRede  Time elapsed: 0 s  <<< ERROR!
@@ -31,6 +31,6 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 	at com.api.equipamento.controller.BicicletaControllerTest.retirarDaRede(BicicletaControllerTest.java:145)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.BicicletaControllerTest.retirarDaRede(BicicletaControllerTest.java:145)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$xeF2bGZX["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$SNKioy2w["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.BicicletaControllerTest.retirarDaRede(BicicletaControllerTest.java:145)
 

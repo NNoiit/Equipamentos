@@ -106,7 +106,7 @@ public class BicicletaService{
 
     public boolean integrarNaRede(IdsEquipamentos dados){
         Bicicleta bicicletaInserir = bicicletaRep.findByUuid(dados.getBicicleta());
-        if (!bicicletaInserir.getStatus().equals(Status.REPARO_SOLICITADO) || !bicicletaInserir.getStatus().equals(Status.APOSENTADA)) {
+        if (bicicletaInserir.getStatus().equals(Status.NOVA) || bicicletaInserir.getStatus().equals(Status.EM_REPARO)) {
             List<Rede> listaTotens = repRede.findAll();
             for (int i = 0; listaTotens.size() > i; i++) {
                 Rede totem = listaTotens.get(i);

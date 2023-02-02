@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("TotemControllerTest")
-public class TotemControllerTest {
+class TotemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

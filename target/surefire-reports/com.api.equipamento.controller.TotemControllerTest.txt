@@ -1,21 +1,21 @@
 -------------------------------------------------------------------------------
 Test set: com.api.equipamento.controller.TotemControllerTest
 -------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 5, Skipped: 0, Time elapsed: 2.63 s <<< FAILURE! - in com.api.equipamento.controller.TotemControllerTest
+Tests run: 12, Failures: 0, Errors: 5, Skipped: 0, Time elapsed: 2.33 s <<< FAILURE! - in com.api.equipamento.controller.TotemControllerTest
 mostraTotem  Time elapsed: 0 s  <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TotemControllerTest.mostraTotem(TotemControllerTest.java:66)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TotemControllerTest.mostraTotem(TotemControllerTest.java:66)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Totem$MockitoMock$UDLKmCTQ["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Totem$MockitoMock$YeGrZeJv["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TotemControllerTest.mostraTotem(TotemControllerTest.java:66)
 
-setTotem  Time elapsed: 0 s  <<< ERROR!
+setTotem  Time elapsed: 0.001 s  <<< ERROR!
 jakarta.servlet.ServletException: Request processing failed: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TotemControllerTest.setTotem(TotemControllerTest.java:50)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TotemControllerTest.setTotem(TotemControllerTest.java:50)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Totem$MockitoMock$UDLKmCTQ["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Totem$MockitoMock$YeGrZeJv["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TotemControllerTest.setTotem(TotemControllerTest.java:50)
 
 deletTotemFail  Time elapsed: 0 s  <<< ERROR!
@@ -23,7 +23,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 	at com.api.equipamento.controller.TotemControllerTest.deletTotemFail(TotemControllerTest.java:101)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TotemControllerTest.deletTotemFail(TotemControllerTest.java:101)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$xeF2bGZX["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$SNKioy2w["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TotemControllerTest.deletTotemFail(TotemControllerTest.java:101)
 
 deletTotem  Time elapsed: 0 s  <<< ERROR!
@@ -31,7 +31,7 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 	at com.api.equipamento.controller.TotemControllerTest.deletTotem(TotemControllerTest.java:94)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TotemControllerTest.deletTotem(TotemControllerTest.java:94)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$xeF2bGZX["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Erro$MockitoMock$SNKioy2w["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TotemControllerTest.deletTotem(TotemControllerTest.java:94)
 
 putTotem  Time elapsed: 0 s  <<< ERROR!
@@ -39,6 +39,6 @@ jakarta.servlet.ServletException: Request processing failed: org.springframework
 	at com.api.equipamento.controller.TotemControllerTest.putTotem(TotemControllerTest.java:75)
 Caused by: org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport]
 	at com.api.equipamento.controller.TotemControllerTest.putTotem(TotemControllerTest.java:75)
-Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Totem$MockitoMock$UDLKmCTQ["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
+Caused by: com.fasterxml.jackson.databind.exc.InvalidDefinitionException: No serializer found for class org.mockito.internal.creation.bytebuddy.ByteBuddyCrossClassLoaderSerializationSupport and no properties discovered to create BeanSerializer (to avoid exception, disable SerializationFeature.FAIL_ON_EMPTY_BEANS) (through reference chain: com.api.equipamento.model.Totem$MockitoMock$YeGrZeJv["mockitoInterceptor"]->org.mockito.internal.creation.bytebuddy.MockMethodInterceptor["serializationSupport"])
 	at com.api.equipamento.controller.TotemControllerTest.putTotem(TotemControllerTest.java:75)
 

@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("TotemControllerTest")
-public class TrancaControllerTest {
+class TrancaControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
