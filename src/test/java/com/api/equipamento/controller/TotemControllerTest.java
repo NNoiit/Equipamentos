@@ -1,6 +1,6 @@
 package com.api.equipamento.controller;
 
-import com.api.equipamento.model.Bicicleta;
+
 import com.api.equipamento.model.Erro;
 import com.api.equipamento.model.Totem;
 import com.api.equipamento.service.TotemService;

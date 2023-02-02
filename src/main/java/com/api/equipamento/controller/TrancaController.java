@@ -22,13 +22,14 @@ public class TrancaController {
     private Erro mensage;
 
     @PostMapping("/tranca")
-    public ResponseEntity<?> postTranca(@RequestBody Tranca trc){
-        if(trancaService.cadastrarTranca(trc) != null){
+    public ResponseEntity<Tranca> postTranca(@RequestBody Tranca trc){
+        Tranca trancaNova = trancaService.cadastrarTranca(trc);
+        if(trancaNova != null){
             mensage.setMensage("Tranca cadastrada");
-            return new ResponseEntity<>(trc, HttpStatus.OK);
+            return new ResponseEntity<>(trancaNova, HttpStatus.OK);
         }else {
             mensage.setMensage("Tranca não cadastrada");
-            return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(trancaNova, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
     }
@@ -39,22 +40,22 @@ public class TrancaController {
     }
 
     @GetMapping("/tranca/{id}")
-    public ResponseEntity<?> getTranca(@PathVariable UUID id){
-
-        if(trancaService.trancaFindId(id) == null){
+    public ResponseEntity<Tranca> getTranca(@PathVariable UUID id){
+        Tranca trancaEncontrada = trancaService.trancaFindId(id);
+        if(trancaEncontrada == null){
             mensage.setMensage("Tranca não encontrada");
-            return new ResponseEntity<>(mensage, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(trancaEncontrada, HttpStatus.NOT_FOUND);
         }else{
-            return new ResponseEntity<>(trancaService.trancaFindId(id), HttpStatus.OK);
+            return new ResponseEntity<>(trancaEncontrada, HttpStatus.OK);
         }
     }
 
     @PutMapping("/tranca/{id}")
-    public ResponseEntity<?> putTranca(@RequestBody Tranca novaTranca, @PathVariable UUID id){
+    public ResponseEntity<Tranca> putTranca(@RequestBody Tranca novaTranca, @PathVariable UUID id){
         Tranca tranca = trancaService.alterarTranca(novaTranca, id);
         if(tranca == null){
             mensage.setMensage("Alteração malssucedida");
-            return new ResponseEntity<>(mensage, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(tranca, HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(tranca, HttpStatus.CREATED);
         }
@@ -62,11 +63,11 @@ public class TrancaController {
     }
 
     @DeleteMapping("/tranca/{id}")
-    public ResponseEntity<?> deleteTrancaId(@PathVariable UUID id){
+    public ResponseEntity<Erro> deleteTrancaId(@PathVariable UUID id){
         boolean resul = trancaService.excluirTranca(id);
         if(resul){
             mensage.setMensage("Tranca removida");
-            return new ResponseEntity<>(mensage.getMensage(), HttpStatus.OK);
+            return new ResponseEntity<>(mensage, HttpStatus.OK);
         } else {
             mensage.setMensage("Não encontrado");
             return new ResponseEntity<>(mensage, HttpStatus.UNPROCESSABLE_ENTITY);

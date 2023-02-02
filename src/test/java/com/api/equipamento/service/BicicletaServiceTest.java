@@ -27,7 +27,6 @@ class BicicletaServiceTest {
 
     @Autowired
     private BicicletaService bicicletaService;
-
     @MockBean
     private RepBicicleta bicicletaRep;
     @MockBean
