@@ -154,8 +154,8 @@ class BicicletaServiceTest {
         Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
         Mockito.when(bicicletaRep.findByUuid(uuid)).thenReturn(bicicleta);
         Mockito.when(bicicleta.getStatus()).thenReturn(Status.NOVA);
-        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
-        Mockito.when(idsEquipamentos.getIdBicicleta()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getTranca()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getBicicleta()).thenReturn(uuid);
 
         bicicletaService.integrarNaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));
@@ -166,8 +166,8 @@ class BicicletaServiceTest {
 
         Mockito.when(bicicletaRep.findByUuid(uuid)).thenReturn(bicicleta);
         Mockito.when(bicicleta.getStatus()).thenReturn(Status.EM_USO);
-        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
-        Mockito.when(idsEquipamentos.getIdBicicleta()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getTranca()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getBicicleta()).thenReturn(uuid);
 
         bicicletaService.integrarNaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(0)).save(ArgumentMatchers.any(Rede.class));
@@ -183,8 +183,8 @@ class BicicletaServiceTest {
         Mockito.when(repRede.findAll()).thenReturn(listaRedeTest);
         Mockito.when(rede.getIdTranca()).thenReturn(listaIdsTest);
         Mockito.when(rede.getIdBicicleta()).thenReturn(listaIdsTest);
-        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
-        Mockito.when(idsEquipamentos.getIdBicicleta()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getTranca()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getBicicleta()).thenReturn(uuid);
 
         bicicletaService.retirarDaRede(idsEquipamentos);
         Mockito.verify(repRede, Mockito.times(1)).save(ArgumentMatchers.any(Rede.class));

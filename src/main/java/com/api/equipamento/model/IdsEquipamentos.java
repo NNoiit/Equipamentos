@@ -7,21 +7,21 @@ import java.util.UUID;
 @Component
 public class IdsEquipamentos {
 
-    private UUID idTotem;
+    private UUID totem;
 
-    private UUID idTranca;
+    private UUID tranca;
 
-    private UUID idBicicleta;
+    private UUID bicicleta;
 
-    public UUID getIdTotem() {
-        return idTotem;
+    public UUID getTotem() {
+        return totem;
     }
 
-    public UUID getIdTranca() {
-        return idTranca;
+    public UUID getTranca() {
+        return tranca;
     }
 
-    public UUID getIdBicicleta(){
-        return idBicicleta;
+    public UUID getBicicleta(){
+        return bicicleta;
     }
 }

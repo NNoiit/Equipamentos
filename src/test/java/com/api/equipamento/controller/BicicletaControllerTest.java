@@ -136,7 +136,9 @@ public class BicicletaControllerTest {
     @Test
     void  integrarNaRedeFail() throws Exception {
         Mockito.when(bicicletaService.integrarNaRede(any(IdsEquipamentos.class))).thenReturn(false);
-        this.mockMvc.perform(post("/bicicleta/integrarNaRede").contentType(MediaType.APPLICATION_JSON).content("{\"idTanca\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\",\"idBicicleta\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\"}").accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isUnprocessableEntity());
+        this.mockMvc.perform(post("/bicicleta/integrarNaRede").contentType(MediaType.APPLICATION_JSON).content(
+                "{\"idTanca\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\",\"idBicicleta\":\"f7b77c80-4f43-477f-817a-63ce45a8f40b\"}"
+        ).accept(MediaType.APPLICATION_JSON)).andDo(print()).andExpect(status().isUnprocessableEntity());
     }
     /*private String converterJson(){
     }*/

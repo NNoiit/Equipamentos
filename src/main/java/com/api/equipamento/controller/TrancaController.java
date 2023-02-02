@@ -74,8 +74,8 @@ public class TrancaController {
     }
 
     @PostMapping("/tranca/{id}/trancar")
-    public ResponseEntity<Erro> trancarTranca(@PathVariable UUID id, @RequestBody UUID idBicicleta){
-        boolean resul = trancaService.trancarTranca(id, idBicicleta);
+    public ResponseEntity<Erro> trancarTranca(@PathVariable UUID id, @RequestBody IdsEquipamentos idBicicleta){
+        boolean resul = trancaService.trancarTranca(id, idBicicleta.getBicicleta());
         if(resul) {
             mensage.setMensage("Ação bem sucedida");
             return new ResponseEntity<>(mensage, HttpStatus.OK);
@@ -85,8 +85,8 @@ public class TrancaController {
         }
     }
     @PostMapping("/tranca/{id}/destrancar")
-    public ResponseEntity<Erro> destrancarTranca(@PathVariable UUID id, @RequestBody UUID idBicicleta){
-        boolean resul = trancaService.destrancarTranca(id, idBicicleta);
+    public ResponseEntity<Erro> destrancarTranca(@PathVariable UUID id, @RequestBody IdsEquipamentos idBicicleta){
+        boolean resul = trancaService.destrancarTranca(id, idBicicleta.getBicicleta());
         if(resul){
             mensage.setMensage("Ação bem sucedida");
             return new ResponseEntity<>(mensage, HttpStatus.OK);

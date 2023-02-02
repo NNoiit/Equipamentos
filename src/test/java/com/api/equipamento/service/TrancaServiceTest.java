@@ -149,8 +149,8 @@ class TrancaServiceTest extends EquipamentoApplicationTests {
         UUID uuid = UUID.randomUUID();
         Mockito.when(repRede.findByIdTotem(uuid)).thenReturn(rede);
         Mockito.when(trancaRep.countByUuid(uuid)).thenReturn(1);
-        Mockito.when(idsEquipamentos.getIdTotem()).thenReturn(uuid);
-        Mockito.when(idsEquipamentos.getIdTranca()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getTotem()).thenReturn(uuid);
+        Mockito.when(idsEquipamentos.getTranca()).thenReturn(uuid);
         Mockito.when(rede.getIdTranca()).thenReturn(listaFake);
 
         service.adicionaTrancaRede(idsEquipamentos);
